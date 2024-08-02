@@ -3,6 +3,7 @@ import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { useFormik } from 'formik';
 import { Container, Title, Anchor, Paper, TextInput, PasswordInput, Button, Text, Checkbox } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 
 import { login } from '../../../store/Auth/auth';
 import { useAppDispatch } from '../../../store/hooks';
@@ -46,6 +47,11 @@ const Register = ({ setIsLogin }: IProps) => {
       });
     } catch (_error: any) {
       setError(_error.message);
+      notifications.show({
+        title: 'Registration failed',
+        message: error,
+        color: 'red',
+      });
     }
     try {
       const userLoginInput = {
@@ -62,6 +68,11 @@ const Register = ({ setIsLogin }: IProps) => {
       dispatch(login(user));
     } catch (_error: any) {
       setError(_error.message);
+      notifications.show({
+        title: 'Login failed',
+        message: error,
+        color: 'red',
+      });
     }
     navigate(ENonProtectedRoutes.HOME);
   };

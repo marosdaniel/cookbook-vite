@@ -1,10 +1,17 @@
+import { LoadingOverlay } from '@mantine/core';
 import loadable from '@loadable/component';
 
 import { ENonProtectedRoutes } from './types';
 
-const Home = loadable(() => import('../pages/HomePage'), {});
-const Signin = loadable(() => import('../pages/SigninPage'), {});
-const ResetPassword = loadable(() => import('../pages/ResetPasswordPage'), {});
+const Home = loadable(() => import('../pages/HomePage'), {
+  fallback: <LoadingOverlay visible zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />,
+});
+const Signin = loadable(() => import('../pages/SigninPage'), {
+  fallback: <LoadingOverlay visible zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />,
+});
+// const ResetPassword = loadable(() => import('../pages/ResetPasswordPage'), {
+//   fallback: <LoadingOverlay visible zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />,
+// });
 // const NewPassword = loadable(() => import('../pages/NewPasswordPage'), {
 //   fallback: <LoadingBar />,
 // });
@@ -42,10 +49,10 @@ export const nonProtectedRoutes = [
     path: ENonProtectedRoutes.SIGNIN,
     component: Signin,
   },
-  {
-    path: ENonProtectedRoutes.RESET_PASSWORD,
-    component: ResetPassword,
-  },
+  // {
+  //   path: ENonProtectedRoutes.RESET_PASSWORD,
+  //   component: ResetPassword,
+  // },
   // {
   //   path: ENonProtectedRoutes.RESET_PASSWORD,
   //   component: NewPassword,

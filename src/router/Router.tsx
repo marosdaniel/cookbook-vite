@@ -1,6 +1,7 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { nonProtectedRoutes } from './nonProtectedRoutes';
 import { ENonProtectedRoutes } from './types';
+import Shell from '../components/Shell';
 
 // const NotFound = loadable(() => import('../pages/NotFoundPage'), {
 //   fallback: <LoadingBar />,
@@ -18,11 +19,9 @@ export const router = createBrowserRouter([
       <>
         {isPathWithoutAppBar(path) ? (
           <>
-            {/* <AppBar /> */}
-            {/* <PageWrapper> */}
-            <Component />
-            {/* <Footer /> */}
-            {/* </PageWrapper> */}
+            <Shell>
+              <Component />
+            </Shell>
           </>
         ) : (
           <Component />
