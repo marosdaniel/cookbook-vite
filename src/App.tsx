@@ -1,11 +1,7 @@
-import { Button } from '@mantine/core';
+import Router from './router';
 
 function App() {
-  return (
-    <Button color="pink.8" autoContrast size="lg" variant="light" fw={500}>
-      gomb
-    </Button>
-  );
+  return <Router />;
 }
 
 export default App;
