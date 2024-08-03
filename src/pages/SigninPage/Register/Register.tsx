@@ -11,6 +11,7 @@ import { CREATE_USER } from '../../../graphql/user/createUser';
 import { LOGIN_USER } from '../../../graphql/user/loginUser';
 import { ENonProtectedRoutes } from '../../../router/types';
 import { customValidationSchema } from '../../../utils/validation';
+import Seo from '../../../components/Seo';
 
 import { IFormikProps, IProps } from './types';
 
@@ -92,6 +93,16 @@ const Register = ({ setIsLogin }: IProps) => {
 
   return (
     <Container size={420} my={40}>
+      <Seo
+        title="Cookbook - Create Account"
+        description="Join Cookbook today! Create your account to save recipes, plan meals, and discover new culinary inspirations."
+        type="website"
+        name="Cookbook"
+        url="https://www.example-cookbook.com/register"
+        canonicalUrl="https://www.example-cookbook.com/register"
+        locale="en_GB"
+        keywords="cookbook, register, create account, sign up, recipes, meal planning"
+      />
       <Title ta="center">Register a new account</Title>
       <Text c="dimmed" size="sm" ta="center" mt={5}>
         Already have an account?{' '}

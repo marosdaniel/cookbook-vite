@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { ApolloProvider } from '@apollo/client';
+import { HelmetProvider } from 'react-helmet-async';
 import { PersistGate } from 'redux-persist/integration/react';
 import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
@@ -14,6 +15,8 @@ import { persistor, store } from './store';
 import { theme } from './theme';
 import App from './App.tsx';
 
+const helmetContext = {};
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ApolloProvider client={client}>
@@ -21,7 +24,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <PersistGate loading={null} persistor={persistor}>
           <MantineProvider theme={theme}>
             <Notifications limit={5} />
-            <App />
+            <HelmetProvider context={helmetContext}>
+              <App />
+            </HelmetProvider>
           </MantineProvider>
         </PersistGate>
       </Provider>

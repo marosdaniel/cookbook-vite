@@ -23,6 +23,7 @@ import { useAppDispatch } from '../../../store/hooks';
 import { LOGIN_USER } from '../../../graphql/user/loginUser';
 import { loginValidationSchema } from '../../../utils/validation';
 import { ENonProtectedRoutes } from '../../../router/types';
+import Seo from '../../../components/Seo';
 
 import { IFormikProps, IProps } from './types';
 
@@ -73,6 +74,16 @@ const Login = ({ setIsLogin }: IProps) => {
 
   return (
     <Container size={420} my={40}>
+      <Seo
+        title="Cookbook - Log In"
+        description="Log in to your Cookbook account to access your personalized recipes and saved favorites."
+        type="website"
+        name="Cookbook"
+        url="https://www.example-cookbook.com/login"
+        canonicalUrl="https://www.example-cookbook.com/login"
+        locale="en_GB"
+        keywords="cookbook, login, recipes, cooking, gastronomy"
+      />
       <Title ta="center">Welcome back!</Title>
       <Text c="dimmed" size="sm" ta="center" mt={5}>
         Do not have an account yet?{' '}
