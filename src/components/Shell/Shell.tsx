@@ -1,10 +1,13 @@
 import { Link as RouterLink } from 'react-router-dom';
-import { AppShell, Burger, Divider, Group, NavLink } from '@mantine/core';
+import { AppShell, Avatar, Burger, Divider, Group, NavLink } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { TProps } from './types';
 import { useTopMenuItems } from './utils';
+import Logo from '../Logo';
+import { useAuthState } from '../../store/Auth';
 
 const Shell = ({ children }: TProps) => {
+  const { isAuthenticated } = useAuthState();
   const [opened, { toggle }] = useDisclosure();
   const topMenuItems = useTopMenuItems();
   return (
@@ -17,9 +20,14 @@ const Shell = ({ children }: TProps) => {
       }}
       padding="md"
     >
-      <AppShell.Header>
-        <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-        <div>Logo</div>
+      <AppShell.Header display="flex">
+        <Group h="100%" w="100%" px="md" justify="space-between">
+          <Group h="100%" px="md">
+            <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+            <Logo />
+          </Group>
+          {isAuthenticated && <Avatar src="avatar-1.png" alt="it's me" />}
+        </Group>
       </AppShell.Header>
 
       <AppShell.Navbar>

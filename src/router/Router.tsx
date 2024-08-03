@@ -18,11 +18,9 @@ export const router = createBrowserRouter([
     element: (
       <>
         {isPathWithoutAppBar(path) ? (
-          <>
-            <Shell>
-              <Component />
-            </Shell>
-          </>
+          <Shell>
+            <Component />
+          </Shell>
         ) : (
           <Component />
         )}
