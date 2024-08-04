@@ -48,7 +48,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
-    "@swc/core": "^1.7.5",
+    "@swc/core": "^1.7.6",
     "@swc/plugin-styled-components": "^2.0.10",
     "@types/bcryptjs": "^2.4.6",
     "@types/loadable__component": "^5.13.9",
