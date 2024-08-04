@@ -1,6 +1,6 @@
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { AppShell, Avatar, Burger, Button, Divider, Group, NavLink } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { AppShell, Avatar, Burger, Button, Container, Divider, Group, NavLink } from '@mantine/core';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { useAuthState } from '../../store/Auth';
 import { ENonProtectedRoutes } from '../../router/types';
 import Logo from '../Logo';
@@ -11,6 +11,7 @@ const Shell = ({ children }: TProps) => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuthState();
   const [opened, { toggle }] = useDisclosure();
+  const isMobile = useMediaQuery('(max-width: 768px)');
   const topMenuItems = useTopMenuItems();
   const bottomMenuItems = useBottomMenuItems();
 
@@ -93,6 +94,19 @@ const Shell = ({ children }: TProps) => {
       </AppShell.Navbar>
 
       <AppShell.Main>{children}</AppShell.Main>
+      <AppShell.Footer h={'60px'} w={!isMobile ? 'calc(100% - 300px)' : '100%'} ml="auto">
+        <Container h="100%" w="100%" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Logo />
+          <Group>
+            <Button size="xs" component={RouterLink} to={ENonProtectedRoutes.PRIVACY_POLICY} variant="subtle">
+              Privacy Policy
+            </Button>
+            <Button size="xs" component={RouterLink} to={ENonProtectedRoutes.COOKIE_POLICY} variant="subtle">
+              Cookie Policy
+            </Button>
+          </Group>
+        </Container>
+      </AppShell.Footer>
     </AppShell>
   );
 };
