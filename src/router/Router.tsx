@@ -1,11 +1,13 @@
+import loadable from '@loadable/component';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { LoadingOverlay } from '@mantine/core';
 import { nonProtectedRoutes } from './nonProtectedRoutes';
 import { ENonProtectedRoutes } from './types';
 import Shell from '../components/Shell';
 
-// const NotFound = loadable(() => import('../pages/NotFoundPage'), {
-//   fallback: <LoadingBar />,
-// });
+const NotFound = loadable(() => import('../pages/NotFoundPage'), {
+  fallback: <LoadingOverlay visible zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />,
+});
 
 const isPathWithoutAppBar = (path: string) =>
   path !== ENonProtectedRoutes.SIGNIN &&
@@ -39,10 +41,10 @@ export const router = createBrowserRouter([
   //     </Authenticated>
   //   ),
   // })),
-  // {
-  //   path: '*',
-  //   element: <NotFound />,
-  // },
+  {
+    path: '*',
+    element: <NotFound />,
+  },
 ]);
 
 const AppNavigation = () => <RouterProvider router={router} />;

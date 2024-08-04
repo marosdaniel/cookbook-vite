@@ -42,7 +42,7 @@ const Shell = ({ children }: TProps) => {
           {isAuthenticated ? (
             <Avatar src="avatar-1.png" alt="it's me" />
           ) : (
-            <Button component={RouterLink} to={ENonProtectedRoutes.SIGNIN} variant="subtle">
+            <Button size="lg" component={RouterLink} to={ENonProtectedRoutes.SIGNIN} variant="subtle">
               Login
             </Button>
           )}
