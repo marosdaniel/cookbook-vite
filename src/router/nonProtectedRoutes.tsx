@@ -12,9 +12,9 @@ const Signin = loadable(() => import('../pages/SigninPage'), {
 const ResetPassword = loadable(() => import('../pages/ResetPasswordPage'), {
   fallback: <LoadingOverlay visible zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />,
 });
-// const NewPassword = loadable(() => import('../pages/NewPasswordPage'), {
-//   fallback: <LoadingBar />,
-// });
+const NewPassword = loadable(() => import('../pages/NewPasswordPage'), {
+  fallback: <LoadingOverlay visible zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />,
+});
 // const RecipeDetails = loadable(() => import('../pages/RecipeDetailsPage'), {
 //   fallback: <LoadingBar />,
 // });
@@ -53,10 +53,10 @@ export const nonProtectedRoutes = [
     path: ENonProtectedRoutes.RESET_PASSWORD,
     component: ResetPassword,
   },
-  // {
-  //   path: ENonProtectedRoutes.RESET_PASSWORD,
-  //   component: NewPassword,
-  // },
+  {
+    path: ENonProtectedRoutes.NEW_PASSWORD,
+    component: NewPassword,
+  },
   // {
   //   path: ENonProtectedRoutes.NEW_PASSWORD,
   //   component: NewPassword,
