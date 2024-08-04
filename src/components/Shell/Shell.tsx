@@ -1,7 +1,8 @@
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { AppShell, Avatar, Burger, Divider, Group, NavLink } from '@mantine/core';
+import { AppShell, Avatar, Burger, Button, Divider, Group, NavLink } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useAuthState } from '../../store/Auth';
+import { ENonProtectedRoutes } from '../../router/types';
 import Logo from '../Logo';
 import { useBottomMenuItems, useTopMenuItems } from './utils';
 import { IBottomMenuItem, TProps } from './types';
@@ -38,7 +39,13 @@ const Shell = ({ children }: TProps) => {
             <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
             <Logo />
           </Group>
-          {isAuthenticated && <Avatar src="avatar-1.png" alt="it's me" />}
+          {isAuthenticated ? (
+            <Avatar src="avatar-1.png" alt="it's me" />
+          ) : (
+            <Button component={RouterLink} to={ENonProtectedRoutes.SIGNIN} variant="subtle">
+              Login
+            </Button>
+          )}
         </Group>
       </AppShell.Header>
 
@@ -46,6 +53,7 @@ const Shell = ({ children }: TProps) => {
         <AppShell.Section>
           <Group gap={0} p={8}>
             {topMenuItems.map(item => {
+              const isActiveNavLink = window.location.pathname === item.path;
               return (
                 <NavLink
                   component={RouterLink}
@@ -53,6 +61,7 @@ const Shell = ({ children }: TProps) => {
                   to={item.path ?? '/'}
                   label={item.name}
                   leftSection={<item.iconComponent />}
+                  active={isActiveNavLink}
                 />
               );
             })}
@@ -62,6 +71,7 @@ const Shell = ({ children }: TProps) => {
         <AppShell.Section>
           <Group gap={0} p={8}>
             {bottomMenuItems.map(item => {
+              const isActiveNavLink = window.location.pathname === item.path;
               return !item.hidden ? (
                 <NavLink
                   component={RouterLink}
@@ -70,6 +80,7 @@ const Shell = ({ children }: TProps) => {
                   label={item.name}
                   leftSection={<item.iconComponent />}
                   onClick={e => handleClick(e, item)}
+                  active={isActiveNavLink}
                 />
               ) : null;
             })}
