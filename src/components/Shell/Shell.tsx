@@ -62,6 +62,8 @@ const Shell = ({ children }: TProps) => {
                   label={item.name}
                   leftSection={<item.iconComponent />}
                   active={isActiveNavLink}
+                  c="var(--mantine-color-gray-7)"
+                  fw={500}
                 />
               );
             })}
@@ -81,6 +83,8 @@ const Shell = ({ children }: TProps) => {
                   leftSection={<item.iconComponent />}
                   onClick={e => handleClick(e, item)}
                   active={isActiveNavLink}
+                  c="var(--mantine-color-gray-7)"
+                  fw={500}
                 />
               ) : null;
             })}

@@ -1,83 +1,101 @@
-// import { useState } from 'react';
-// import { Link as RouterLink } from 'react-router-dom';
-// import { useMutation } from '@apollo/client';
-// import { useFormik } from 'formik';
+import { useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { useFormik } from 'formik';
+import { Alert, Button, Container, Group, Paper, Text, TextInput, Title } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import { CiCircleInfo } from 'react-icons/ci';
+import { IoArrowBackOutline } from 'react-icons/io5';
 
-// import { RESET_PASSWORD } from '../../graphql/user/editUser';
-// import { ENonProtectedRoutes } from '../../router/types';
-// import { resetPasswordValidationSchema } from '../../utils/validation';
-// import { boxStyle } from '../SigninPage/Login/styles';
-// import { IFormikProps } from './types';
+import { RESET_PASSWORD } from '../../graphql/user/editUser';
+import { ENonProtectedRoutes } from '../../router/types';
+import { resetPasswordValidationSchema } from '../../utils/validation';
+import { IFormikProps } from './types';
 
-// const ResetPasswordPage = () => {
-//   const [error, setError] = useState<string>('');
-//   const [resetPassword, { loading }] = useMutation(RESET_PASSWORD);
-//   const [isResetPasswordEmailSent, setIsResetPasswordEmailSent] = useState(false);
+const ResetPasswordPage = () => {
+  const [error, setError] = useState<string>('');
+  const [resetPassword, { loading }] = useMutation(RESET_PASSWORD);
+  const [isResetPasswordEmailSent, setIsResetPasswordEmailSent] = useState(false);
 
-//   const onSubmit = async () => {
-//     try {
-//       await resetPassword({
-//         variables: { email: values.email },
-//       });
-//       setIsResetPasswordEmailSent(true);
-//       resetForm();
-//     } catch (_error: any) {
-//       setError(_error.message);
-//     }
-//   };
+  const onSubmit = async () => {
+    try {
+      await resetPassword({
+        variables: { email: values.email },
+      });
+      setIsResetPasswordEmailSent(true);
+      resetForm();
+    } catch (_error: any) {
+      setError(_error.message);
+      notifications.show({
+        title: 'Reset password failed',
+        message: error,
+        color: 'red',
+      });
+    }
+  };
 
-//   const { values, handleChange, handleSubmit, handleBlur, resetForm, touched, errors } = useFormik<IFormikProps>({
-//     initialValues: {
-//       email: '',
-//     },
-//     onSubmit,
-//     validationSchema: resetPasswordValidationSchema,
-//   });
+  const { values, handleChange, handleSubmit, handleBlur, resetForm, touched, errors } = useFormik<IFormikProps>({
+    initialValues: {
+      email: '',
+    },
+    onSubmit,
+    validationSchema: resetPasswordValidationSchema,
+  });
 
-//   return (
-//     // <Container maxWidth="sm">
-//     //   <Box sx={boxStyle}>
-//     //     <Typography component="h1" variant="h4">
-//     //       Reset your password
-//     //     </Typography>
-//     //     <Box component="form" onSubmit={handleSubmit} marginTop={1}>
-//     //       {!isResetPasswordEmailSent ? (
-//     //         <>
-//     //           <TextField
-//     //             margin="normal"
-//     //             required
-//     //             fullWidth
-//     //             id="email"
-//     //             label="Email Address"
-//     //             name="email"
-//     //             autoComplete="email"
-//     //             onChange={handleChange}
-//     //             onBlur={handleBlur}
-//     //             value={values.email}
-//     //             error={touched.email && Boolean(errors.email)}
-//     //             helperText={touched.email && errors.email}
-//     //           />
-//     //           <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} disabled={loading}>
-//     //             Send
-//     //           </Button>
-//     //         </>
-//     //       ) : (
-//     //         <Alert sx={{ mb: 3, mt: 2, display: 'flex', alignItems: 'center' }}>
-//     //           <Typography variant="body1">
-//     //             An email with a link to reset your password has been sent to your email address.
-//     //           </Typography>
-//     //         </Alert>
-//     //       )}
-//     //       <Button type="button" variant="text" component={RouterLink} to={ENonProtectedRoutes.SIGNIN}>
-//     //         <ArrowBackIcon />
-//     //         Go to Login
-//     //       </Button>
-//     //     </Box>
-//     //     <AlertSnack message={error} setMessage={setError} />
-//     //   </Box>
-//     // </Container>
-//     <div>reset</div>
-//   );
-// };
+  return (
+    <Container size={460} my={30}>
+      <Title ta="center">Forgot your password?</Title>
+      <Text c="dimmed" fz="sm" ta="center">
+        Enter your email to get a reset link
+      </Text>
 
-// export default ResetPasswordPage;
+      <Paper component="form" onSubmit={handleSubmit} withBorder shadow="md" p={30} radius="md" mt="xl">
+        {!isResetPasswordEmailSent ? (
+          <>
+            <TextInput
+              id="email"
+              name="email"
+              label="Your email"
+              placeholder="your@email.com"
+              required
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.email}
+              error={touched.email && Boolean(errors.email)}
+              description={touched.email && Boolean(errors.email) ? 'Should be a valid email' : ''}
+            />
+            <Group mt="lg">
+              <Button
+                type="submit"
+                loading={loading}
+                loaderProps={{ type: 'dots' }}
+                fullWidth
+                disabled={touched.email && Boolean(errors.email)}
+              >
+                Reset password
+              </Button>
+            </Group>
+          </>
+        ) : (
+          <Alert variant="light" color="green" title="Email sent successfully" icon={<CiCircleInfo size={30} />}>
+            <Text size="sm">An email with a link to reset your password has been sent to your email address.</Text>
+          </Alert>
+        )}
+        <Button
+          mt="lg"
+          component={RouterLink}
+          size="sm"
+          to={ENonProtectedRoutes.SIGNIN}
+          variant="subtle"
+          pl={0}
+          pr={0}
+          leftSection={<IoArrowBackOutline />}
+        >
+          Back to login
+        </Button>
+      </Paper>
+    </Container>
+  );
+};
+
+export default ResetPasswordPage;

@@ -22,27 +22,37 @@ export const theme: MantineThemeOverride = createTheme({
   components: {
     Button: {
       defaultProps: {
-        color: 'pink.7',
+        // c: 'pink.7',
       },
     },
     Anchor: {
       defaultProps: {
-        color: 'pink.7',
+        // c: 'pink.7',
       },
     },
     TextInput: {
       defaultProps: {
-        color: 'pink.7',
+        // c: 'pink.7',
       },
     },
     PasswordInput: {
       defaultProps: {
-        color: 'pink.7',
+        // c: 'pink.7',
       },
     },
     Checkbox: {
       defaultProps: {
-        color: 'pink.7',
+        c: 'pink.7',
+      },
+    },
+    Title: {
+      defaultProps: {
+        c: 'gray.8',
+      },
+    },
+    Text: {
+      defaultProps: {
+        c: 'gray.8',
       },
     },
   },

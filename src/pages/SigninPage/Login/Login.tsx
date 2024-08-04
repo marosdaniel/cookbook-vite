@@ -84,7 +84,9 @@ const Login = ({ setIsLogin }: IProps) => {
         locale="en_GB"
         keywords="cookbook, login, recipes, cooking, gastronomy"
       />
-      <Title ta="center">Welcome back!</Title>
+      <Title ta="center" c="var(--mantine-color-gray-8)">
+        Welcome back!
+      </Title>
       <Text c="dimmed" size="sm" ta="center" mt={5}>
         Do not have an account yet?{' '}
         <Anchor size="sm" onClick={() => setIsLogin(false)}>
@@ -135,8 +137,8 @@ const Login = ({ setIsLogin }: IProps) => {
           mt={24}
           mb={-16}
           pl={8}
+          leftSection={<IoArrowBackOutline size={20} />}
         >
-          <IoArrowBackOutline size={20} />
           Go to the recipes
         </Button>
       </Paper>

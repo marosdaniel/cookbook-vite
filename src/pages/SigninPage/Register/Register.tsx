@@ -103,7 +103,9 @@ const Register = ({ setIsLogin }: IProps) => {
         locale="en_GB"
         keywords="cookbook, register, create account, sign up, recipes, meal planning"
       />
-      <Title ta="center">Register a new account</Title>
+      <Title ta="center" c="var(--mantine-color-gray-8)">
+        Register a new account
+      </Title>
       <Text c="dimmed" size="sm" ta="center" mt={5}>
         Already have an account?{' '}
         <Anchor size="sm" onClick={() => setIsLogin(true)}>

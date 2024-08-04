@@ -9,9 +9,9 @@ const Home = loadable(() => import('../pages/HomePage'), {
 const Signin = loadable(() => import('../pages/SigninPage'), {
   fallback: <LoadingOverlay visible zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />,
 });
-// const ResetPassword = loadable(() => import('../pages/ResetPasswordPage'), {
-//   fallback: <LoadingOverlay visible zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />,
-// });
+const ResetPassword = loadable(() => import('../pages/ResetPasswordPage'), {
+  fallback: <LoadingOverlay visible zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />,
+});
 // const NewPassword = loadable(() => import('../pages/NewPasswordPage'), {
 //   fallback: <LoadingBar />,
 // });
@@ -49,10 +49,10 @@ export const nonProtectedRoutes = [
     path: ENonProtectedRoutes.SIGNIN,
     component: Signin,
   },
-  // {
-  //   path: ENonProtectedRoutes.RESET_PASSWORD,
-  //   component: ResetPassword,
-  // },
+  {
+    path: ENonProtectedRoutes.RESET_PASSWORD,
+    component: ResetPassword,
+  },
   // {
   //   path: ENonProtectedRoutes.RESET_PASSWORD,
   //   component: NewPassword,
