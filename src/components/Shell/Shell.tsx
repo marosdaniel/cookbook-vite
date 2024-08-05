@@ -1,9 +1,10 @@
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { AppShell, Burger, Button, Divider, Group, Menu, NavLink } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { FaAngleRight } from 'react-icons/fa6';
 import { useAuthState } from '../../store/Auth';
-import { ENonProtectedRoutes } from '../../router/types';
+import { logout } from '../../store/Auth/auth';
+import { useAppDispatch } from '../../store/hooks';
+import { ENonProtectedRoutes, EProtectedRoutes } from '../../router/types';
 import Footer from '../Footer';
 import Logo from '../Logo';
 import UserButton from '../UserButton';
@@ -14,6 +15,8 @@ import { APP_SHELL_WIDTH } from './consts';
 const Shell = ({ children }: IProps) => {
   const navigate = useNavigate();
   const { isAuthenticated, user } = useAuthState();
+  const dispatch = useAppDispatch();
+
   const [opened, { toggle }] = useDisclosure();
   const isMobile = useMediaQuery('(max-width: 768px)');
   const topMenuItems = useTopMenuItems();
@@ -26,6 +29,10 @@ const Shell = ({ children }: IProps) => {
     } else if (item.path) {
       navigate(item.path);
     }
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
   };
 
   return (
@@ -45,18 +52,21 @@ const Shell = ({ children }: IProps) => {
             <Logo />
           </Group>
           {isAuthenticated ? (
-            // <Avatar src="avatar-1.png" alt="it's me" />
             <Menu withArrow>
               <Menu.Target>
                 <UserButton image="avatar-1.png" name={user.userName} email={user.email} />
               </Menu.Target>
               <Menu.Dropdown>
-                <Menu.Item component="a" href="https://mantine.dev">
-                  Mantine website
+                <Menu.Item component={RouterLink} to={EProtectedRoutes.PROFILE}>
+                  My profile
                 </Menu.Item>
-                <Menu.Item leftSection={<FaAngleRight />} component="a" href="https://mantine.dev" target="_blank">
-                  External link
+                <Menu.Item component={RouterLink} to={EProtectedRoutes.MY_RECIPES}>
+                  My recipes
                 </Menu.Item>
+                <Menu.Item component={RouterLink} to={EProtectedRoutes.FAVORITES}>
+                  Favorites
+                </Menu.Item>
+                <Menu.Item onClick={handleLogout}>Log out</Menu.Item>
               </Menu.Dropdown>
             </Menu>
           ) : (

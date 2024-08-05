@@ -1,6 +1,5 @@
 import { forwardRef } from 'react';
 import { UnstyledButton, Group, Avatar, Text } from '@mantine/core';
-import { FaAngleRight } from 'react-icons/fa6';
 
 import classNames from './UserButton.module.css';
 
