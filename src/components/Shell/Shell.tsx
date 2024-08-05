@@ -1,5 +1,5 @@
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { AppShell, Burger, Button, Divider, Group, Menu, NavLink } from '@mantine/core';
+import { AppShell, Burger, Button, Divider, Group, Menu, NavLink, Text } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { useAuthState } from '../../store/Auth';
 import { logout } from '../../store/Auth/auth';
@@ -11,6 +11,8 @@ import UserButton from '../UserButton';
 import { useBottomMenuItems, useTopMenuItems } from './utils';
 import { IBottomMenuItem, IProps } from './types';
 import { APP_SHELL_WIDTH } from './consts';
+
+import classNames from './Shell.module.css';
 
 const Shell = ({ children }: IProps) => {
   const navigate = useNavigate();
@@ -46,10 +48,13 @@ const Shell = ({ children }: IProps) => {
       padding="md"
     >
       <AppShell.Header display="flex">
-        <Group h="100%" w="100%" px="md" justify="space-between">
-          <Group h="100%" px="md">
+        <Group w="100%" px="md" justify="space-between">
+          <Group gap={0} align="center">
             <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
             <Logo />
+            <Text c="pink.7" className={classNames.slogan} size="md" pt={6}>
+              Where the recipes turn into magic!
+            </Text>
           </Group>
           {isAuthenticated ? (
             <Menu withArrow>

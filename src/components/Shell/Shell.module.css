@@ -1,0 +1,6 @@
+.slogan {
+  font-style: italic;
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
