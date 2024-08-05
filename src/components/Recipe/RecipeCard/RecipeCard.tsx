@@ -3,16 +3,15 @@ import { Card, Badge, Group, Center, Avatar, ActionIcon, Image, Text } from '@ma
 import { IProps } from './types';
 
 const RecipeCard = ({ title, description, createdBy, id }: IProps) => {
-  // TODO: Add image or placeholder image
   return (
-    <Card withBorder radius="md">
+    <Card withBorder radius="md" h={400}>
       <Card.Section>
         <RouterLink to={`/recipes/${id}`}>
           <Image src="https://cdn-icons-png.flaticon.com/256/6039/6039575.png" height={180} fit="contain" />
         </RouterLink>
       </Card.Section>
 
-      <Badge variant="gradient" gradient={{ from: 'yellow', to: 'red' }}>
+      <Badge variant="gradient" gradient={{ from: 'yellow', to: 'red' }} mt={'md'}>
         outstanding
       </Badge>
 
@@ -20,7 +19,7 @@ const RecipeCard = ({ title, description, createdBy, id }: IProps) => {
         {title}
       </Text>
 
-      <Text fz="sm" c="dimmed" lineClamp={4} mt={'md'}>
+      <Text fz="xs" c="dimmed" lineClamp={4} mt={'md'}>
         {description}
       </Text>
 
