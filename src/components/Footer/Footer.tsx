@@ -6,7 +6,7 @@ import classes from './Footer.module.css';
 
 const Footer = () => {
   return (
-    <Container className={classes.container}>
+    <Container className={classes.container} size="xxl">
       <Logo />
       <Group className={classes.group}>
         <Group>
