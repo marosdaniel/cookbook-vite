@@ -1,21 +1,15 @@
 import { useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import { Box, Typography } from '@mui/material';
 
-import { GET_USER_BY_ID } from '../../../../service/graphql/user/getUser';
-import { EDIT_USER } from '../../../../service/graphql/user/editUser';
 import { useAuthState } from '../../../../store/Auth';
 import { TUser } from '../../../../store/Auth/types';
-import LoadingBar from '../../../../components/LoadingBar';
-import ErrorMessage from '../../../../components/ErrorMessage';
 
-import PersonalData from './PersonalData';
-import Password from './Password';
-import { sectionStyles, labelStyles } from './styles';
+import { EDIT_USER } from '../../../../graphql/user/editUser';
+import { GET_USER_BY_ID } from '../../../../graphql/user/getUser';
 
 const ProfileTab = () => {
   const { user } = useAuthState();
-  const [editUser, { loading: editUserLoading, error: editUserError }] = useMutation(EDIT_USER);
+  const [editUser] = useMutation(EDIT_USER);
 
   const { data, loading, error } = useQuery<{ getUserById: TUser }>(GET_USER_BY_ID, {
     variables: { getUserByIdId: user?._id ?? '' },
@@ -45,12 +39,9 @@ const ProfileTab = () => {
     }
   };
 
-  if (loading || !userData) return <LoadingBar />;
-  if (error) return <ErrorMessage />;
-
   return (
     <section id="profile-tab">
-      <Box sx={sectionStyles}>
+      {/* <Box sx={sectionStyles}>
         <Typography variant="h5">General information</Typography>
         <Typography marginTop={1} variant="body2" sx={labelStyles} color="GrayText">
           User name
@@ -72,7 +63,7 @@ const ProfileTab = () => {
         error={editUserError}
         disabledSaving={noChangesOnNames}
       />
-      <Password userId={user?._id ?? ''} />
+      <Password userId={user?._id ?? ''} /> */}
     </section>
   );
 };

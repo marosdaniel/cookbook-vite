@@ -1,11 +1,11 @@
 import { useQuery } from '@apollo/client';
-import { Alert, Center, Container, Group, Loader, Title } from '@mantine/core';
+import { Alert, Center, Container, Loader, Title } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 
 import { GET_RECIPES } from '../../graphql/recipe/getRecipes';
 import { mockRecipes } from '../../mock/recipes';
-import RecipeCard from '../../components/Recipe/RecipeCard';
 import { TRecipe } from '../../store/Recipe/types';
+import RecipeCard from '../../components/Recipe/RecipeCard';
 
 const HomePage = () => {
   const { loading, error, data } = useQuery(GET_RECIPES, {
