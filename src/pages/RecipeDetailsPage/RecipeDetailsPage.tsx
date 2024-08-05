@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useParams, Link as RouterLink } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 
 import { useAppDispatch } from '../../store/hooks';
@@ -7,7 +7,6 @@ import { setEditRecipe } from '../../store/Recipe/recipe';
 import { TRecipe } from '../../store/Recipe/types';
 import { GET_RECIPE_BY_ID } from '../../graphql/recipe/getRecipes';
 import { useAuthState } from '../../store/Auth';
-import { ENonProtectedRoutes } from '../../router/types';
 
 import { IRecipeDetailsData } from './types';
 import { Container } from '@mantine/core';
@@ -22,7 +21,6 @@ const RecipeDetailsPage = () => {
   });
 
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
-  const [isFavorite, setIsFavorite] = useState(false);
 
   const recipe: TRecipe | undefined = data?.getRecipeById;
 
@@ -53,10 +51,6 @@ const RecipeDetailsPage = () => {
       dispatch(setEditRecipe(recipe));
       setIsEditMode(true);
     }
-  };
-
-  const handleAddToFavorites = () => {
-    setIsFavorite(!isFavorite);
   };
 
   // const linkToCreator = (
@@ -105,9 +99,7 @@ const RecipeDetailsPage = () => {
     //     <PageTitle title={title ?? ''} />
     //     <Box display="flex" alignItems="center">
     //       <Box display="flex" alignItems="center">
-    //         <IconButton onClick={handleAddToFavorites} size="large">
-    //           <FavoriteIcon color={isFavorite ? 'error' : 'disabled'} fontSize="inherit" />
-    //         </IconButton>
+
     //       </Box>
     //       {isOwnRecipe && (
     //         <Button variant="outlined" color="primary" onClick={handleEdit} sx={{ ml: 2 }}>
