@@ -98,8 +98,8 @@ const Register = ({ setIsLogin }: IProps) => {
         description="Join Cookbook today! Create your account to save recipes, plan meals, and discover new culinary inspirations."
         type="website"
         name="Cookbook"
-        url="https://www.example-cookbook.com/register"
-        canonicalUrl="https://www.example-cookbook.com/register"
+        url="https://cookbook-vite.vercel.app/signin"
+        canonicalUrl="https://cookbook-vite.vercel.app/signin"
         locale="en_GB"
         keywords="cookbook, register, create account, sign up, recipes, meal planning"
       />

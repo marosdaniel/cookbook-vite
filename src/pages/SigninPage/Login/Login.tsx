@@ -79,20 +79,22 @@ const Login = ({ setIsLogin }: IProps) => {
         description="Log in to your Cookbook account to access your personalized recipes and saved favorites."
         type="website"
         name="Cookbook"
-        url="https://www.example-cookbook.com/login"
-        canonicalUrl="https://www.example-cookbook.com/login"
+        url="https://cookbook-vite.vercel.app/signin"
+        canonicalUrl="https://cookbook-vite.vercel.app/signin"
         locale="en_GB"
         keywords="cookbook, login, recipes, cooking, gastronomy"
       />
       <Title ta="center" c="var(--mantine-color-gray-8)">
         Welcome back!
       </Title>
-      <Text c="dimmed" size="sm" ta="center" mt={5}>
-        Do not have an account yet?{' '}
-        <Anchor size="sm" onClick={() => setIsLogin(false)}>
+      <Group mt={5} justify="center" align="center">
+        <Text c="dimmed" size="sm" ta="center">
+          Do not have an account yet?{' '}
+        </Text>
+        <Button variant="transparent" size="sm" onClick={() => setIsLogin(false)}>
           Create account
-        </Anchor>
-      </Text>
+        </Button>
+      </Group>
 
       <Paper component="form" withBorder shadow="md" p={30} mt={30} radius="md" onSubmit={handleSubmit}>
         <TextInput

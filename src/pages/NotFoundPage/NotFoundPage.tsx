@@ -1,12 +1,24 @@
 import { Link as RouterLink } from 'react-router-dom';
-
 import { Container, SimpleGrid, Title, Button, Text, Image } from '@mantine/core';
 import { ENonProtectedRoutes } from '../../router/types';
+import Seo from '../../components/Seo';
+
+import classNames from './NotFoundPage.module.css';
 
 const NotFoundPage = () => {
   const imgSrc = 'https://ui.mantine.dev/_next/static/media/image.11cd6c19.svg';
   return (
-    <Container style={{ display: 'flex', alignItems: 'center', height: '100vh' }}>
+    <Container className={classNames.container}>
+      <Seo
+        title="Page not found"
+        description="Page not found"
+        keywords="page not found, 404, error"
+        type="website"
+        name="Page not found"
+        url="https://cookbook-vite.vercel.app/"
+        canonicalUrl="https://cookbook-vite.vercel.app/"
+        locale="en_GB"
+      />
       <SimpleGrid spacing={{ base: 40, sm: 80 }} cols={{ base: 1, sm: 2 }}>
         <Image src={imgSrc} />
         <div>

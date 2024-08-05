@@ -11,6 +11,7 @@ import { RESET_PASSWORD } from '../../graphql/user/editUser';
 import { ENonProtectedRoutes } from '../../router/types';
 import { resetPasswordValidationSchema } from '../../utils/validation';
 import { IFormikProps } from './types';
+import Seo from '../../components/Seo';
 
 const ResetPasswordPage = () => {
   const [error, setError] = useState<string>('');
@@ -44,6 +45,16 @@ const ResetPasswordPage = () => {
 
   return (
     <Container size={460} my={30}>
+      <Seo
+        title="Reset password"
+        description="Enter your email to get a reset link"
+        keywords="reset password, forgot password, email"
+        type="website"
+        name="Reset password"
+        url="https://cookbook-vite.vercel.app/reset-password"
+        canonicalUrl="https://cookbook-vite.vercel.app/reset-password"
+        locale="en_GB"
+      />
       <Title ta="center">Forgot your password?</Title>
       <Text c="dimmed" fz="sm" ta="center">
         Enter your email to get a reset link

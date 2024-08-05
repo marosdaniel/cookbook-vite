@@ -10,6 +10,7 @@ import { ENonProtectedRoutes } from '../../router/types';
 import { SET_NEW_PASSWORD } from '../../graphql/user/editUser';
 import { newPasswordValidationSchema } from '../../utils/validation';
 import { IFormikProps } from './types';
+import Seo from '../../components/Seo';
 
 const NewPasswordPage = () => {
   const { token } = useParams();
@@ -72,6 +73,16 @@ const NewPasswordPage = () => {
 
   return (
     <Container size={460} my={30}>
+      <Seo
+        title="Set new password"
+        description="Set your new password"
+        keywords="set password, new password, password"
+        type={'website'}
+        name={'Set new password'}
+        url="https://cookbook-vite.vercel.app/new-password"
+        canonicalUrl="https://cookbook-vite.vercel.app/new-password"
+        locale="en_GB"
+      />
       <Title ta="center">Set your new password</Title>
       <Text c="dimmed" fz="sm" ta="center">
         Enter your new password
