@@ -6,11 +6,11 @@ import { Container, Title, Paper, Text, Group, Button, PasswordInput, Alert } fr
 import { notifications } from '@mantine/notifications';
 import { IoArrowBackOutline } from 'react-icons/io5';
 
+import Seo from '../../components/Seo';
 import { ENonProtectedRoutes } from '../../router/types';
 import { SET_NEW_PASSWORD } from '../../graphql/user/editUser';
 import { newPasswordValidationSchema } from '../../utils/validation';
 import { IFormikProps } from './types';
-import Seo from '../../components/Seo';
 
 const NewPasswordPage = () => {
   const { token } = useParams();

@@ -7,11 +7,11 @@ import { notifications } from '@mantine/notifications';
 import { CiCircleInfo } from 'react-icons/ci';
 import { IoArrowBackOutline } from 'react-icons/io5';
 
+import Seo from '../../components/Seo';
 import { RESET_PASSWORD } from '../../graphql/user/editUser';
 import { ENonProtectedRoutes } from '../../router/types';
 import { resetPasswordValidationSchema } from '../../utils/validation';
 import { IFormikProps } from './types';
-import Seo from '../../components/Seo';
 
 const ResetPasswordPage = () => {
   const [error, setError] = useState<string>('');

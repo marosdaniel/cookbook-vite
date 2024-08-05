@@ -1,7 +1,7 @@
 import { Link as RouterLink } from 'react-router-dom';
 import { Container, SimpleGrid, Title, Button, Text, Image } from '@mantine/core';
-import { ENonProtectedRoutes } from '../../router/types';
 import Seo from '../../components/Seo';
+import { ENonProtectedRoutes } from '../../router/types';
 
 import classNames from './NotFoundPage.module.css';
 
