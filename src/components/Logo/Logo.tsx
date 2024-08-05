@@ -1,10 +1,15 @@
-import { Title } from '@mantine/core';
+import { Link as RouterLink } from 'react-router-dom';
+import { Button, Title } from '@mantine/core';
+import { TProps } from './types';
+import { ENonProtectedRoutes } from '../../router/types';
 
-const Logo = () => {
+const Logo = ({ headingSize }: TProps) => {
   return (
-    <Title c="pink.7" order={2}>
-      CookBook
-    </Title>
+    <Button component={RouterLink} to={ENonProtectedRoutes.HOME} variant="white">
+      <Title c="pink.7" order={headingSize || 2}>
+        CookBook
+      </Title>
+    </Button>
   );
 };
 
