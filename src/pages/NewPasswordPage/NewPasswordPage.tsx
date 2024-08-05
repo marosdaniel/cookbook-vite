@@ -72,7 +72,7 @@ const NewPasswordPage = () => {
   }
 
   return (
-    <Container size={460} my={30}>
+    <Container size={460} my={30} id="new-password-page">
       <Seo
         title="Set new password"
         description="Set your new password"

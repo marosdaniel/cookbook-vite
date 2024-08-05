@@ -65,7 +65,7 @@ const ProfilePage = () => {
     //     <FavoritesTab />
     //   </CustomTabPanel>
     // </WrapperContainer>
-    <Container size="xl">
+    <Container size="xl" id="profile-page">
       <h1>Profile page</h1>
     </Container>
   );

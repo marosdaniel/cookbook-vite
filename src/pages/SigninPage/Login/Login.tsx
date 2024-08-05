@@ -73,7 +73,7 @@ const Login = ({ setIsLogin }: IProps) => {
   });
 
   return (
-    <Container size={420} my={40}>
+    <Container size={420} my={40} id="login-page">
       <Seo
         title="Cookbook - Log In"
         description="Log in to your Cookbook account to access your personalized recipes and saved favorites."

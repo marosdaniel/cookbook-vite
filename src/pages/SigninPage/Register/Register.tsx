@@ -103,7 +103,7 @@ const Register = ({ setIsLogin }: IProps) => {
   });
 
   return (
-    <Container size={420} my={40}>
+    <Container size={420} my={40} id="registration-page">
       <Seo
         title="Cookbook - Create Account"
         description="Join Cookbook today! Create your account to save recipes, plan meals, and discover new culinary inspirations."

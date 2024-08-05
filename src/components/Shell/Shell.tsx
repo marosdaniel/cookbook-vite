@@ -96,7 +96,8 @@ const Shell = ({ children }: IProps) => {
                   leftSection={<item.iconComponent />}
                   active={isActiveNavLink}
                   c="var(--mantine-color-gray-7)"
-                  fw={500}
+                  fw={600}
+                  disabled={item.disabled}
                 />
               );
             })}
@@ -117,7 +118,7 @@ const Shell = ({ children }: IProps) => {
                   onClick={e => handleClick(e, item)}
                   active={isActiveNavLink}
                   c="var(--mantine-color-gray-7)"
-                  fw={500}
+                  fw={600}
                 />
               ) : null;
             })}

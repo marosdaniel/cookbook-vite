@@ -8,7 +8,7 @@ import classNames from './NotFoundPage.module.css';
 const NotFoundPage = () => {
   const imgSrc = 'https://ui.mantine.dev/_next/static/media/image.11cd6c19.svg';
   return (
-    <Container className={classNames.container}>
+    <Container className={classNames.container} id="not-found-page" size="xl">
       <Seo
         title="Page not found"
         description="Page not found"

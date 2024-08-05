@@ -31,7 +31,7 @@ export const useTopMenuItems = (): ITopMenuItem[] => {
       iconComponent: FaBlog,
       hidden: false,
       key: 'blogs',
-      disabled: false,
+      disabled: true,
     },
     {
       name: 'Tips and Tricks',

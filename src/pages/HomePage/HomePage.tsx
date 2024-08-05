@@ -25,7 +25,7 @@ const HomePage = () => {
     //   </Typography>
     //   <Carousel recipes={recipes} />
     // </WrapperContainer>
-    <Container size="xl">
+    <Container size="xl" id="home-page">
       <h1>Home Page</h1>
     </Container>
   );

@@ -52,7 +52,7 @@ const AdminPage = () => {
     //     <LabelsTab />
     //   </CustomTabPanel>
     // </WrapperContainer>
-    <Container size="xl">
+    <Container size="xl" id="admin-page">
       <h1>Admin Page</h1>
     </Container>
   );

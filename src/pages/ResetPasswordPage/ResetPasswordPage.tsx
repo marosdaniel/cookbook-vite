@@ -44,7 +44,7 @@ const ResetPasswordPage = () => {
   });
 
   return (
-    <Container size={460} my={30}>
+    <Container size={460} my={30} id="reset-password-page">
       <Seo
         title="Reset password"
         description="Enter your email to get a reset link"
