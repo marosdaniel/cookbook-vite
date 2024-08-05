@@ -1,9 +1,11 @@
 import loadable from '@loadable/component';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { LoadingOverlay } from '@mantine/core';
-import { nonProtectedRoutes } from './nonProtectedRoutes';
-import { ENonProtectedRoutes } from './types';
 import Shell from '../components/Shell';
+import { nonProtectedRoutes } from './nonProtectedRoutes';
+import { protectedRoutes } from './protectedRoutes';
+import Authenticated from './Authenticated';
+import { ENonProtectedRoutes } from './types';
 
 const NotFound = loadable(() => import('../pages/NotFoundPage'), {
   fallback: <LoadingOverlay visible zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />,
@@ -29,18 +31,16 @@ export const router = createBrowserRouter([
       </>
     ),
   })),
-  // ...protectedRoutes.map(({ path, component: Component }) => ({
-  //   path,
-  //   element: (
-  //     <Authenticated>
-  //       <AppBar />
-  //       <PageWrapper>
-  //         <Component />
-  //         <Footer />
-  //       </PageWrapper>
-  //     </Authenticated>
-  //   ),
-  // })),
+  ...protectedRoutes.map(({ path, component: Component }) => ({
+    path,
+    element: (
+      <Authenticated>
+        <Shell>
+          <Component />
+        </Shell>
+      </Authenticated>
+    ),
+  })),
   {
     path: '*',
     element: <NotFound />,

@@ -15,30 +15,24 @@ const ResetPassword = loadable(() => import('../pages/ResetPasswordPage'), {
 const NewPassword = loadable(() => import('../pages/NewPasswordPage'), {
   fallback: <LoadingOverlay visible zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />,
 });
-// const RecipeDetails = loadable(() => import('../pages/RecipeDetailsPage'), {
-//   fallback: <LoadingBar />,
-// });
-// const Recipes = loadable(() => import('../pages/RecipesPage'), {
-//   fallback: <LoadingBar />,
-// });
-// const User = loadable(() => import('../pages/UserPage'), {
-//   fallback: <LoadingBar />,
-// });
-// const Blogs = loadable(() => import('../pages/BlogsPage'), {
-//   fallback: <LoadingBar />,
-// });
-// const BlogDetails = loadable(() => import('../pages/BlogDetailsPage'), {
-//   fallback: <LoadingBar />,
-// });
-// const TipsAndTricks = loadable(() => import('../pages/TipsAndTricksPage'), {
-//   fallback: <LoadingBar />,
-// });
-// const PrivacyPolicy = loadable(() => import('../pages/PrivacyPage'), {
-//   fallback: <LoadingBar />,
-// });
-// const CookiePolicy = loadable(() => import('../pages/CookiePolicyPage'), {
-//   fallback: <LoadingBar />,
-// });
+const RecipeDetails = loadable(() => import('../pages/RecipeDetailsPage'), {
+  fallback: <LoadingOverlay visible zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />,
+});
+const Recipes = loadable(() => import('../pages/RecipesPage'), {
+  fallback: <LoadingOverlay visible zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />,
+});
+const User = loadable(() => import('../pages/UserPage'), {
+  fallback: <LoadingOverlay visible zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />,
+});
+const TipsAndTricks = loadable(() => import('../pages/TipsAndTricksPage'), {
+  fallback: <LoadingOverlay visible zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />,
+});
+const PrivacyPolicy = loadable(() => import('../pages/PrivacyPage'), {
+  fallback: <LoadingOverlay visible zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />,
+});
+const CookiePolicy = loadable(() => import('../pages/CookiePolicyPage'), {
+  fallback: <LoadingOverlay visible zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />,
+});
 
 export const nonProtectedRoutes = [
   {
@@ -57,40 +51,29 @@ export const nonProtectedRoutes = [
     path: ENonProtectedRoutes.NEW_PASSWORD,
     component: NewPassword,
   },
-  // {
-  //   path: ENonProtectedRoutes.NEW_PASSWORD,
-  //   component: NewPassword,
-  // },
-  // {
-  //   path: `${ENonProtectedRoutes.RECIPES}/:id/*`,
-  //   component: RecipeDetails,
-  // },
-  // {
-  //   path: ENonProtectedRoutes.RECIPES,
-  //   component: Recipes,
-  // },
-  // {
-  //   path: `${ENonProtectedRoutes.USERS}/:userName/*`,
-  //   component: User,
-  // },
-  // {
-  //   path: `${ENonProtectedRoutes.BLOG_DETAILS}/*`,
-  //   component: BlogDetails,
-  // },
-  // {
-  //   path: ENonProtectedRoutes.BLOGS,
-  //   component: Blogs,
-  // },
-  // {
-  //   path: ENonProtectedRoutes.TIPS_AND_TRICKS,
-  //   component: TipsAndTricks,
-  // },
-  // {
-  //   path: ENonProtectedRoutes.PRIVACY_POLICY,
-  //   component: PrivacyPolicy,
-  // },
-  // {
-  //   path: ENonProtectedRoutes.COOKIE_POLICY,
-  //   component: CookiePolicy,
-  // },
+
+  {
+    path: `${ENonProtectedRoutes.RECIPES}/:id/*`,
+    component: RecipeDetails,
+  },
+  {
+    path: ENonProtectedRoutes.RECIPES,
+    component: Recipes,
+  },
+  {
+    path: `${ENonProtectedRoutes.USERS}/:userName/*`,
+    component: User,
+  },
+  {
+    path: ENonProtectedRoutes.TIPS_AND_TRICKS,
+    component: TipsAndTricks,
+  },
+  {
+    path: ENonProtectedRoutes.PRIVACY_POLICY,
+    component: PrivacyPolicy,
+  },
+  {
+    path: ENonProtectedRoutes.COOKIE_POLICY,
+    component: CookiePolicy,
+  },
 ];

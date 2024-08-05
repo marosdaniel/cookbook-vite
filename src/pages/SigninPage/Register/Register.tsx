@@ -2,7 +2,18 @@ import { useState } from 'react';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { useFormik } from 'formik';
-import { Container, Title, Anchor, Paper, TextInput, PasswordInput, Button, Text, Checkbox } from '@mantine/core';
+import {
+  Container,
+  Title,
+  Anchor,
+  Paper,
+  TextInput,
+  PasswordInput,
+  Button,
+  Text,
+  Checkbox,
+  Group,
+} from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 
 import { login } from '../../../store/Auth/auth';
@@ -104,14 +115,16 @@ const Register = ({ setIsLogin }: IProps) => {
         keywords="cookbook, register, create account, sign up, recipes, meal planning"
       />
       <Title ta="center" c="var(--mantine-color-gray-8)">
-        Register a new account
+        Welcome back!
       </Title>
-      <Text c="dimmed" size="sm" ta="center" mt={5}>
-        Already have an account?{' '}
-        <Anchor size="sm" onClick={() => setIsLogin(true)}>
+      <Group mt={5} justify="center" align="center">
+        <Text c="dimmed" size="sm" ta="center">
+          Already have an account?{' '}
+        </Text>
+        <Button variant="transparent" size="sm" onClick={() => setIsLogin(true)}>
           Log in
-        </Anchor>
-      </Text>
+        </Button>
+      </Group>
 
       <Paper component="form" withBorder shadow="md" p={30} mt={30} radius="md" onSubmit={handleSubmit}>
         <TextInput

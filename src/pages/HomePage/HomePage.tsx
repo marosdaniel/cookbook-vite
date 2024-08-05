@@ -4,6 +4,8 @@
 // import LoadingBar from '../../components/LoadingBar';
 // import ErrorMessage from '../../components/ErrorMessage';
 
+import { Container } from '@mantine/core';
+
 const HomePage = () => {
   // const { loading, error, data } = useQuery(GET_RECIPES, {
   //   variables: { limit: 9 },
@@ -23,7 +25,9 @@ const HomePage = () => {
     //   </Typography>
     //   <Carousel recipes={recipes} />
     // </WrapperContainer>
-    <div>home page</div>
+    <Container size="xl">
+      <h1>Home Page</h1>
+    </Container>
   );
 };
 
