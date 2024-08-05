@@ -6,9 +6,11 @@ import { HelmetProvider } from 'react-helmet-async';
 import { PersistGate } from 'redux-persist/integration/react';
 import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
+import { ModalsProvider } from '@mantine/modals';
 
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
+import '@mantine/carousel/styles.css';
 
 import { client } from './utils/graphqlClientConfig.ts';
 import { persistor, store } from './store';
@@ -25,7 +27,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <MantineProvider theme={theme}>
             <Notifications limit={5} />
             <HelmetProvider context={helmetContext}>
-              <App />
+              <ModalsProvider>
+                <App />
+              </ModalsProvider>
             </HelmetProvider>
           </MantineProvider>
         </PersistGate>

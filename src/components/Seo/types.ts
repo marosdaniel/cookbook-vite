@@ -1,4 +1,4 @@
-export type TProps = {
+export interface IProps {
   title: string;
   description: string;
   type: string;
@@ -11,4 +11,4 @@ export type TProps = {
   publishedTime?: string;
   modifiedTime?: string;
   author?: string;
-};
+}

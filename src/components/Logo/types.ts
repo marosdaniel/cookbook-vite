@@ -1,5 +1,5 @@
 import { TitleOrder } from '@mantine/core';
 
-export type TProps = {
+export interface Iprops {
   headingSize?: TitleOrder;
-};
+}

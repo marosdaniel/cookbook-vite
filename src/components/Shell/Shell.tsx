@@ -1,16 +1,19 @@
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { AppShell, Avatar, Burger, Button, Divider, Group, NavLink } from '@mantine/core';
+import { AppShell, Burger, Button, Divider, Group, Menu, NavLink } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { FaAngleRight } from 'react-icons/fa6';
 import { useAuthState } from '../../store/Auth';
 import { ENonProtectedRoutes } from '../../router/types';
 import Footer from '../Footer';
 import Logo from '../Logo';
+import UserButton from '../UserButton';
 import { useBottomMenuItems, useTopMenuItems } from './utils';
-import { IBottomMenuItem, TProps } from './types';
+import { IBottomMenuItem, IProps } from './types';
+import { APP_SHELL_WIDTH } from './consts';
 
-const Shell = ({ children }: TProps) => {
+const Shell = ({ children }: IProps) => {
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuthState();
+  const { isAuthenticated, user } = useAuthState();
   const [opened, { toggle }] = useDisclosure();
   const isMobile = useMediaQuery('(max-width: 768px)');
   const topMenuItems = useTopMenuItems();
@@ -27,9 +30,9 @@ const Shell = ({ children }: TProps) => {
 
   return (
     <AppShell
-      header={{ height: 60 }}
+      header={{ height: 66 }}
       navbar={{
-        width: 300,
+        width: APP_SHELL_WIDTH,
         breakpoint: 'sm',
         collapsed: { mobile: !opened },
       }}
@@ -42,7 +45,20 @@ const Shell = ({ children }: TProps) => {
             <Logo />
           </Group>
           {isAuthenticated ? (
-            <Avatar src="avatar-1.png" alt="it's me" />
+            // <Avatar src="avatar-1.png" alt="it's me" />
+            <Menu withArrow>
+              <Menu.Target>
+                <UserButton image="avatar-1.png" name={user.userName} email={user.email} />
+              </Menu.Target>
+              <Menu.Dropdown>
+                <Menu.Item component="a" href="https://mantine.dev">
+                  Mantine website
+                </Menu.Item>
+                <Menu.Item leftSection={<FaAngleRight />} component="a" href="https://mantine.dev" target="_blank">
+                  External link
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
           ) : (
             <Button size="lg" component={RouterLink} to={ENonProtectedRoutes.SIGNIN} variant="subtle">
               Login
@@ -95,7 +111,7 @@ const Shell = ({ children }: TProps) => {
       </AppShell.Navbar>
 
       <AppShell.Main>{children}</AppShell.Main>
-      <AppShell.Footer w={!isMobile ? 'calc(100% - 300px)' : '100%'} ml="auto">
+      <AppShell.Footer w={!isMobile ? `calc(100% - ${APP_SHELL_WIDTH}px)` : '100%'} ml="auto">
         <Footer />
       </AppShell.Footer>
     </AppShell>

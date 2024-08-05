@@ -1,8 +1,8 @@
 import { ENonProtectedRoutes, EProtectedRoutes } from '../../router/types';
 
-export type TProps = {
+export interface IProps {
   children: JSX.Element;
-};
+}
 
 interface IMenuItemBase {
   name: string;

@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import { TProps } from './types';
+import { IProps } from './types';
 
 const Seo = ({
   title,
@@ -14,7 +14,7 @@ const Seo = ({
   publishedTime,
   modifiedTime,
   author,
-}: TProps) => {
+}: IProps) => {
   return (
     <Helmet>
       <title>{title}</title>
