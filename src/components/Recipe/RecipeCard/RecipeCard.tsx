@@ -1,5 +1,5 @@
 import { Link as RouterLink } from 'react-router-dom';
-import { Card, Badge, Group, Center, Avatar, ActionIcon, rem, Image, Text } from '@mantine/core';
+import { Card, Badge, Group, Center, Avatar, ActionIcon, Image, Text } from '@mantine/core';
 import { IProps } from './types';
 
 const RecipeCard = ({ title, description, createdBy, id }: IProps) => {
@@ -8,7 +8,7 @@ const RecipeCard = ({ title, description, createdBy, id }: IProps) => {
     <Card withBorder radius="md">
       <Card.Section>
         <RouterLink to={`/recipes/${id}`}>
-          <Image src="https://i.imgur.com/Cij5vdL.png" height={180} />
+          <Image src="https://cdn-icons-png.flaticon.com/256/6039/6039575.png" height={180} fit="contain" />
         </RouterLink>
       </Card.Section>
 
@@ -16,15 +16,15 @@ const RecipeCard = ({ title, description, createdBy, id }: IProps) => {
         outstanding
       </Badge>
 
-      <Text fw={500} component={RouterLink} to={`/recipes/${id}`}>
+      <Text fw={500} component={RouterLink} to={`/recipes/${id}`} mt={'md'}>
         {title}
       </Text>
 
-      <Text fz="sm" c="dimmed" lineClamp={4}>
+      <Text fz="sm" c="dimmed" lineClamp={4} mt={'md'}>
         {description}
       </Text>
 
-      <Group justify="space-between">
+      <Group justify="space-between" mt={'md'}>
         <Center>
           <Avatar
             src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-1.png"

@@ -46,6 +46,12 @@ const Shell = ({ children }: IProps) => {
         collapsed: { mobile: !opened },
       }}
       padding="md"
+      footer={{
+        height: {
+          base: 160,
+          sm: 80,
+        },
+      }}
     >
       <AppShell.Header display="flex">
         <Group w="100%" px="md" justify="space-between">
