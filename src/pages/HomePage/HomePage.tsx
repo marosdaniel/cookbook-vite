@@ -1,19 +1,15 @@
-// import WrapperContainer from '../../components/stylingComponents/WrapperContainer';
-// import { mockRecipes } from '../../mock/recipes';
-// import Carousel from '../../components/Carousel';
-// import LoadingBar from '../../components/LoadingBar';
-// import ErrorMessage from '../../components/ErrorMessage';
-
-import { Container } from '@mantine/core';
+import { useQuery } from '@apollo/client';
+import { Container, Title } from '@mantine/core';
+import { GET_RECIPES } from '../../graphql/recipe/getRecipes';
 
 const HomePage = () => {
-  // const { loading, error, data } = useQuery(GET_RECIPES, {
-  //   variables: { limit: 9 },
-  // });
+  const { loading, error, data } = useQuery(GET_RECIPES, {
+    variables: { limit: 9 },
+  });
   // if (loading) return <LoadingBar />;
   // if (error) return <ErrorMessage />;
 
-  // const recipes = data?.getRecipes?.recipes || [];
+  const recipes = data?.getRecipes?.recipes || [];
   return (
     // <WrapperContainer id="home-page" maxWidth="xl">
     //   <Typography variant="h4" component="h2">
@@ -26,7 +22,11 @@ const HomePage = () => {
     //   <Carousel recipes={recipes} />
     // </WrapperContainer>
     <Container size="xl" id="home-page">
-      <h1>Home Page</h1>
+      <Title order={1}>popular recipes /mock/</Title>
+      {/* <Carousel recipes={mockRecipes} /> */}
+
+      <Title order={1}>Recently added recipes</Title>
+      {/* <Carousel recipes={recipes} /> */}
     </Container>
   );
 };
