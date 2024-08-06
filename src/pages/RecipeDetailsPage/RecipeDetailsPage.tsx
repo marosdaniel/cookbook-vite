@@ -1,15 +1,18 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
+import { Button, Container, Title, Image, AspectRatio, rem } from '@mantine/core';
+import { IoArrowBackOutline } from 'react-icons/io5';
 
+import { GET_RECIPE_BY_ID } from '../../graphql/recipe/getRecipes';
 import { useAppDispatch } from '../../store/hooks';
 import { setEditRecipe } from '../../store/Recipe/recipe';
 import { TRecipe } from '../../store/Recipe/types';
-import { GET_RECIPE_BY_ID } from '../../graphql/recipe/getRecipes';
 import { useAuthState } from '../../store/Auth';
+import { ENonProtectedRoutes } from '../../router/types';
 
 import { IRecipeDetailsData } from './types';
-import { Container } from '@mantine/core';
 
 const RecipeDetailsPage = () => {
   const dispatch = useAppDispatch();
@@ -65,10 +68,10 @@ const RecipeDetailsPage = () => {
   //   </Link>
   // );
 
-  const orderedPreparationSteps =
-    preparationSteps!.length > 0
-      ? preparationSteps?.filter(step => typeof step.order === 'number').sort((a, b) => a.order - b.order)
-      : [];
+  // const orderedPreparationSteps =
+  //   preparationSteps!.length > 0
+  //     ? preparationSteps?.filter(step => typeof step.order === 'number').sort((a, b) => a.order - b.order)
+  //     : [];
 
   if (isEditMode) {
     // return <RecipeFormEditor isEditMode setIsEditMode={setIsEditMode} />;
@@ -151,8 +154,34 @@ const RecipeDetailsPage = () => {
     //   )}
     //   {youtubeLink ? <YoutubeEmbed youtubeLink={youtubeLink} /> : null}
     // </WrapperContainer>
-    <Container size="xl" id="recipe-detail-page">
-      <h1>recipe details page</h1>
+    <Container size="lg" id="recipe-detail-page">
+      <Button
+        to={ENonProtectedRoutes.RECIPES}
+        component={RouterLink}
+        leftSection={<IoArrowBackOutline size={20} />}
+        variant="transparent"
+        size="md"
+        mb={{
+          xs: 'lg',
+          sm: 'lg',
+        }}
+      >
+        Back
+      </Button>
+      <AspectRatio ratio={16 / 9} style={{ flex: `0 0 ${rem(100)}` }} mb="xl">
+        <Image
+          radius="md"
+          h={'auto'}
+          mah={'380px'}
+          w="100%"
+          fit="contain"
+          src={imgSrc}
+          fallbackSrc="https://t3.ftcdn.net/jpg/02/60/12/88/360_F_260128861_Q2ttKHoVw2VrmvItxyCVBnEyM1852MoJ.jpg"
+        />
+      </AspectRatio>
+      <Title order={2} mb="lg">
+        {title}
+      </Title>
     </Container>
   );
 };
