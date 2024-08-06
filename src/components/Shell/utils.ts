@@ -55,7 +55,7 @@ export const useBottomMenuItems = (): IBottomMenuItem[] => {
   return [
     {
       name: 'Admin',
-      path: EProtectedRoutes.ADMIN,
+      path: EProtectedRoutes.ADMIN_USERS,
       iconComponent: MdAdminPanelSettings,
       disabled: user?.role !== ERole.ADMIN,
       key: 'admin',

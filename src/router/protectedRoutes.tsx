@@ -14,47 +14,16 @@ const AdminPage = loadable(() => import('../pages/AdminPage'), {
 
 export const protectedRoutes = [
   {
-    path: EProtectedRoutes.ME,
+    path: `${EProtectedRoutes.ME}/:profileTab/*`,
     component: Profile,
   },
-  {
-    path: EProtectedRoutes.PROFILE,
-    component: Profile,
-  },
-  {
-    path: EProtectedRoutes.MY_RECIPES,
-    component: Profile,
-  },
-  {
-    path: EProtectedRoutes.FAVORITES,
-    component: Profile,
-  },
+
   {
     path: EProtectedRoutes.NEW_RECIPE,
     component: NewRecipe,
   },
   {
-    path: EProtectedRoutes.ADMIN,
-    component: AdminPage,
-    adminOnly: true,
-  },
-  {
-    path: EProtectedRoutes.ADMIN_CATEGORIES,
-    component: AdminPage,
-    adminOnly: true,
-  },
-  {
-    path: EProtectedRoutes.ADMIN_LABELS,
-    component: AdminPage,
-    adminOnly: true,
-  },
-  {
-    path: EProtectedRoutes.ADMIN_UNITS,
-    component: AdminPage,
-    adminOnly: true,
-  },
-  {
-    path: EProtectedRoutes.ADMIN_USERS,
+    path: `${EProtectedRoutes.ADMIN}/:adminTab/*`,
     component: AdminPage,
     adminOnly: true,
   },
