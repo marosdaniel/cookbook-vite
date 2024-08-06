@@ -14,12 +14,12 @@ import {
   LoadingOverlay,
   Alert,
   Center,
+  Group,
 } from '@mantine/core';
 import { IoArrowBackOutline } from 'react-icons/io5';
+import { MdOutlineModeEdit } from 'react-icons/md';
 
 import { GET_RECIPE_BY_ID } from '../../graphql/recipe/getRecipes';
-import { useAppDispatch } from '../../store/hooks';
-import { setEditRecipe } from '../../store/Recipe/recipe';
 import { TRecipe } from '../../store/Recipe/types';
 import { useAuthState } from '../../store/Auth';
 import { ENonProtectedRoutes } from '../../router/types';
@@ -31,7 +31,6 @@ import SideDetails from './SideDetails';
 import { IRecipeDetailsData } from './types';
 
 const RecipeDetailsPage = () => {
-  const dispatch = useAppDispatch();
   const { id } = useParams<{ id: string }>();
 
   const { user } = useAuthState();
@@ -68,19 +67,19 @@ const RecipeDetailsPage = () => {
   const handleEdit = () => {
     if (recipe?.title) {
       // itt elég lenne csak editMode= true és RecipeFormEditornak át lehetne adni a recipet
-      dispatch(setEditRecipe(recipe));
+      // dispatch(setEditRecipe(recipe));
       setIsEditMode(true);
     }
   };
 
   const linkToCreator = (
-    <Anchor variant="gradient" component={RouterLink} to={`${ENonProtectedRoutes.USERS}/${createdBy}`}>
+    <Anchor c="teal.5" component={RouterLink} to={`${ENonProtectedRoutes.USERS}/${createdBy}`}>
       {createdBy}
     </Anchor>
   );
 
   const categoryLink = (
-    <Anchor variant="gradient" component={RouterLink} to={`${ENonProtectedRoutes.RECIPES}/?category=${category?.key}`}>
+    <Anchor c="teal.5" component={RouterLink} to={`${ENonProtectedRoutes.RECIPES}/?category=${category?.key}`}>
       {category?.label}
     </Anchor>
   );
@@ -97,26 +96,23 @@ const RecipeDetailsPage = () => {
   if (loading) return <LoadingOverlay visible={loading} />;
 
   return (
-    //       {isOwnRecipe && (
-    //         <Button variant="outlined" color="primary" onClick={handleEdit} sx={{ ml: 2 }}>
-    //           Edit
-    //         </Button>
-    //       )}
-
     <Container size="md" id="recipe-detail-page">
-      <Button
-        to={ENonProtectedRoutes.RECIPES}
-        component={RouterLink}
-        leftSection={<IoArrowBackOutline size={20} />}
-        variant="transparent"
-        size="md"
-        mb={{
-          xs: 'lg',
-          sm: 'lg',
-        }}
-      >
-        Back
-      </Button>
+      <Group justify="space-between" mb="lg">
+        <Button
+          to={ENonProtectedRoutes.RECIPES}
+          component={RouterLink}
+          leftSection={<IoArrowBackOutline size={20} />}
+          variant="transparent"
+          size="md"
+        >
+          Back
+        </Button>
+        {isOwnRecipe && (
+          <Button variant="subtle" size="md" onClick={handleEdit} leftSection={<MdOutlineModeEdit size={20} />}>
+            Edit
+          </Button>
+        )}
+      </Group>
       {error?.message && (
         <Center h="384px">
           <Alert mt="md" color="red">

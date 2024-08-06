@@ -23,13 +23,13 @@ const SideDetails = ({ servings, cookingTime, difficultyLevel }: IProps) => {
             <Text>{servings} servings</Text>
           </Group>
         </Grid.Col>
-        <Grid.Col ta="center" span={4}>
+        <Grid.Col span={4}>
           <Group justify="center">
             <PiCookingPot size={24} />
             <Text>{cookingTime} min</Text>
           </Group>
         </Grid.Col>
-        <Grid.Col ta="center" span={4}>
+        <Grid.Col span={4}>
           <Group justify="center">
             <PiChefHat size={24} />
             <Text>{difficultyLevel?.label}</Text>
