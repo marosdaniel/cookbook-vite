@@ -1,10 +1,10 @@
-import { Box, List, ThemeIcon, Title } from '@mantine/core';
+import { List, Paper, ThemeIcon, Title } from '@mantine/core';
 import { BsCheck } from 'react-icons/bs';
 import { IProps } from './types';
 
 const PreparationStepList = ({ preparationSteps, title }: IProps) => {
   return (
-    <Box mt="xl">
+    <Paper shadow="md" radius="lg" p="xl" m="32px auto" w={{ base: '100%', md: '80%', lg: '75%' }}>
       <Title order={5} mb="lg">
         {title}
       </Title>
@@ -14,7 +14,7 @@ const PreparationStepList = ({ preparationSteps, title }: IProps) => {
         size="sm"
         center
         icon={
-          <ThemeIcon color="teal" size={20} radius="xl">
+          <ThemeIcon color="teal" size={18} radius="xl">
             <BsCheck size={16} />
           </ThemeIcon>
         }
@@ -25,7 +25,7 @@ const PreparationStepList = ({ preparationSteps, title }: IProps) => {
           </List.Item>
         ))}
       </List>
-    </Box>
+    </Paper>
   );
 };
 

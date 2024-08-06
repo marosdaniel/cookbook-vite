@@ -4,7 +4,7 @@ import { IProps } from './types';
 
 const RecipeCard = ({ title, description, createdBy, id }: IProps) => {
   return (
-    <Card withBorder radius="md" h={400}>
+    <Card withBorder radius="md" h={400} shadow="xl">
       <Card.Section>
         <RouterLink to={`/recipes/${id}`}>
           <Image src="https://cdn-icons-png.flaticon.com/256/6039/6039575.png" height={180} fit="contain" />

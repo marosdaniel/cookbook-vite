@@ -26,6 +26,8 @@ import { ENonProtectedRoutes } from '../../router/types';
 
 import PreparationStepList from './PreparationStepList';
 import IngredientList from './IngredientList';
+import Labels from './Labels';
+import SideDetails from './SideDetails';
 import { IRecipeDetailsData } from './types';
 
 const RecipeDetailsPage = () => {
@@ -49,23 +51,23 @@ const RecipeDetailsPage = () => {
     imgSrc,
     preparationSteps,
     ingredients,
-    updatedAt,
+    // updatedAt,
     category,
     cookingTime,
-    createdAt,
+    // createdAt,
     difficultyLevel,
     labels,
     servings,
-    youtubeLink,
   } = recipe || {};
 
   const isLabels = labels && labels?.length > 0;
   const isOwnRecipe = data?.getRecipeById.createdBy === user?.userName;
-  const formattedCreatedAt = new Date(createdAt || Date.now())?.toLocaleDateString();
-  const formattedUpdatedAt = new Date(updatedAt || Date.now())?.toLocaleDateString();
+  // const formattedCreatedAt = new Date(createdAt || Date.now())?.toLocaleDateString();
+  // const formattedUpdatedAt = new Date(updatedAt || Date.now())?.toLocaleDateString();
 
   const handleEdit = () => {
     if (recipe?.title) {
+      // itt elég lenne csak editMode= true és RecipeFormEditornak át lehetne adni a recipet
       dispatch(setEditRecipe(recipe));
       setIsEditMode(true);
     }
@@ -100,46 +102,7 @@ const RecipeDetailsPage = () => {
     //           Edit
     //         </Button>
     //       )}
-    //     </Box>
-    //   </Box>
-    //   {isLabels && (
-    //     <Stack sx={labelWrapperStyles} direction="row" spacing={1}>
-    //       {labels.map(label => (
-    //         <Chip
-    //           component={RouterLink}
-    //           to={`${ENonProtectedRoutes.RECIPES}/?label=${label.key}`}
-    //           key={label.key}
-    //           label={label.label}
-    //           color="primary"
-    //           variant="outlined"
-    //           sx={{ cursor: 'pointer', marginTop: '8px !important' }}
-    //         />
-    //       ))}
-    //     </Stack>
-    //   )}
-    //   <Typography sx={commonTypographyStyles} variant="subtitle1">
-    //     {description}
-    //   </Typography>
-    //   <Typography sx={commonTypographyStyles} variant="body1">
-    //     cooking time: {cookingTime} mins
-    //   </Typography>
-    //   <Typography sx={commonTypographyStyles} variant="body1">
-    //     difficulty level: {difficultyLevel?.label}
-    //   </Typography>
-    //   <Typography sx={commonTypographyStyles} variant="body1">
-    //     portions: {servings}
-    //   </Typography>
-    //   <Typography sx={commonTypographyStyles} variant="body1">
-    //     created at: {formattedCreatedAt}
-    //   </Typography>
-    //   {isOwnRecipe && (
-    //     <Typography sx={commonTypographyStyles} variant="body1">
-    //       updated at: {formattedUpdatedAt}
-    //     </Typography>
-    //   )}
 
-    //   {youtubeLink ? <YoutubeEmbed youtubeLink={youtubeLink} /> : null}
-    // </WrapperContainer>
     <Container size="md" id="recipe-detail-page">
       <Button
         to={ENonProtectedRoutes.RECIPES}
@@ -173,12 +136,18 @@ const RecipeDetailsPage = () => {
           fallbackSrc="https://t3.ftcdn.net/jpg/02/60/12/88/360_F_260128861_Q2ttKHoVw2VrmvItxyCVBnEyM1852MoJ.jpg"
         />
       </AspectRatio>
-      <Title order={2} mb="lg">
+      {isLabels && <Labels labels={labels} />}
+      <Title id="recipe-title" order={1} mb="lg" ta="center">
         {title}
       </Title>
-      <Text fs="italic" variant="subtitle2">
-        a {categoryLink} from {linkToCreator}'s kitchen
+      <Text id="recipe-subtitle" fs="italic" variant="text" ta="center">
+        {categoryLink} from {linkToCreator}'s kitchen
       </Text>
+      <Text id="recipe-description" fs="italic" ta="center" mt="lg">
+        {description}
+      </Text>
+
+      <SideDetails difficultyLevel={difficultyLevel!} servings={servings!} cookingTime={cookingTime!} />
 
       {ingredients && ingredients.length && <IngredientList ingredients={ingredients} title="Ingredients" />}
       {orderedPreparationSteps && orderedPreparationSteps.length > 0 && (
