@@ -1,21 +1,31 @@
+import { Box, List, ThemeIcon, Title } from '@mantine/core';
+import { BsCheck } from 'react-icons/bs';
 import { IProps } from './types';
 
 const PreparationStepList = ({ preparationSteps, title }: IProps) => {
   return (
-    // <>
-    //   <Typography variant="h5">{title}</Typography>
-    //   <List id="preparation-steps" sx={{ listStyle: 'decimal', pl: 4 }}>
-    //     {preparationSteps.map(step => (
-    //       <ListItem key={step.order} sx={{ display: 'list-item' }}>
-    //         <ListItemText primary={step.description} />
-    //       </ListItem>
-    //     ))}
-    //   </List>
-    // </>
-    <div>
-      {title}
-      {preparationSteps.length}
-    </div>
+    <Box mt="xl">
+      <Title order={5} mb="lg">
+        {title}
+      </Title>
+      <List
+        withPadding
+        spacing="md"
+        size="sm"
+        center
+        icon={
+          <ThemeIcon color="teal" size={20} radius="xl">
+            <BsCheck size={16} />
+          </ThemeIcon>
+        }
+      >
+        {preparationSteps?.map(step => (
+          <List.Item key={step.order}>
+            {step.order}. {step.description}
+          </List.Item>
+        ))}
+      </List>
+    </Box>
   );
 };
 

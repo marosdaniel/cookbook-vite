@@ -2,7 +2,19 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { Button, Container, Title, Image, AspectRatio, rem } from '@mantine/core';
+import {
+  Button,
+  Container,
+  Title,
+  Image,
+  AspectRatio,
+  rem,
+  Text,
+  Anchor,
+  LoadingOverlay,
+  Alert,
+  Center,
+} from '@mantine/core';
 import { IoArrowBackOutline } from 'react-icons/io5';
 
 import { GET_RECIPE_BY_ID } from '../../graphql/recipe/getRecipes';
@@ -12,6 +24,8 @@ import { TRecipe } from '../../store/Recipe/types';
 import { useAuthState } from '../../store/Auth';
 import { ENonProtectedRoutes } from '../../router/types';
 
+import PreparationStepList from './PreparationStepList';
+import IngredientList from './IngredientList';
 import { IRecipeDetailsData } from './types';
 
 const RecipeDetailsPage = () => {
@@ -21,6 +35,7 @@ const RecipeDetailsPage = () => {
   const { user } = useAuthState();
   const { loading, error, data } = useQuery<IRecipeDetailsData>(GET_RECIPE_BY_ID, {
     variables: { id } as { id: string },
+    fetchPolicy: 'cache-and-network',
   });
 
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
@@ -56,54 +71,30 @@ const RecipeDetailsPage = () => {
     }
   };
 
-  // const linkToCreator = (
-  //   <Link component={RouterLink} to={`${ENonProtectedRoutes.USERS}/${createdBy}`}>
-  //     {createdBy}
-  //   </Link>
-  // );
+  const linkToCreator = (
+    <Anchor variant="gradient" component={RouterLink} to={`${ENonProtectedRoutes.USERS}/${createdBy}`}>
+      {createdBy}
+    </Anchor>
+  );
 
-  // const categoryLink = (
-  //   <Link component={RouterLink} to={`${ENonProtectedRoutes.RECIPES}/?category=${category?.key}`}>
-  //     {category?.label}
-  //   </Link>
-  // );
+  const categoryLink = (
+    <Anchor variant="gradient" component={RouterLink} to={`${ENonProtectedRoutes.RECIPES}/?category=${category?.key}`}>
+      {category?.label}
+    </Anchor>
+  );
 
-  // const orderedPreparationSteps =
-  //   preparationSteps!.length > 0
-  //     ? preparationSteps?.filter(step => typeof step.order === 'number').sort((a, b) => a.order - b.order)
-  //     : [];
+  const orderedPreparationSteps =
+    preparationSteps && preparationSteps.length > 0
+      ? preparationSteps?.filter(step => typeof step.order === 'number').sort((a, b) => a.order - b.order)
+      : [];
 
   if (isEditMode) {
     // return <RecipeFormEditor isEditMode setIsEditMode={setIsEditMode} />;
   }
 
+  if (loading) return <LoadingOverlay visible={loading} />;
+
   return (
-    // <WrapperContainer
-    //   id="recipe-detail-page"
-    //   maxWidth="lg"
-    //   additionalStyles={{ display: 'flex', alignItems: 'center', flexDirection: 'column', margin: '0 auto' }}
-    // >
-    //   <Paper elevation={3} sx={imageWrapperStyles}>
-    //     <Image
-    //       src={imgSrc || fallbackImage}
-    //       shift="right"
-    //       distance="2rem"
-    //       shiftDuration={620}
-    //       showLoading={<LoadingBar />}
-    //       width={'100%'}
-    //       alt="recipe image"
-    //     />
-    //   </Paper>
-
-    //   <Typography fontStyle={'italic'} variant="subtitle2">
-    //     a {categoryLink} from {linkToCreator}'s kitchen
-    //   </Typography>
-    //   <Box display="flex" justifyContent="space-between" alignItems="flex-start">
-    //     <PageTitle title={title ?? ''} />
-    //     <Box display="flex" alignItems="center">
-    //       <Box display="flex" alignItems="center">
-
-    //       </Box>
     //       {isOwnRecipe && (
     //         <Button variant="outlined" color="primary" onClick={handleEdit} sx={{ ml: 2 }}>
     //           Edit
@@ -147,14 +138,9 @@ const RecipeDetailsPage = () => {
     //     </Typography>
     //   )}
 
-    //   {ingredients && ingredients.length > 0 && <IngredientList ingredients={ingredients} title="Ingredients" />}
-
-    //   {orderedPreparationSteps && orderedPreparationSteps.length > 0 && (
-    //     <PreparationStepList preparationSteps={orderedPreparationSteps} title="Cooking instructions" />
-    //   )}
     //   {youtubeLink ? <YoutubeEmbed youtubeLink={youtubeLink} /> : null}
     // </WrapperContainer>
-    <Container size="lg" id="recipe-detail-page">
+    <Container size="md" id="recipe-detail-page">
       <Button
         to={ENonProtectedRoutes.RECIPES}
         component={RouterLink}
@@ -168,8 +154,16 @@ const RecipeDetailsPage = () => {
       >
         Back
       </Button>
+      {error?.message && (
+        <Center h="384px">
+          <Alert mt="md" color="red">
+            {error?.message ?? 'An error occurred while fetching recipes'}
+          </Alert>
+        </Center>
+      )}
       <AspectRatio ratio={16 / 9} style={{ flex: `0 0 ${rem(100)}` }} mb="xl">
         <Image
+          alt={title}
           radius="md"
           h={'auto'}
           mah={'380px'}
@@ -182,6 +176,14 @@ const RecipeDetailsPage = () => {
       <Title order={2} mb="lg">
         {title}
       </Title>
+      <Text fs="italic" variant="subtitle2">
+        a {categoryLink} from {linkToCreator}'s kitchen
+      </Text>
+
+      {ingredients && ingredients.length && <IngredientList ingredients={ingredients} title="Ingredients" />}
+      {orderedPreparationSteps && orderedPreparationSteps.length > 0 && (
+        <PreparationStepList preparationSteps={orderedPreparationSteps} title="Cooking instructions" />
+      )}
     </Container>
   );
 };
