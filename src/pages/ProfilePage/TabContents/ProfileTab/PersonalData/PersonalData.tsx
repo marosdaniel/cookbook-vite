@@ -1,116 +1,145 @@
 import { useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { useFormik } from 'formik';
+import { Box, Button, Group, Paper, Title, Text, TextInput } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 
-import { IProps } from './types';
+import { nameValidationSchema } from '../../../../../utils/validation';
+import { EDIT_USER } from '../../../../../graphql/user/editUser';
+import { useAuthState } from '../../../../../store/Auth';
+import { TUser } from '../../../../../store/Auth/types';
 
-const PersonalData = ({
-  localFirstName,
-  localLastName,
-  setLocalFirstName,
-  setLocalLastName,
-  onSavePersonalData,
-  error,
-  loading,
-  disabledSaving,
-}: IProps) => {
-  const [isPersonalDataEditable, setIsPersonalDataEditable] = useState(false);
-  const [alertMessage, setAlertMessage] = useState<string>('');
+import { IFormikProps } from './types';
+
+const PersonalData = () => {
+  const { user } = useAuthState() as { user: TUser };
+  const [editUser, { loading }] = useMutation(EDIT_USER, {
+    onError: () => {
+      notifications.show({
+        title: 'Oooops ... :(',
+        message: 'Something went wrong. Please try again later.',
+        color: 'red',
+      });
+    },
+  });
+  const [isEditMode, setIsEditMode] = useState(false);
+
+  const onSubmit = async () => {
+    try {
+      await editUser({
+        variables: {
+          editUserId: user?._id ?? '',
+          userEditInput: {
+            firstName: values.firstName,
+            lastName: values.lastName,
+          },
+        },
+      });
+      setIsEditMode(false);
+      notifications.show({
+        title: 'Success',
+        message: 'Your personal data has been updated',
+        color: 'teal',
+      });
+    } catch (_error) {
+      console.error('Something went wrong:', _error);
+      notifications.show({
+        title: 'Oooops ... :(',
+        message: 'Something went wrong. Please try again later.',
+        color: 'red',
+      });
+    }
+  };
+
+  const { values, handleChange, handleSubmit, handleBlur, touched, errors, resetForm, isValid, dirty } =
+    useFormik<IFormikProps>({
+      initialValues: {
+        firstName: user?.firstName ?? '',
+        lastName: user?.lastName ?? '',
+      },
+      validationSchema: nameValidationSchema,
+      onSubmit,
+    });
 
   const handlePersonalDataEditable = () => {
-    setIsPersonalDataEditable(prev => !prev);
+    setIsEditMode(prev => !prev);
   };
 
   const handleCancelPersonalData = () => {
-    setLocalFirstName(localFirstName);
-    setLocalLastName(localLastName);
-    setIsPersonalDataEditable(false);
-  };
-
-  const handleSavePersonalData = async () => {
-    // try {
-    //   onSavePersonalData();
-    //   setMessageSeverity('success');
-    //   setAlertMessage('Personal data changed successfully');
-    //   setIsPersonalDataEditable(false);
-    // } catch (_error: any) {
-    //   setMessageSeverity('error');
-    //   setAlertMessage(_error.message);
-    // }
+    resetForm();
+    setIsEditMode(false);
   };
 
   return (
-    // <Box sx={sectionStyles}>
-    //   <Box sx={innerBoxStyles}>
-    //     <Typography variant="h5" marginBottom={1}>
-    //       Change your personal data
-    //     </Typography>
-    //     {!isPersonalDataEditable ? (
-    //       <Button sx={editButtonStyles} variant="text" color="primary" onClick={handlePersonalDataEditable}>
-    //         Edit
-    //       </Button>
-    //     ) : null}
-    //   </Box>
-    //   {!isPersonalDataEditable ? (
-    //     <>
-    //       <Typography marginTop={1} variant="body2" sx={labelStyles} color="GrayText">
-    //         First name
-    //       </Typography>
-    //       <Typography variant="body1">{localFirstName}</Typography>
-    //       <Typography marginTop={1} variant="body2" sx={labelStyles} color="GrayText">
-    //         Last name
-    //       </Typography>
-    //       <Typography variant="body1">{localLastName}</Typography>
-    //     </>
-    //   ) : null}
-    //   <Box sx={{ display: isPersonalDataEditable ? 'flex' : 'none' }}>
-    //     {/* <Grow in={isPersonalDataEditable}>{icon}</Grow> */}
-    //     <Grow
-    //       in={isPersonalDataEditable}
-    //       style={{ transformOrigin: '0 0 0' }}
-    //       {...(isPersonalDataEditable ? { timeout: 300 } : {})}
-    //     >
-    //       <Box sx={{ width: '100%' }}>
-    //         <TextField
-    //           variant="standard"
-    //           label="First name"
-    //           value={localFirstName}
-    //           fullWidth
-    //           required
-    //           margin="normal"
-    //           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-    //             setLocalFirstName(event.target.value);
-    //           }}
-    //         />
-    //         <TextField
-    //           variant="standard"
-    //           label="Last name"
-    //           value={localLastName}
-    //           fullWidth
-    //           required
-    //           margin="normal"
-    //           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-    //             setLocalLastName(event.target.value);
-    //           }}
-    //         />
-    //         <Box display="flex" justifyContent="flex-end" marginTop={2} gap={1}>
-    //           <Button size="small" variant="text" color="primary" onClick={handleCancelPersonalData}>
-    //             Cancel
-    //           </Button>
-    //           <Button
-    //             size="small"
-    //             variant="contained"
-    //             color="primary"
-    //             onClick={handleSavePersonalData}
-    //             disabled={loading || localFirstName === '' || localLastName === '' || disabledSaving}
-    //           >
-    //             Save
-    //           </Button>
-    //         </Box>
-    //       </Box>
-    //     </Grow>
-    //   </Box>
-    //   <AlertSnack message={alertMessage} setMessage={setAlertMessage} severity={messageSeverity} />
-    // </Box>
-    <div>asd</div>
+    <Paper
+      component="form"
+      onSubmit={handleSubmit}
+      shadow="md"
+      radius="lg"
+      p="xl"
+      m="32px auto"
+      w={{ base: '100%', md: '80%', lg: '75%' }}
+    >
+      <Group display="flex" justify="space-between" align="center">
+        <Title order={5}>Change your personal data</Title>
+        {!isEditMode ? (
+          <Button variant="subtle" onClick={handlePersonalDataEditable}>
+            Edit
+          </Button>
+        ) : null}
+      </Group>
+      {!isEditMode ? (
+        <Box>
+          <Box mb="lg">
+            <Text size="sm">First name</Text>
+            <Text size="md">{values.firstName}</Text>
+          </Box>
+          <Box mb="lg">
+            <Text size="sm">Last name</Text>
+            <Text size="md">{values.lastName}</Text>
+          </Box>
+        </Box>
+      ) : (
+        <Box>
+          <Box mt="md">
+            <TextInput
+              required
+              id="first-name"
+              placeholder="Your first name"
+              mt="md"
+              label="First Name"
+              name="firstName"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.firstName}
+              error={touched.firstName && Boolean(errors.firstName)}
+              description={touched.firstName && Boolean(errors.firstName) ? 'Type here your first name' : ''}
+            />
+            <TextInput
+              required
+              id="last-name"
+              placeholder="Your last name"
+              mt="md"
+              label="Last Name"
+              name="lastName"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.lastName}
+              error={touched.lastName && Boolean(errors.lastName)}
+              description={touched.lastName && Boolean(errors.lastName) ? 'Type here your last name' : ''}
+            />
+          </Box>
+          <Group mt="xl" display="flex" justify="flex-end">
+            <Button size="sm" onClick={handleCancelPersonalData}>
+              Cancel
+            </Button>
+            <Button size="sm" type="submit" disabled={!isValid || !dirty} loading={loading}>
+              Save
+            </Button>
+          </Group>
+        </Box>
+      )}
+    </Paper>
   );
 };
 

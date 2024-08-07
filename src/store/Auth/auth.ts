@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IAuthState, TUser } from './types';
+import { updateUserData } from './thunks/updateUserThunk';
 
 const initialState: IAuthState = {
   user: null,
@@ -17,8 +18,13 @@ const authSlice = createSlice({
     logout: state => {
       state.user = null;
       state.isAuthenticated = false;
-      localStorage.removeItem('token');
+      localStorage.removeItem('c_b_token');
     },
+  },
+  extraReducers: builder => {
+    builder.addCase(updateUserData.fulfilled, (state, action) => {
+      state.user = action.payload;
+    });
   },
 });
 

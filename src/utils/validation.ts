@@ -13,6 +13,17 @@ export const PASSWORD_VALIDATOR_REGEX_8_CHAR = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9
 // Minimum eight characters, at least one letter, one number and one special character
 export const PASSWORD_VALIDATOR_REGEX_8_CHAR_SPECIAL = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/;
 
+export const nameValidationSchema = Yup.object().shape({
+  firstName: Yup.string()
+    .matches(/^[^0-9]+$/, 'should not contain numbers')
+    .min(2, 'Too Short!')
+    .required('Required'),
+  lastName: Yup.string()
+    .matches(/^[^0-9]+$/, 'should not contain numbers')
+    .min(2, 'Too Short!')
+    .required('Required'),
+});
+
 export const loginValidationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email address').required('Email is required'),
   password: Yup.string()
@@ -44,14 +55,7 @@ export const resetPasswordValidationSchema = Yup.object().shape({
 });
 
 export const customValidationSchema = Yup.object().shape({
-  firstName: Yup.string()
-    .matches(/^[^0-9]+$/, 'should not contain numbers')
-    .min(2, 'Too Short!')
-    .required('Required'),
-  lastName: Yup.string()
-    .matches(/^[^0-9]+$/, 'should not contain numbers')
-    .min(2, 'Too Short!')
-    .required('Required'),
+  ...nameValidationSchema.fields,
   ...loginValidationSchema.fields,
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password')], 'Passwords must match')

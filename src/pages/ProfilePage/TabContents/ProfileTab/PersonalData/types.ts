@@ -11,3 +11,8 @@ export interface IProps {
   loading: boolean;
   disabledSaving: boolean;
 }
+
+export interface IFormikProps {
+  firstName: string;
+  lastName: string;
+}

@@ -1,70 +1,36 @@
-import { useState } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
-
+import { Container, Paper, Title, Text, Box } from '@mantine/core';
 import { useAuthState } from '../../../../store/Auth';
-import { TUser } from '../../../../store/Auth/types';
-
-import { EDIT_USER } from '../../../../graphql/user/editUser';
-import { GET_USER_BY_ID } from '../../../../graphql/user/getUser';
+import PersonalData from './PersonalData';
 
 const ProfileTab = () => {
   const { user } = useAuthState();
-  const [editUser] = useMutation(EDIT_USER);
 
-  const { data, loading, error } = useQuery<{ getUserById: TUser }>(GET_USER_BY_ID, {
-    variables: { getUserByIdId: user?._id ?? '' },
-  });
-
-  const userData: TUser | undefined = data?.getUserById;
-  const { userName, email, firstName, lastName } = userData || {};
-
-  const [localFirstName, setLocalFirstName] = useState(firstName);
-  const [localLastName, setLocalLastName] = useState(lastName);
-
-  const noChangesOnNames = localFirstName === firstName && localLastName === lastName;
-
-  const handleSavePersonalData = async () => {
-    try {
-      await editUser({
-        variables: {
-          editUserId: user?._id ?? '',
-          userEditInput: {
-            firstName: localFirstName,
-            lastName: localLastName,
-          },
-        },
-      });
-    } catch (_error) {
-      console.error('Something went wrong:', _error);
-    }
-  };
+  const { userName, email } = user;
 
   return (
-    <section id="profile-tab">
-      {/* <Box sx={sectionStyles}>
-        <Typography variant="h5">General information</Typography>
-        <Typography marginTop={1} variant="body2" sx={labelStyles} color="GrayText">
-          User name
-        </Typography>
-        <Typography variant="body1">{userName}</Typography>
-        <Typography variant="body2" sx={labelStyles} color="GrayText">
-          E-mail
-        </Typography>
-        <Typography variant="body1">{email}</Typography>
-      </Box>
+    <Container size="lg" id="profile-tab">
+      {/* <Password userId={user?._id ?? ''} /> */}
 
-      <PersonalData
-        localFirstName={localFirstName ?? firstName}
-        localLastName={localLastName ?? lastName}
-        onSavePersonalData={handleSavePersonalData}
-        setLocalFirstName={setLocalFirstName}
-        setLocalLastName={setLocalLastName}
-        loading={editUserLoading}
-        error={editUserError}
-        disabledSaving={noChangesOnNames}
-      />
-      <Password userId={user?._id ?? ''} /> */}
-    </section>
+      <Title order={2} mt="xl">
+        Edit your profile
+      </Title>
+
+      <Paper shadow="md" radius="lg" p="xl" m="32px auto" w={{ base: '100%', md: '80%', lg: '75%' }}>
+        <Title order={5} mb="lg">
+          General information
+        </Title>
+        <Box mb="lg">
+          <Text size="sm">Username</Text>
+          <Text size="md">{userName}</Text>
+        </Box>
+        <Box>
+          <Text size="sm">Email</Text>
+          <Text>{email}</Text>
+        </Box>
+      </Paper>
+
+      <PersonalData />
+    </Container>
   );
 };
 
