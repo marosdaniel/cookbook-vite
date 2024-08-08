@@ -65,7 +65,7 @@ const Shell = ({ children }: IProps) => {
           {isAuthenticated ? (
             <Menu withArrow>
               <Menu.Target>
-                <UserButton image="avatar-1.png" name={user.userName} email={user.email} />
+                <UserButton image="avatar-1.png" name={user!.userName} email={user!.email} />
               </Menu.Target>
               <Menu.Dropdown>
                 <Menu.Item component={RouterLink} to={EProtectedRoutes.PROFILE}>
@@ -132,7 +132,7 @@ const Shell = ({ children }: IProps) => {
         </AppShell.Section>
       </AppShell.Navbar>
 
-      <AppShell.Main>{children}</AppShell.Main>
+      <AppShell.Main className={classNames.main}>{children}</AppShell.Main>
       <AppShell.Footer w={!isMobile ? `calc(100% - ${APP_SHELL_WIDTH}px)` : '100%'} ml="auto">
         <Footer />
       </AppShell.Footer>

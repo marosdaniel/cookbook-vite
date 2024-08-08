@@ -20,7 +20,14 @@ const UserPage = () => {
     //   <PageTitle title={title} />
     //   {recipes.length ? <RecipeList recipes={recipes} /> : null}
     // </WrapperContainer>
-    <Container size="xl" id="user-page">
+    <Container
+      size="xl"
+      id="user-page"
+      p={{
+        base: 'xs',
+        md: 'md',
+      }}
+    >
       <h1>user page for visitor</h1>
     </Container>
   );

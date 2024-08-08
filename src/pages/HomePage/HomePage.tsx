@@ -16,7 +16,14 @@ const HomePage = () => {
   const recipes: Partial<TRecipe>[] = data?.getRecipes?.recipes || [];
 
   return (
-    <Container size="xl" id="home-page">
+    <Container
+      size="xl"
+      id="home-page"
+      p={{
+        base: 'xs',
+        md: 'md',
+      }}
+    >
       <Title order={2} mb="lg">
         Popular recipes /mock/
       </Title>

@@ -11,6 +11,8 @@ import { useAppDispatch } from '../../../../../store/hooks';
 import { updateUserThunk } from '../../../../../store/Auth/thunks/updateUserThunk';
 import { IFormikProps } from './types';
 
+import classNames from './PersonalData.module.css';
+
 const PersonalData = () => {
   const { user } = useAuthState() as { user: TUser };
   const dispatch = useAppDispatch();
@@ -71,11 +73,14 @@ const PersonalData = () => {
       onSubmit={handleSubmit}
       shadow="md"
       radius="lg"
-      p="xl"
+      p={{
+        base: 'md',
+        md: 'xl',
+      }}
       m="32px auto"
       w={{ base: '100%', md: '80%', lg: '75%' }}
     >
-      <Group display="flex" justify="space-between" align="center">
+      <Group className={classNames.group} display="flex" justify="space-between" align="baseline">
         <Title order={5}>Change your personal data</Title>
         {!isEditMode ? (
           <Button variant="subtle" onClick={handlePersonalDataEditable}>

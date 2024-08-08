@@ -11,7 +11,14 @@ const RecipesPage = () => {
   const recipes: TRecipe[] = data?.getRecipes?.recipes || [];
 
   return (
-    <Container size="xl" id="recipes-page">
+    <Container
+      size="xl"
+      id="recipes-page"
+      p={{
+        base: 'xs',
+        md: 'md',
+      }}
+    >
       <Title order={2} mb="lg">
         Find the best recipes
       </Title>

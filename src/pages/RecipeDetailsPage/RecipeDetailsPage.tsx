@@ -96,7 +96,14 @@ const RecipeDetailsPage = () => {
   if (loading) return <LoadingOverlay visible={loading} />;
 
   return (
-    <Container size="md" id="recipe-detail-page">
+    <Container
+      size="md"
+      id="recipe-detail-page"
+      p={{
+        base: 'xs',
+        md: 'md',
+      }}
+    >
       <Group justify="space-between" mb="lg">
         <Button
           to={ENonProtectedRoutes.RECIPES}

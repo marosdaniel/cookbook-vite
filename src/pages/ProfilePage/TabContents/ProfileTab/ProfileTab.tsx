@@ -5,7 +5,7 @@ import PersonalData from './PersonalData';
 const ProfileTab = () => {
   const { user } = useAuthState();
 
-  const { userName, email } = user;
+  const { userName, email } = user ?? {};
 
   return (
     <Container size="lg" id="profile-tab">
@@ -15,7 +15,17 @@ const ProfileTab = () => {
         Edit your profile
       </Title>
 
-      <Paper shadow="md" radius="lg" p="xl" m="32px auto" w={{ base: '100%', md: '80%', lg: '75%' }}>
+      <Paper
+        component="form"
+        shadow="md"
+        radius="lg"
+        p={{
+          base: 'md',
+          md: 'xl',
+        }}
+        m="32px auto"
+        w={{ base: '100%', md: '80%', lg: '75%' }}
+      >
         <Title order={5} mb="lg">
           General information
         </Title>

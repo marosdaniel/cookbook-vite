@@ -8,7 +8,14 @@ const AdminPage = () => {
   const { adminTab } = useParams();
 
   return (
-    <Container size="xl" id="admin-page">
+    <Container
+      size="xl"
+      id="admin-page"
+      p={{
+        base: 'xs',
+        md: 'md',
+      }}
+    >
       <Tabs
         className={classes['tab-container']}
         value={adminTab}

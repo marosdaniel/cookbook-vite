@@ -9,7 +9,14 @@ const ProfilePage = () => {
   const { profileTab } = useParams();
 
   return (
-    <Container size="xl" id="profile-page">
+    <Container
+      size="xl"
+      id="profile-page"
+      p={{
+        base: 'xs',
+        md: 'md',
+      }}
+    >
       <Tabs
         className={classes['tab-container']}
         value={profileTab}
