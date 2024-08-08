@@ -1,133 +1,160 @@
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
+import { Paper, Group, Title, Button, Box, PasswordInput, Text } from '@mantine/core';
 import { CHANGE_PASSWORD } from '../../../../../graphql/user/editUser';
 
-import { IProps } from './types';
+import classNames from './Password.module.css';
+import { useFormik } from 'formik';
+import { IFormikProps } from './types';
+import { useAuthState } from '../../../../../store/Auth';
+import { passwordEditValidationSchema } from '../../../../../utils/validation';
+import { notifications } from '@mantine/notifications';
 
-const Password = ({ userId }: IProps) => {
-  const [changePassword] = useMutation(CHANGE_PASSWORD);
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmNewPassword, setConfirmNewPassword] = useState('');
-  const [alertMessage, setAlertMessage] = useState<string>('');
+const Password = () => {
+  const { user } = useAuthState();
+  const [changePassword, { loading }] = useMutation(CHANGE_PASSWORD, {
+    onCompleted: () => {
+      resetForm();
+      setIsEditMode(false);
+      notifications.show({
+        title: 'Password changed',
+        message: 'Your password has been changed',
+        color: 'teal',
+      });
+    },
+    onError: () => {
+      notifications.show({
+        title: 'Password change failed',
+        message: 'Something went wrong, please try again',
+        color: 'red',
+      });
+    },
+  });
 
-  const [isPasswordEditable, setIsPasswordEditable] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
 
-  const saveDisabled = !currentPassword || !newPassword || !confirmNewPassword || newPassword !== confirmNewPassword;
-
-  const handleCancelPassword = () => {
-    setCurrentPassword('');
-    setNewPassword('');
-    setConfirmNewPassword('');
-    setIsPasswordEditable(false);
+  const handleCancelPasswordEdit = () => {
+    resetForm();
+    setIsEditMode(false);
   };
 
-  // const handleSavePassword = async () => {
-  //   try {
-  //     if (saveDisabled) {
-  //       return;
-  //     }
-  //     const passwordEditInput = {
-  //       currentPassword: currentPassword,
-  //       newPassword: newPassword,
-  //       confirmNewPassword: confirmNewPassword,
-  //     };
-  //     await changePassword({
-  //       variables: {
-  //         userId,
-  //         passwordEditInput,
-  //       },
-  //     });
-  //     setMessageSeverity('success');
-  //     setAlertMessage('Password changed successfully');
-  //     handleCancelPassword();
-  //   } catch (_error: any) {
-  //     setMessageSeverity('error');
-  //     setAlertMessage(_error.message);
-  //   }
-  // };
+  const onSubmit = async () => {
+    try {
+      const passwordEditInput = {
+        currentPassword: values.currentPassword,
+        newPassword: values.newPassword,
+        confirmNewPassword: values.confirmNewPassword,
+      };
+      await changePassword({
+        variables: {
+          userId: user?._id,
+          passwordEditInput,
+        },
+      });
+
+      handleCancelPasswordEdit();
+    } catch (_error: any) {
+      console.error('Something went wrong:', _error);
+    }
+  };
+
+  const { values, handleChange, handleSubmit, handleBlur, touched, errors, resetForm, isValid, dirty } =
+    useFormik<IFormikProps>({
+      initialValues: {
+        currentPassword: '',
+        newPassword: '',
+        confirmNewPassword: '',
+      },
+      validationSchema: passwordEditValidationSchema,
+      onSubmit,
+    });
 
   return (
-    // <Box sx={sectionStyles}>
-    //   <Box sx={innerBoxStyles}>
-    //     <Typography variant="h5">Change your password</Typography>
-    //     {!isPasswordEditable ? (
-    //       <Button sx={editButtonStyles} variant="text" color="primary" onClick={() => setIsPasswordEditable(true)}>
-    //         Edit
-    //       </Button>
-    //     ) : null}
-    //   </Box>
-    //   {!isPasswordEditable ? (
-    //     <>
-    //       <Typography marginTop={1} variant="body2" sx={labelStyles} color="GrayText">
-    //         Password
-    //       </Typography>
-    //       <Typography variant="body1">**********</Typography>
-    //     </>
-    //   ) : null}
-    //   <Box sx={{ display: isPasswordEditable ? 'flex' : 'none' }}>
-    //     <Grow
-    //       in={isPasswordEditable}
-    //       style={{ transformOrigin: '0 0 0' }}
-    //       {...(isPasswordEditable ? { timeout: 300 } : {})}
-    //     >
-    //       <Box sx={{ width: '100%' }}>
-    //         <TextField
-    //           variant="standard"
-    //           label="Password"
-    //           value={currentPassword}
-    //           fullWidth
-    //           required
-    //           margin="normal"
-    //           type="password"
-    //           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-    //             setCurrentPassword(event.target.value);
-    //           }}
-    //         />
-    //         <TextField
-    //           variant="standard"
-    //           label="New password"
-    //           value={newPassword}
-    //           fullWidth
-    //           required
-    //           margin="normal"
-    //           type="password"
-    //           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-    //             setNewPassword(event.target.value);
-    //           }}
-    //         />
-    //         <TextField
-    //           variant="standard"
-    //           label="Confirm new password"
-    //           value={confirmNewPassword}
-    //           fullWidth
-    //           required
-    //           margin="normal"
-    //           type="password"
-    //           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-    //             setConfirmNewPassword(event.target.value);
-    //           }}
-    //         />
-    //         <Box display="flex" justifyContent="flex-end" marginTop={2} gap={1}>
-    //           <Button size="small" variant="text" color="primary" onClick={handleCancelPassword}>
-    //             Cancel
-    //           </Button>
-    //           <Button
-    //             size="small"
-    //             variant="contained"
-    //             color="primary"
-    //             onClick={handleSavePassword}
-    //             disabled={saveDisabled}
-    //           >
-    //             Save
-    //           </Button>
-    //         </Box>
-    //       </Box>
-    //     </Grow>
-    //   </Box>
-    //   <AlertSnack message={alertMessage} setMessage={setAlertMessage} severity={messageSeverity} />
-    // </Box>
-    <div>asd</div>
+    <Paper
+      component="form"
+      onSubmit={handleSubmit}
+      shadow="md"
+      radius="lg"
+      p={{
+        base: 'md',
+        md: 'xl',
+      }}
+      m="32px auto"
+      w={{ base: '100%', md: '80%', lg: '75%' }}
+    >
+      <Group className={classNames.group} display="flex" justify="space-between" align="baseline">
+        <Title order={5} mb="lg">
+          Change your password
+        </Title>
+        {!isEditMode ? (
+          <Button variant="subtle" onClick={() => setIsEditMode(true)}>
+            Edit
+          </Button>
+        ) : null}
+      </Group>
+      {!isEditMode ? (
+        <Box>
+          <Box mb="lg">
+            <Text size="sm">Password</Text>
+            <Text size="md">***************</Text>
+          </Box>
+        </Box>
+      ) : (
+        <Box>
+          <Box mt="md">
+            <PasswordInput
+              required
+              id="passoword"
+              placeholder="Password"
+              mt="md"
+              label="Current password"
+              name="currentPassword"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.currentPassword}
+              error={touched.currentPassword && Boolean(errors.currentPassword)}
+              description={touched.currentPassword && Boolean(errors.currentPassword) ? errors.currentPassword : ''}
+            />
+            <PasswordInput
+              required
+              id="passoword"
+              placeholder="New password"
+              mt="md"
+              label="New password"
+              name="newPassword"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.newPassword}
+              error={touched.newPassword && Boolean(errors.newPassword)}
+              description={touched.newPassword && Boolean(errors.newPassword) ? errors.newPassword : ''}
+            />
+            <PasswordInput
+              required
+              id="confirm-passoword"
+              placeholder="Confirm password"
+              mt="md"
+              label="Confirm Password"
+              name="confirmNewPassword"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.confirmNewPassword}
+              error={touched.confirmNewPassword && Boolean(errors.confirmNewPassword)}
+              description={
+                touched.confirmNewPassword && Boolean(errors.confirmNewPassword) ? errors.confirmNewPassword : ''
+              }
+            />
+          </Box>
+          <Group mt="xl" display="flex" justify="flex-end">
+            <Button size="sm" onClick={handleCancelPasswordEdit}>
+              Cancel
+            </Button>
+            <Button size="sm" type="submit" disabled={!isValid || !dirty} loading={loading}>
+              Save
+            </Button>
+          </Group>
+        </Box>
+      )}
+    </Paper>
   );
 };
 

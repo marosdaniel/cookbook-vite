@@ -1,3 +1,5 @@
-export interface IProps {
-  userId?: string;
+export interface IFormikProps {
+  currentPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
 }

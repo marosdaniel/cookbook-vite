@@ -81,7 +81,9 @@ const PersonalData = () => {
       w={{ base: '100%', md: '80%', lg: '75%' }}
     >
       <Group className={classNames.group} display="flex" justify="space-between" align="baseline">
-        <Title order={5}>Change your personal data</Title>
+        <Title order={5} mb="lg">
+          Change your personal data
+        </Title>
         {!isEditMode ? (
           <Button variant="subtle" onClick={handlePersonalDataEditable}>
             Edit

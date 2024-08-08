@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { Container, Tabs } from '@mantine/core';
+import { Container, Tabs, Text } from '@mantine/core';
 
 import classes from './ProfilePage.module.css';
 import ProfileTab from './TabContents/ProfileTab';
@@ -25,9 +25,15 @@ const ProfilePage = () => {
         radius="xl"
       >
         <Tabs.List>
-          <Tabs.Tab value="profile">Profile</Tabs.Tab>
-          <Tabs.Tab value="recipes">My recipes</Tabs.Tab>
-          <Tabs.Tab value="favorites">Favorites</Tabs.Tab>
+          <Tabs.Tab component={Text} value="profile">
+            Profile
+          </Tabs.Tab>
+          <Tabs.Tab component={Text} value="recipes">
+            My recipes
+          </Tabs.Tab>
+          <Tabs.Tab component={Text} value="favorites">
+            Favorites
+          </Tabs.Tab>
         </Tabs.List>
         <Tabs.Panel value="profile">
           <ProfileTab />

@@ -1,6 +1,7 @@
 import { Container, Paper, Title, Text, Box } from '@mantine/core';
 import { useAuthState } from '../../../../store/Auth';
 import PersonalData from './PersonalData';
+import Password from './Password';
 
 const ProfileTab = () => {
   const { user } = useAuthState();
@@ -9,8 +10,6 @@ const ProfileTab = () => {
 
   return (
     <Container size="lg" id="profile-tab">
-      {/* <Password userId={user?._id ?? ''} /> */}
-
       <Title order={2} mt="xl">
         Edit your profile
       </Title>
@@ -40,6 +39,7 @@ const ProfileTab = () => {
       </Paper>
 
       <PersonalData />
+      <Password />
     </Container>
   );
 };
