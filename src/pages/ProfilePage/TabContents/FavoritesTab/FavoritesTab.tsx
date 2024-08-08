@@ -1,3 +1,5 @@
+import { Container, Center, Title } from '@mantine/core';
+import RecipeList from '../../../../components/Recipe/RecipeList';
 import { useAuthState } from '../../../../store/Auth';
 
 const FavoritesTab = () => {
@@ -6,13 +8,20 @@ const FavoritesTab = () => {
   const favoriteRecipes = user?.favoriteRecipes || [];
 
   return (
-    <section id="favorite-recipes">
-      {/* {favoriteRecipes?.length > 0 ? (
+    <Container id="my-recipes" mt="xl">
+      {favoriteRecipes?.length > 0 ? (
         <RecipeList recipes={favoriteRecipes} />
       ) : (
-        <Typography variant="h4">No favorite recipes</Typography>
+        <Center h={200}>
+          <Title order={4}>You haven't choosen any favorites</Title>
+        </Center>
+      )}
+      {/* {!!error?.message ?? (
+        <Alert mt="md" color="red">
+          {error?.message ?? 'An error occurred while fetching recipes'}
+        </Alert>
       )} */}
-    </section>
+    </Container>
   );
 };
 

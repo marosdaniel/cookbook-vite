@@ -120,7 +120,7 @@ const RecipeDetailsPage = () => {
           </Button>
         )}
       </Group>
-      {error?.message && (
+      {!!error?.message && (
         <Center h="384px">
           <Alert mt="md" color="red">
             {error?.message ?? 'An error occurred while fetching recipes'}

@@ -9,11 +9,8 @@ const ProfileTab = () => {
   const { userName, email } = user ?? {};
 
   return (
-    <Container size="lg" id="profile-tab">
-      <Title order={2} mt="xl">
-        Edit your profile
-      </Title>
-
+    <Container size="lg" id="profile-tab" mt="xl">
+      <Title order={2}>Edit your profile</Title>
       <Paper
         component="form"
         shadow="md"

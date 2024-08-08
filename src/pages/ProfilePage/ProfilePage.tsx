@@ -3,6 +3,8 @@ import { Container, Tabs, Text } from '@mantine/core';
 
 import classes from './ProfilePage.module.css';
 import ProfileTab from './TabContents/ProfileTab';
+import MyRecipesTab from './TabContents/MyRecipesTab';
+import FavoritesTab from './TabContents/FavoritesTab';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -38,8 +40,12 @@ const ProfilePage = () => {
         <Tabs.Panel value="profile">
           <ProfileTab />
         </Tabs.Panel>
-        <Tabs.Panel value="recipes">my recipes content</Tabs.Panel>
-        <Tabs.Panel value="favorites">favorites content</Tabs.Panel>
+        <Tabs.Panel value="recipes">
+          <MyRecipesTab />
+        </Tabs.Panel>
+        <Tabs.Panel value="favorites">
+          <FavoritesTab />
+        </Tabs.Panel>
       </Tabs>
     </Container>
   );
