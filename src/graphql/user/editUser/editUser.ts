@@ -2,10 +2,13 @@ import gql from 'graphql-tag';
 const EDIT_USER = gql`
   mutation EditUser($editUserId: ID!, $userEditInput: UserEditInput!) {
     editUser(id: $editUserId, userEditInput: $userEditInput) {
+      _id
       firstName
       lastName
+      email
       locale
       userName
+      role
     }
   }
 `;

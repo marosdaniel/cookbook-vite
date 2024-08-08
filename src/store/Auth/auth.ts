@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IAuthState, TUser } from './types';
-import { updateUserData } from './thunks/updateUserThunk';
+import { updateUserThunk } from './thunks/updateUserThunk';
 
 const initialState: IAuthState = {
   user: null,
@@ -22,7 +22,7 @@ const authSlice = createSlice({
     },
   },
   extraReducers: builder => {
-    builder.addCase(updateUserData.fulfilled, (state, action) => {
+    builder.addCase(updateUserThunk.fulfilled, (state, action: PayloadAction<TUser>) => {
       state.user = action.payload;
     });
   },

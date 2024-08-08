@@ -99,7 +99,7 @@ const Login = ({ setIsLogin }: IProps) => {
       <Paper component="form" withBorder shadow="md" p={30} mt={30} radius="md" onSubmit={handleSubmit}>
         <TextInput
           label="Email"
-          placeholder="you@mantine.dev"
+          placeholder="your@email.com"
           required
           id="email"
           name="email"

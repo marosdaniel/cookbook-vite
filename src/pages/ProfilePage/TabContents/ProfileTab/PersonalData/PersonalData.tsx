@@ -1,50 +1,48 @@
 import { useState } from 'react';
-import { useMutation } from '@apollo/client';
 import { useFormik } from 'formik';
 import { Box, Button, Group, Paper, Title, Text, TextInput } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 
 import { nameValidationSchema } from '../../../../../utils/validation';
-import { EDIT_USER } from '../../../../../graphql/user/editUser';
 import { useAuthState } from '../../../../../store/Auth';
 import { TUser } from '../../../../../store/Auth/types';
 
+import { useAppDispatch } from '../../../../../store/hooks';
+import { updateUserThunk } from '../../../../../store/Auth/thunks/updateUserThunk';
 import { IFormikProps } from './types';
 
 const PersonalData = () => {
   const { user } = useAuthState() as { user: TUser };
-  const [editUser, { loading }] = useMutation(EDIT_USER, {
-    onCompleted: () => {
-      notifications.show({
-        title: 'Success!',
-        message: 'Your personal data has been updated.',
-        color: 'blue',
-      });
-    },
-    onError: () => {
-      notifications.show({
-        title: 'AAAAAAAAA ... :(',
-        message: 'Something went wrong. Please try again later.',
-        color: 'red',
-      });
-    },
-  });
+  const dispatch = useAppDispatch();
+
   const [isEditMode, setIsEditMode] = useState(false);
 
   const onSubmit = async () => {
     try {
-      await editUser({
-        variables: {
-          editUserId: user?._id ?? '',
-          userEditInput: {
-            firstName: values.firstName,
-            lastName: values.lastName,
-          },
-        },
-      });
-      setIsEditMode(false);
+      const result = await dispatch(
+        updateUserThunk({
+          id: user?._id ?? '',
+          firstName: values.firstName,
+          lastName: values.lastName,
+        }),
+      );
+
+      if (updateUserThunk.fulfilled.match(result)) {
+        setIsEditMode(false);
+        notifications.show({
+          title: 'Success',
+          message: 'Your personal data has been updated',
+          color: 'teal',
+        });
+      } else if (updateUserThunk.rejected.match(result)) {
+        notifications.show({
+          title: 'Oooops ... :(',
+          message: 'Something went wrong. Please try again later.',
+          color: 'red',
+        });
+      }
     } catch (error) {
-      console.log(error);
+      console.error('Something went wrong:', error);
     }
   };
 
@@ -130,7 +128,7 @@ const PersonalData = () => {
             <Button size="sm" onClick={handleCancelPersonalData}>
               Cancel
             </Button>
-            <Button size="sm" type="submit" disabled={!isValid || !dirty} loading={loading}>
+            <Button size="sm" type="submit" disabled={!isValid || !dirty}>
               Save
             </Button>
           </Group>
