@@ -21,7 +21,7 @@ const PersonalData = () => {
     try {
       const result = await dispatch(
         updateUserThunk({
-          id: user?._id ?? '',
+          _id: user?._id,
           firstName: values.firstName,
           lastName: values.lastName,
         }),

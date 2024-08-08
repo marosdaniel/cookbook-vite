@@ -10,7 +10,7 @@ export const updateUserThunk = createAsyncThunk<
   AsyncThunkConfig
 >('updateUserThunk', async (userChanges, { getState, rejectWithValue }) => {
   const state = getState() as RootState;
-  const existingUser: TUser = state.auth.user;
+  const existingUser: TUser = state.auth.user!;
 
   if (!existingUser) {
     return rejectWithValue('User not found');

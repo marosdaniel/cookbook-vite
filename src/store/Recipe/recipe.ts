@@ -1,12 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TRecipe } from './types';
+import { IRecipeState, TRecipe } from './types';
 
-interface RecipeState {
-  newRecipe: TRecipe | undefined;
-  editRecipe: TRecipe | undefined;
-}
-
-const initialState: RecipeState = {
+const initialState: IRecipeState = {
   newRecipe: undefined,
   editRecipe: undefined,
 };
@@ -15,7 +10,7 @@ const recipeSlice = createSlice({
   name: 'recipe',
   initialState,
   reducers: {
-    newRecipe: (state, action: PayloadAction<any>) => {
+    newRecipe: (state, action: PayloadAction<TRecipe>) => {
       state.newRecipe = action.payload;
     },
     resetNewRecipe: state => {
@@ -30,5 +25,5 @@ const recipeSlice = createSlice({
   },
 });
 
-export const { newRecipe, resetNewRecipe, setEditRecipe, resetEditRecipe } = recipeSlice.actions;
+export const { newRecipe } = recipeSlice.actions;
 export default recipeSlice.reducer;

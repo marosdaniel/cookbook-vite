@@ -1,18 +1,16 @@
-import { configureStore, ThunkAction, Action, combineReducers, Store } from '@reduxjs/toolkit';
+import { configureStore, ThunkAction, Action, combineReducers } from '@reduxjs/toolkit';
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 
-import authReducer from './Auth';
-import recipeReducer from './Recipe';
-import globalReducer from './Global';
-import { authPersistConfig, recipePersistConfig, globalPersistConfig } from './utils/persistConfigs';
+import authReducer from './Auth/auth';
+import recipeReducer from './Recipe/recipe';
+import { authPersistConfig, recipePersistConfig } from './utils/persistConfigs';
 
 const reducers = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
   recipe: persistReducer(recipePersistConfig, recipeReducer),
-  global: persistReducer(globalPersistConfig, globalReducer),
 });
 
-export const store: Store = configureStore({
+export const store = configureStore({
   reducer: reducers,
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

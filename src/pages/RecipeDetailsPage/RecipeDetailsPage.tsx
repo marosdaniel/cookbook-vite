@@ -35,8 +35,8 @@ const RecipeDetailsPage = () => {
 
   const { user } = useAuthState();
   const { loading, error, data } = useQuery<IRecipeDetailsData>(GET_RECIPE_BY_ID, {
-    variables: { id } as { id: string },
-    fetchPolicy: 'cache-and-network',
+    variables: { id },
+    fetchPolicy: 'cache-first',
   });
 
   const [isEditMode, setIsEditMode] = useState<boolean>(false);

@@ -1,19 +1,13 @@
-import localStorage from 'redux-persist/es/storage';
+import storage from 'redux-persist/lib/storage';
 
 export const authPersistConfig = {
   key: 'auth',
   version: 1,
-  storage: localStorage,
+  storage: storage,
 };
 
 export const recipePersistConfig = {
   key: 'recipe',
-  version: 2,
-  storage: localStorage,
-};
-
-export const globalPersistConfig = {
-  key: 'global',
   version: 1,
-  storage: localStorage,
+  storage: storage,
 };

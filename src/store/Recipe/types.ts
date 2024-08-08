@@ -1,5 +1,10 @@
 import { TCategoryMetadata, TLabelMetadata, TLevelMetadata } from '../Metadata/types';
 
+export interface IRecipeState {
+  newRecipe: TRecipe | undefined;
+  editRecipe: TRecipe | undefined;
+}
+
 export type TRecipe = {
   _id: string;
   title: string;
