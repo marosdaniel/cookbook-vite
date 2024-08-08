@@ -1,9 +1,8 @@
 import { useQuery } from '@apollo/client';
-import { Center, Container, Grid, Loader, Title } from '@mantine/core';
+import { Center, Container, Loader, Title } from '@mantine/core';
 
 import { GET_RECIPES } from '../../graphql/recipe/getRecipes';
 import { TRecipe } from '../../store/Recipe/types';
-import RecipeCard from '../../components/Recipe/RecipeCard';
 import RecipeList from '../../components/Recipe/RecipeList';
 
 const RecipesPage = () => {

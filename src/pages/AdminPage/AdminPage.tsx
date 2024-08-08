@@ -2,6 +2,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Container, Tabs } from '@mantine/core';
 
 import classes from './AdminPage.module.css';
+import CategoriesTab from './TabContents/CategoriesTab';
+import LabelsTab from './TabContents/LabelsTab';
+import UnitsTab from './TabContents/UnitsTab';
+import UsersTab from './TabContents/UsersTab';
 
 const AdminPage = () => {
   const navigate = useNavigate();
@@ -29,10 +33,18 @@ const AdminPage = () => {
           <Tabs.Tab value="labels">labels</Tabs.Tab>
           <Tabs.Tab value="categories">categories</Tabs.Tab>
         </Tabs.List>
-        <Tabs.Panel value="users">user content</Tabs.Panel>
-        <Tabs.Panel value="units">units content</Tabs.Panel>
-        <Tabs.Panel value="labels">labels content</Tabs.Panel>
-        <Tabs.Panel value="categories">categories content</Tabs.Panel>
+        <Tabs.Panel value="users">
+          <UsersTab />
+        </Tabs.Panel>
+        <Tabs.Panel value="units">
+          <UnitsTab />
+        </Tabs.Panel>
+        <Tabs.Panel value="labels">
+          <LabelsTab />
+        </Tabs.Panel>
+        <Tabs.Panel value="categories">
+          <CategoriesTab />
+        </Tabs.Panel>
       </Tabs>
     </Container>
   );
