@@ -14,9 +14,16 @@ import { IFormikProps } from './types';
 const PersonalData = () => {
   const { user } = useAuthState() as { user: TUser };
   const [editUser, { loading }] = useMutation(EDIT_USER, {
+    onCompleted: () => {
+      notifications.show({
+        title: 'Success!',
+        message: 'Your personal data has been updated.',
+        color: 'blue',
+      });
+    },
     onError: () => {
       notifications.show({
-        title: 'Oooops ... :(',
+        title: 'AAAAAAAAA ... :(',
         message: 'Something went wrong. Please try again later.',
         color: 'red',
       });
@@ -36,18 +43,8 @@ const PersonalData = () => {
         },
       });
       setIsEditMode(false);
-      notifications.show({
-        title: 'Success',
-        message: 'Your personal data has been updated',
-        color: 'teal',
-      });
-    } catch (_error) {
-      console.error('Something went wrong:', _error);
-      notifications.show({
-        title: 'Oooops ... :(',
-        message: 'Something went wrong. Please try again later.',
-        color: 'red',
-      });
+    } catch (error) {
+      console.log(error);
     }
   };
 
