@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { Table, ScrollArea, Text, Center, TextInput, Container } from '@mantine/core';
+import { Table, ScrollArea, Text, Center, TextInput, Container, Anchor } from '@mantine/core';
 import { GoSearch } from 'react-icons/go';
 
 import { TUser } from '../../../../store/Auth/types';
@@ -37,11 +38,27 @@ const UsersTab = () => {
     setSortedData(sortData(users, { sortBy, reversed: reverseSortDirection, search }));
   }, [users]);
 
+  const linkToUser = (userName: string) => (
+    <Anchor
+      size="sm"
+      variant="gradient"
+      gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+      component={RouterLink}
+      to={`/users/${userName}`}
+    >
+      {userName}
+    </Anchor>
+  );
+
   const rows = sortedData?.map(row => (
     <Table.Tr key={row.userName}>
-      <Table.Td>{row.userName}</Table.Td>
-      <Table.Td>{row.email}</Table.Td>
-      <Table.Td>{row.role}</Table.Td>
+      <Table.Td>{linkToUser(row.userName)}</Table.Td>
+      <Table.Td>
+        <Text size="sm">{row.email}</Text>
+      </Table.Td>
+      <Table.Td>
+        <Text size="sm">{row.role}</Text>
+      </Table.Td>
     </Table.Tr>
   ));
 

@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { Container, Tabs } from '@mantine/core';
+import { Container, Tabs, Text } from '@mantine/core';
 
 import classes from './AdminPage.module.css';
 import CategoriesTab from './TabContents/CategoriesTab';
@@ -25,13 +25,21 @@ const AdminPage = () => {
         value={adminTab}
         onChange={value => navigate(`/admin/${value}`)}
         color="pink.7"
-        radius="xl"
+        radius="md"
       >
         <Tabs.List>
-          <Tabs.Tab value="users">users</Tabs.Tab>
-          <Tabs.Tab value="units">units</Tabs.Tab>
-          <Tabs.Tab value="labels">labels</Tabs.Tab>
-          <Tabs.Tab value="categories">categories</Tabs.Tab>
+          <Tabs.Tab value="users">
+            <Text size="md">users</Text>
+          </Tabs.Tab>
+          <Tabs.Tab value="units">
+            <Text size="md">units</Text>
+          </Tabs.Tab>
+          <Tabs.Tab value="labels">
+            <Text size="md">labels</Text>
+          </Tabs.Tab>
+          <Tabs.Tab value="categories">
+            <Text size="md">categories</Text>
+          </Tabs.Tab>
         </Tabs.List>
         <Tabs.Panel value="users">
           <UsersTab />
