@@ -1,69 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
-import { Table, ScrollArea, UnstyledButton, Group, Text, Center, TextInput, rem, keys, Container } from '@mantine/core';
-import { IoChevronUp, IoChevronDown } from 'react-icons/io5';
-import { HiOutlineSelector } from 'react-icons/hi';
+import { Table, ScrollArea, Text, Center, TextInput, Container } from '@mantine/core';
 import { GoSearch } from 'react-icons/go';
 
 import { TUser } from '../../../../store/Auth/types';
 import { GET_ALL_USERS } from '../../../../graphql/user/getUser';
 
-import classes from './UsersTab.module.css';
-
-interface RowData {
-  userName: string;
-  email: string;
-  role: string;
-}
-
-interface ThProps {
-  children: React.ReactNode;
-  reversed: boolean;
-  sorted: boolean;
-  onSort(): void;
-}
-
-function Th({ children, reversed, sorted, onSort }: ThProps) {
-  const Icon = sorted ? (reversed ? IoChevronUp : IoChevronDown) : HiOutlineSelector;
-  return (
-    <Table.Th className={classes.th}>
-      <UnstyledButton onClick={onSort} className={classes.control}>
-        <Group justify="space-between">
-          <Text fw={500} fz="sm">
-            {children}
-          </Text>
-          <Center className={classes.icon}>
-            <Icon />
-          </Center>
-        </Group>
-      </UnstyledButton>
-    </Table.Th>
-  );
-}
-
-function filterData(data: RowData[], search: string) {
-  const query = search.toLowerCase().trim();
-  return data.filter(item => keys(data[0]).some(key => item[key].toLowerCase().includes(query)));
-}
-
-function sortData(data: RowData[], payload: { sortBy: keyof RowData | null; reversed: boolean; search: string }) {
-  const { sortBy } = payload;
-
-  if (!sortBy) {
-    return filterData(data, payload.search);
-  }
-
-  return filterData(
-    [...data].sort((a, b) => {
-      if (payload.reversed) {
-        return b[sortBy].localeCompare(a[sortBy]);
-      }
-
-      return a[sortBy].localeCompare(b[sortBy]);
-    }),
-    payload.search,
-  );
-}
+import TableHead from './TableHead';
+import { sortData } from './utils';
+import { RowData } from './types';
 
 const UsersTab = () => {
   const { data } = useQuery<{ getAllUser: TUser[] }>(GET_ALL_USERS);
@@ -118,19 +63,23 @@ const UsersTab = () => {
           <Table horizontalSpacing="md" verticalSpacing="xs" miw={700} layout="fixed">
             <Table.Tbody>
               <Table.Tr>
-                <Th
+                <TableHead
                   sorted={sortBy === 'userName'}
                   reversed={reverseSortDirection}
                   onSort={() => setSorting('userName')}
                 >
                   User name
-                </Th>
-                <Th sorted={sortBy === 'email'} reversed={reverseSortDirection} onSort={() => setSorting('email')}>
+                </TableHead>
+                <TableHead
+                  sorted={sortBy === 'email'}
+                  reversed={reverseSortDirection}
+                  onSort={() => setSorting('email')}
+                >
                   Email
-                </Th>
-                <Th sorted={sortBy === 'role'} reversed={reverseSortDirection} onSort={() => setSorting('role')}>
+                </TableHead>
+                <TableHead sorted={sortBy === 'role'} reversed={reverseSortDirection} onSort={() => setSorting('role')}>
                   Role
-                </Th>
+                </TableHead>
               </Table.Tr>
             </Table.Tbody>
             <Table.Tbody>
