@@ -13,7 +13,6 @@ const MyRecipesTab = () => {
   });
 
   const recipes: TRecipe[] = data?.getRecipesByUserName.recipes || [];
-  console.log(recipes);
 
   return (
     <Container id="my-recipes" mt="xl">
@@ -24,7 +23,7 @@ const MyRecipesTab = () => {
           <Title order={4}>You haven't added any recipes</Title>
         </Center>
       )}
-      {!!error?.message ?? (
+      {(!data && error?.message) ?? (
         <Alert mt="md" color="red">
           {error?.message ?? 'An error occurred while fetching recipes'}
         </Alert>

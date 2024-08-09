@@ -35,7 +35,14 @@ const Register = ({ setIsLogin }: IProps) => {
   const [isPrivacyAccepted, setIsPrivacyAccepted] = useState<boolean>(false);
 
   const privacyLink = (
-    <Anchor component={RouterLink} to={ENonProtectedRoutes.PRIVACY_POLICY} target="_blank" rel="noopener noreferrer">
+    <Anchor
+      variant="gradient"
+      gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+      component={RouterLink}
+      to={ENonProtectedRoutes.PRIVACY_POLICY}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       I accept the privacy policy
     </Anchor>
   );

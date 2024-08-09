@@ -6,6 +6,7 @@ import { nonProtectedRoutes } from './nonProtectedRoutes';
 import { protectedRoutes } from './protectedRoutes';
 import Authenticated from './Authenticated';
 import { ENonProtectedRoutes } from './types';
+import CookieBanner from '../components/CookieBanner';
 
 const NotFound = loadable(() => import('../pages/NotFoundPage'), {
   fallback: <LoadingOverlay visible zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />,
@@ -23,10 +24,16 @@ export const router = createBrowserRouter([
       <>
         {isPathWithoutAppBar(path) ? (
           <Shell>
-            <Component />
+            <>
+              <Component />
+              <CookieBanner />
+            </>
           </Shell>
         ) : (
-          <Component />
+          <>
+            <Component />
+            <CookieBanner />
+          </>
         )}
       </>
     ),
@@ -38,6 +45,7 @@ export const router = createBrowserRouter([
         <Shell>
           <Component />
         </Shell>
+        <CookieBanner />
       </Authenticated>
     ),
   })),

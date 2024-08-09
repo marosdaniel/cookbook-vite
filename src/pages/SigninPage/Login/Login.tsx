@@ -124,7 +124,13 @@ const Login = ({ setIsLogin }: IProps) => {
         />
         <Group justify="space-between" mt="lg">
           <Checkbox label="Remember me" />
-          <Anchor component={RouterLink} size="sm" to={ENonProtectedRoutes.RESET_PASSWORD}>
+          <Anchor
+            variant="gradient"
+            gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+            component={RouterLink}
+            size="sm"
+            to={ENonProtectedRoutes.RESET_PASSWORD}
+          >
             Forgot password?
           </Anchor>
         </Group>
