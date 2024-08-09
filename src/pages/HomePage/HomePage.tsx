@@ -6,6 +6,7 @@ import { GET_RECIPES } from '../../graphql/recipe/getRecipes';
 import { mockRecipes } from '../../mock/recipes';
 import { TRecipe } from '../../store/Recipe/types';
 import RecipeCard from '../../components/Recipe/RecipeCard';
+import Seo from '../../components/Seo';
 
 const HomePage = () => {
   const { loading, error, data } = useQuery(GET_RECIPES, {
@@ -24,6 +25,16 @@ const HomePage = () => {
         md: 'md',
       }}
     >
+      <Seo
+        title="Cookbook - Where the the recipes turn into magic!"
+        description="Cookbook is a platform where you can share your recipes with the world. Start crafting your own cookbook today!"
+        keywords="cookbook, recipes, cooking, food, sharing, community"
+        type="website"
+        name="Cookbook"
+        url="https://cookbook-vite.vercel.app"
+        canonicalUrl="https://cookbook-vite.vercel.app"
+        locale="en_GB"
+      />
       <Title order={2} mb="lg">
         Popular recipes /mock/
       </Title>

@@ -23,6 +23,7 @@ import { GET_RECIPE_BY_ID } from '../../graphql/recipe/getRecipes';
 import { TRecipe } from '../../store/Recipe/types';
 import { useAuthState } from '../../store/Auth';
 import { ENonProtectedRoutes } from '../../router/types';
+import RecipeFormEditor from '../../components/Recipe/RecipeFormEditor';
 
 import PreparationStepList from './PreparationStepList';
 import IngredientList from './IngredientList';
@@ -90,7 +91,14 @@ const RecipeDetailsPage = () => {
       : [];
 
   if (isEditMode) {
-    // return <RecipeFormEditor isEditMode setIsEditMode={setIsEditMode} />;
+    return (
+      <RecipeFormEditor
+        isEditMode
+        setIsEditMode={setIsEditMode}
+        title="Your Recipe Your Rules: Time to Edit"
+        id="edit-recipe-page"
+      />
+    );
   }
 
   if (loading) return <LoadingOverlay visible={loading} />;

@@ -4,6 +4,7 @@ import { Center, Container, Loader, Title } from '@mantine/core';
 import { GET_RECIPES } from '../../graphql/recipe/getRecipes';
 import { TRecipe } from '../../store/Recipe/types';
 import RecipeList from '../../components/Recipe/RecipeList';
+import Seo from '../../components/Seo';
 
 const RecipesPage = () => {
   const { loading, data } = useQuery(GET_RECIPES);
@@ -19,6 +20,16 @@ const RecipesPage = () => {
         md: 'md',
       }}
     >
+      <Seo
+        title="Cookbook - Where the the recipes turn into magic!"
+        description="Cookbook is a platform where you can share your recipes with the world. Start crafting your own cookbook today!"
+        keywords="cookbook, recipes, cooking, food, sharing, community"
+        type="website"
+        name="Cookbook"
+        url="https://cookbook-vite.vercel.app/recipes"
+        canonicalUrl="https://cookbook-vite.vercel.app/recipes"
+        locale="en_GB"
+      />
       <Title order={2} mb="lg">
         Find the best recipes
       </Title>

@@ -5,6 +5,7 @@ import classes from './ProfilePage.module.css';
 import ProfileTab from './TabContents/ProfileTab';
 import MyRecipesTab from './TabContents/MyRecipesTab';
 import FavoritesTab from './TabContents/FavoritesTab';
+import Seo from '../../components/Seo';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -15,10 +16,20 @@ const ProfilePage = () => {
       size="xl"
       id="profile-page"
       p={{
-        base: 'xs',
+        base: '0',
         md: 'md',
       }}
     >
+      <Seo
+        title="Cookbook - Where the the recipes turn into magic!"
+        description="Cookbook is a platform where you can share your recipes with the world. Start crafting your own cookbook today!"
+        keywords="cookbook, recipes, cooking, food, sharing, community"
+        type="website"
+        name="Cookbook"
+        url="https://cookbook-vite.vercel.app/"
+        canonicalUrl="https://cookbook-vite.vercel.app/"
+        locale="en_GB"
+      />
       <Tabs
         className={classes['tab-container']}
         value={profileTab}
