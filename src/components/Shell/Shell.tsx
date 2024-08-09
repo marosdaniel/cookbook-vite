@@ -133,7 +133,11 @@ const Shell = ({ children }: IProps) => {
       </AppShell.Navbar>
 
       <AppShell.Main className={classNames.main}>{children}</AppShell.Main>
-      <AppShell.Footer w={!isMobile ? `calc(100% - ${APP_SHELL_WIDTH}px)` : '100%'} ml="auto" pos="unset">
+      <AppShell.Footer
+        w={!isMobile ? `calc(100% - ${APP_SHELL_WIDTH}px)` : '100%'}
+        ml="auto"
+        pos={opened ? 'fixed' : 'unset'}
+      >
         <Footer />
       </AppShell.Footer>
     </AppShell>
