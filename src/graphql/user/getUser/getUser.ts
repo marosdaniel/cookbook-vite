@@ -75,6 +75,7 @@ export const GET_ALL_USERS = gql`
       userName
       firstName
       lastName
+      createdAt
     }
   }
 `;

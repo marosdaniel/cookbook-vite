@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { Table, ScrollArea, Text, Center, TextInput, Container, Anchor } from '@mantine/core';
+import { Table, ScrollArea, Text, Center, TextInput, Container, Anchor, Loader } from '@mantine/core';
 import { GoSearch } from 'react-icons/go';
+import { FormattedDate, useIntl } from 'react-intl';
 
 import { TUser } from '../../../../store/Auth/types';
 import { GET_ALL_USERS } from '../../../../graphql/user/getUser';
@@ -12,14 +13,17 @@ import { sortData } from './utils';
 import { RowData } from './types';
 
 const UsersTab = () => {
-  const { data } = useQuery<{ getAllUser: TUser[] }>(GET_ALL_USERS);
+  const { data, loading } = useQuery<{ getAllUser: TUser[] }>(GET_ALL_USERS);
+  const { formatDate } = useIntl();
 
   const users: TUser[] = data?.getAllUser ?? [];
 
   const [search, setSearch] = useState('');
-  const [sortedData, setSortedData] = useState<RowData[]>();
   const [sortBy, setSortBy] = useState<keyof RowData | null>(null);
   const [reverseSortDirection, setReverseSortDirection] = useState(false);
+  const [sortedData, setSortedData] = useState<RowData[]>(() =>
+    sortData(users, { sortBy: null, reversed: false, search: '' }),
+  );
 
   const setSorting = (field: keyof RowData) => {
     const reversed = field === sortBy ? !reverseSortDirection : false;
@@ -35,8 +39,10 @@ const UsersTab = () => {
   };
 
   useEffect(() => {
-    setSortedData(sortData(users, { sortBy, reversed: reverseSortDirection, search }));
-  }, [users]);
+    if (users.length > 0) {
+      setSortedData(sortData(users, { sortBy, reversed: reverseSortDirection, search }));
+    }
+  }, [users, sortBy, reverseSortDirection, search]);
 
   const linkToUser = (userName: string) => (
     <Anchor
@@ -50,17 +56,32 @@ const UsersTab = () => {
     </Anchor>
   );
 
-  const rows = sortedData?.map(row => (
-    <Table.Tr key={row.userName}>
-      <Table.Td>{linkToUser(row.userName)}</Table.Td>
-      <Table.Td>
-        <Text size="sm">{row.email}</Text>
-      </Table.Td>
-      <Table.Td>
-        <Text size="sm">{row.role}</Text>
-      </Table.Td>
-    </Table.Tr>
-  ));
+  const rows = sortedData?.map(row => {
+    const date = new Date(row.createdAt).toISOString();
+
+    return (
+      <Table.Tr key={row.userName}>
+        <Table.Td>{linkToUser(row.userName)}</Table.Td>
+        <Table.Td>
+          <Text size="sm">{row.email}</Text>
+        </Table.Td>
+        <Table.Td>
+          <Text size="sm">{row.role}</Text>
+        </Table.Td>
+        <Table.Td>
+          <Text size="sm">{formatDate(date, { year: 'numeric', month: 'long', day: '2-digit' })}</Text>
+        </Table.Td>
+      </Table.Tr>
+    );
+  });
+
+  if (loading) {
+    return (
+      <Center h="384px">
+        <Loader type="dots" />
+      </Center>
+    );
+  }
 
   // const handleDeleteUser = (userId: string) => {
   //   console.log('handleDeleteUser: ', userId);
@@ -97,10 +118,17 @@ const UsersTab = () => {
                 <TableHead sorted={sortBy === 'role'} reversed={reverseSortDirection} onSort={() => setSorting('role')}>
                   Role
                 </TableHead>
+                <TableHead
+                  sorted={sortBy === 'createdAt'}
+                  reversed={reverseSortDirection}
+                  onSort={() => setSorting('createdAt')}
+                >
+                  Registration date
+                </TableHead>
               </Table.Tr>
             </Table.Tbody>
             <Table.Tbody>
-              {rows && rows.length > 0 ? (
+              {sortedData && sortedData.length > 0 ? (
                 rows
               ) : (
                 <Table.Tr>

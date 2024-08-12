@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { ApolloProvider } from '@apollo/client';
+import { IntlProvider } from 'react-intl';
 import { HelmetProvider } from 'react-helmet-async';
 import { PersistGate } from 'redux-persist/integration/react';
 import { MantineProvider } from '@mantine/core';
@@ -24,14 +25,16 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <ApolloProvider client={client}>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <MantineProvider theme={theme}>
-            <Notifications limit={5} />
-            <HelmetProvider context={helmetContext}>
-              <ModalsProvider>
-                <App />
-              </ModalsProvider>
-            </HelmetProvider>
-          </MantineProvider>
+          <IntlProvider locale="en-GB" messages={{}}>
+            <MantineProvider theme={theme}>
+              <Notifications limit={5} />
+              <HelmetProvider context={helmetContext}>
+                <ModalsProvider>
+                  <App />
+                </ModalsProvider>
+              </HelmetProvider>
+            </MantineProvider>
+          </IntlProvider>
         </PersistGate>
       </Provider>
     </ApolloProvider>
