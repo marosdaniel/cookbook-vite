@@ -1,25 +1,14 @@
 import { useEffect } from 'react';
-import { TransitionGroup } from 'react-transition-group';
-
-import Collapse from '@mui/material/Collapse';
-import Grid from '@mui/material/Grid';
-import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import DeleteIcon from '@mui/icons-material/Delete';
-import Button from '@mui/material/Button';
 
 import { useAppDispatch } from '../../../../store/hooks';
-import { newRecipe, setEditRecipe } from '../../../../store/Recipe/recipe';
+import { newRecipe } from '../../../../store/Recipe/recipe';
 import { useRecipeState } from '../../../../store/Recipe';
 import { listItemStyles } from '../styles';
 import { IProps } from './types';
 
 const PreparationStepsEditor = ({ preparationSteps, setPreparationSteps, isEditMode }: IProps) => {
   const dispatch = useAppDispatch();
-  const { newRecipe: newRecipeFromStore, editRecipe: editRecipeFromStore } = useRecipeState();
+  const { newRecipe: newRecipeFromStore, editableRecipe: editRecipeFromStore } = useRecipeState();
 
   const addPreparationStepButtonDisabled = preparationSteps.some(step => step.description === '');
 

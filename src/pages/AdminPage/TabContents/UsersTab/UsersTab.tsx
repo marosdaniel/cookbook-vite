@@ -3,7 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { Table, ScrollArea, Text, Center, TextInput, Container, Anchor, Loader } from '@mantine/core';
 import { GoSearch } from 'react-icons/go';
-import { FormattedDate, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import { TUser } from '../../../../store/Auth/types';
 import { GET_ALL_USERS } from '../../../../graphql/user/getUser';

@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { useFormik } from 'formik';
-import { Container, Title } from '@mantine/core';
+import { Box, Button, Container, Group, Stepper, Title } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 
 import { useAppDispatch } from '../../../store/hooks';
 import { recipeFormValidationSchema } from '../../../utils/validation';
-import { newRecipe } from '../../../store/Recipe/recipe';
 import { useRecipeState } from '../../../store/Recipe';
 import { TIngredient, TPreparationStep } from '../../../store/Recipe/types';
 import { ENonProtectedRoutes } from '../../../router/types';
@@ -14,6 +14,7 @@ import { CREATE_RECIPE, EDIT_RECIPE } from '../../../graphql/recipe/createRecipe
 
 import PreparationStepsEditor from './PreparationStepsEditor';
 import IngredientsEditor from './IngredientsEditor';
+import GeneralsEditor from './GeneralsEditor';
 import {
   cleanCategory,
   cleanDifficultyLevel,
@@ -32,6 +33,11 @@ import { IFormikProps, IProps } from './types';
 
 const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
   const navigate = useNavigate();
+  const [active, setActive] = useState(0);
+  const nextStep = () => setActive(current => (current < 3 ? current + 1 : current));
+  const prevStep = () => setActive(current => (current > 0 ? current - 1 : current));
+  const isFinalStep = active === 2;
+
   // const dispatch = useAppDispatch();
 
   const [createRecipe] = useMutation(CREATE_RECIPE, {
@@ -42,6 +48,13 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
             return [...existingRecipes, data?.createRecipe];
           },
         },
+      });
+    },
+    onCompleted: () => {
+      notifications.show({
+        title: 'Recipe created',
+        message: 'Your recipe has been successfully created',
+        color: 'green',
       });
     },
   });
@@ -56,26 +69,36 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
         },
       });
     },
+    onCompleted: () => {
+      notifications.show({
+        title: 'Recipe updated',
+        message: 'Your recipe has been successfully updated',
+        color: 'green',
+      });
+    },
   });
 
-  const { newRecipe: newRecipeFromStore, editRecipe: editRecipeFromStore } = useRecipeState();
+  const {
+    editableRecipe: { recipe: editRecipe1, completedSteps },
+  } = useRecipeState();
 
   const metaDifficultyLevels = useGetDifficultyLevels();
   const metaCategories = useGetCategories();
   const metaLabels = useGetLabels();
 
-  const initialIngredients = getInitialIngredients(isEditMode || false, newRecipeFromStore, editRecipeFromStore);
-  const initialPreparationSteps = getInitialPreparationSteps(
-    isEditMode || false,
-    newRecipeFromStore,
-    editRecipeFromStore,
-  );
+  // const initialIngredients = getInitialIngredients(isEditMode || false, newRecipeFromStore, editRecipeFromStore);
+  // const initialPreparationSteps = getInitialPreparationSteps(
+  //   isEditMode || false,
+  //   newRecipeFromStore,
+  //   editRecipeFromStore,
+  // );
 
-  const [ingredients, setIngredients] = useState<TIngredient[]>(initialIngredients);
-  const [preparationSteps, setPreparationSteps] = useState<TPreparationStep[]>(initialPreparationSteps);
+  // const [ingredients, setIngredients] = useState<TIngredient[]>(initialIngredients);
+  // const [preparationSteps, setPreparationSteps] = useState<TPreparationStep[]>(initialPreparationSteps);
 
   const onSubmit = async () => {
-    const inputValues = isEditMode ? editRecipeFromStore : newRecipeFromStore;
+    const inputValues = editRecipe1;
+    const id = editRecipe1?._id;
 
     const recipeInput = {
       title: inputValues?.title,
@@ -85,8 +108,8 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
       difficultyLevel: cleanDifficultyLevel(inputValues?.difficultyLevel),
       category: cleanCategory(inputValues?.category),
       labels: cleanLabels(inputValues?.labels || []),
-      ingredients: cleanIngredients(ingredients),
-      preparationSteps: cleanPreparationSteps(preparationSteps),
+      ingredients: cleanIngredients(inputValues?.ingredients || []),
+      preparationSteps: cleanPreparationSteps(inputValues?.preparationSteps || []),
       servings: inputValues?.servings || 1,
       youtubeLink: inputValues?.youtubeLink,
     };
@@ -97,20 +120,16 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
           variables: {
             recipeCreateInput: recipeInput,
           },
-        }).then(() => {
-          // dispatch a success message for the snack bar
         });
       } else {
         await editRecipe({
           variables: {
-            editRecipeId: editRecipeFromStore?._id,
+            editRecipeId: id,
             recipeEditInput: recipeInput,
           },
-        }).then(() => {
-          // dispatch a success message for the snack bar
         });
       }
-      const id = isEditMode ? editRecipeFromStore?._id : newRecipeFromStore?._id;
+
       setIsEditMode?.(false);
       // dispatch(resetNewRecipe());
       // dispatch(resetEditRecipe());
@@ -121,13 +140,26 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
     }
   };
 
-  const initialValues = getInitialValues(isEditMode, newRecipeFromStore, editRecipeFromStore);
+  const initialValues = {
+    title: editRecipe1?.title || '',
+    description: editRecipe1?.description || '',
+    imgSrc: editRecipe1?.imgSrc || '',
+    servings: editRecipe1?.servings || 1,
+    cookingTime: editRecipe1?.cookingTime || 0,
+    difficultyLevel: editRecipe1?.difficultyLevel || undefined,
+    category: editRecipe1?.category || undefined,
+    labels: editRecipe1?.labels || [],
+    youtubeLink: editRecipe1?.youtubeLink || '',
+    ingredients: editRecipe1?.ingredients || [],
+    preparationSteps: editRecipe1?.preparationSteps || [],
+  };
 
-  const { values, handleChange, handleSubmit, handleBlur, errors, touched, isSubmitting } = useFormik<IFormikProps>({
-    initialValues,
-    onSubmit,
-    validationSchema: recipeFormValidationSchema,
-  });
+  const { values, handleChange, handleSubmit, handleBlur, errors, touched, isSubmitting, setFieldValue } =
+    useFormik<IFormikProps>({
+      initialValues,
+      onSubmit,
+      validationSchema: recipeFormValidationSchema,
+    });
 
   const [debouncedValues, setDebouncedValues] = useState<IFormikProps | undefined>(values);
   const handleFormChange = () => {
@@ -208,99 +240,7 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
     //       <Typography variant="h6" marginBottom={2} fontStyle={'italic'}>
     //         Please fill in the form below to create a new recipe
     //       </Typography>
-    //       <TextField
-    //         value={values.title}
-    //         error={Boolean(errors.title && touched.title)}
-    //         onChange={handleChange}
-    //         onBlur={handleBlur}
-    //         margin="normal"
-    //         required
-    //         fullWidth
-    //         id="title"
-    //         label="Title"
-    //         name="title"
-    //         autoComplete="title"
-    //         variant="standard"
-    //       />
-    //       <TextField
-    //         value={values.description}
-    //         error={Boolean(errors.description && touched.description)}
-    //         onChange={handleChange}
-    //         onBlur={handleBlur}
-    //         margin="normal"
-    //         required
-    //         fullWidth
-    //         id="description"
-    //         label="Description"
-    //         name="description"
-    //         autoComplete="description"
-    //         variant="standard"
-    //         helperText='Short description of the recipe, e.g. "This is a great recipe for a quick and easy pizza sauce."'
-    //       />
-    //       <TextField
-    //         value={values.imgSrc}
-    //         error={Boolean(errors.imgSrc && touched.imgSrc)}
-    //         onChange={handleChange}
-    //         onBlur={handleBlur}
-    //         margin="normal"
-    //         fullWidth
-    //         id="imgSrc"
-    //         label="Image URL"
-    //         name="imgSrc"
-    //         autoComplete="image-url"
-    //         variant="standard"
-    //       />
-    //       <TextField
-    //         sx={{ display: 'flex', width: '240px' }}
-    //         value={values.servings}
-    //         error={Boolean(errors.servings && touched.servings)}
-    //         onChange={handleChange}
-    //         onBlur={handleBlur}
-    //         margin="normal"
-    //         required
-    //         type="number"
-    //         InputProps={{
-    //           endAdornment: <InputAdornment position="start">portion</InputAdornment>,
-    //           inputProps: {
-    //             type: 'number',
-    //             min: 0,
-    //             max: 99,
-    //             step: 1,
-    //             style: { textAlign: 'right', marginRight: '8px' },
-    //           },
-    //         }}
-    //         id="servings"
-    //         label="Servings"
-    //         name="servings"
-    //         variant="standard"
-    //         helperText="Specify the number of servings or portions for this recipe"
-    //       />
-    //       <TextField
-    //         sx={{ display: 'flex', width: '240px' }}
-    //         value={values.cookingTime}
-    //         error={Boolean(errors.cookingTime && touched.cookingTime)}
-    //         onChange={handleChange}
-    //         onBlur={handleBlur}
-    //         margin="normal"
-    //         required
-    //         type="number"
-    //         id="cookingTime"
-    //         label="Cooking time"
-    //         name="cookingTime"
-    //         autoComplete="cooking-time"
-    //         InputProps={{
-    //           endAdornment: <InputAdornment position="start">min</InputAdornment>,
-    //           inputProps: {
-    //             type: 'number',
-    //             min: 0,
-    //             max: 999,
-    //             step: 1,
-    //             style: { textAlign: 'right', marginRight: '8px' },
-    //           },
-    //         }}
-    //         variant="standard"
-    //         helperText="Please enter cooking time in minutes"
-    //       />
+
     //       <Grid item xs={12} sx={{ mt: '16px', mb: '8px' }}>
     //         <TextField
     //           value={values.difficultyLevel?.label || ''}
@@ -364,44 +304,6 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
     //           ))}
     //         </TextField>
     //       </Grid>
-    //       <Grid component={FormControl} item xs={12} sx={{ mt: '16px', mb: '8px' }}>
-    //         <InputLabel id="multiple-chip-label">Labels</InputLabel>
-    //         <Select
-    //           sx={{ minWidth: '100px' }}
-    //           labelId="test-select-label"
-    //           label="Label"
-    //           id="label-label-id"
-    //           multiple
-    //           value={values.labels.map(label => label.key)}
-    //           onChange={event => {
-    //             const selectedLabelKeys = event.target.value as string[];
-    //             const selectedLabels = metaLabels.filter(label => selectedLabelKeys.includes(label.key));
-    //             handleChange({
-    //               target: {
-    //                 name: 'labels',
-    //                 value: selectedLabels,
-    //               },
-    //             });
-    //           }}
-    //           input={<OutlinedInput id="select-multiple-chip" label="Labels" />}
-    //           renderValue={(selected: string[]) => (
-    //             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-    //               {selected.map(value => {
-    //                 const selectedLabel = metaLabels.find(label => label.key === value);
-    //                 return <Chip key={selectedLabel?.key} label={selectedLabel?.label} />;
-    //               })}
-    //             </Box>
-    //           )}
-    //           MenuProps={menuProps}
-    //         >
-    //           {metaLabels.map(label => (
-    //             <MenuItem key={label.key} value={label.key}>
-    //               {label.label}
-    //             </MenuItem>
-    //           ))}
-    //         </Select>
-    //       </Grid>
-    //     </Grid>
     //     <IngredientsEditor ingredients={ingredients} setIngredients={setIngredients} isEditMode={isEditMode} />
     //     <PreparationStepsEditor
     //       preparationSteps={preparationSteps}
@@ -432,8 +334,45 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
     //   </Grid>
     // </WrapperContainer>
 
-    <Container size="xl" id={id}>
-      <Title order={2}>{title}</Title>
+    <Container size="md" id={id}>
+      <Title order={2} mb="xl">
+        {title}
+      </Title>
+      <Box component="form" onSubmit={handleSubmit}>
+        <Stepper active={active} onStepClick={setActive}>
+          <Stepper.Step label="Generals" description="General info">
+            <GeneralsEditor
+              handleChange={handleChange}
+              handleBlur={handleBlur}
+              values={values}
+              touched={touched}
+              errors={errors}
+              setFieldValue={setFieldValue}
+            />
+          </Stepper.Step>
+          <Stepper.Step label="Ingredtiens" description="Add ingredients" disabled={!completedSteps.includes(0)}>
+            {/* <IngredientsEditor ingredients={ingredients} setIngredients={setIngredients} isEditMode={isEditMode} /> */}
+            INGREDIENTS
+          </Stepper.Step>
+          <Stepper.Step
+            label="Instructions & save"
+            description="Add instructions & save"
+            disabled={!completedSteps.includes(0, 1)}
+          >
+            COOKING INSTRUCTIONS
+          </Stepper.Step>
+          {/* <Stepper.Completed>Completed, click back button to get to previous step</Stepper.Completed> */}
+        </Stepper>
+      </Box>
+
+      <Group justify="flex-end" mt="xl">
+        <Button variant="default" onClick={prevStep}>
+          Back
+        </Button>
+        <Button type={isFinalStep ? 'submit' : 'button'} onClick={nextStep} loading={isSubmitting}>
+          {isFinalStep ? 'Save' : 'Next'}
+        </Button>
+      </Group>
     </Container>
   );
 };

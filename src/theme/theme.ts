@@ -1,4 +1,4 @@
-import { createTheme, MantineThemeOverride } from '@mantine/core';
+import { createTheme, MantineTheme, MantineThemeOverride } from '@mantine/core';
 
 export const theme: MantineThemeOverride = createTheme({
   // fontFamily: 'Segoe UI',
@@ -29,6 +29,13 @@ export const theme: MantineThemeOverride = createTheme({
       defaultProps: {
         // c: 'pink.7',
       },
+    },
+    InputWrapper: {
+      styles: (theme: MantineTheme) => ({
+        label: {
+          color: theme.colors.gray[7],
+        },
+      }),
     },
     TextInput: {
       defaultProps: {

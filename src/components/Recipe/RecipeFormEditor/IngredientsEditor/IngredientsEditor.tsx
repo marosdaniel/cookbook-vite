@@ -1,19 +1,16 @@
 import { useEffect } from 'react';
-import TransitionGroup from 'react-transition-group/TransitionGroup';
-import { Button, Grid, Typography, List, Collapse, ListItem, IconButton, TextField, MenuItem } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
 
 import { TIngredient } from '../../../../store/Recipe/types';
 import { useRecipeState } from '../../../../store/Recipe';
 import { useAppDispatch } from '../../../../store/hooks';
-import { newRecipe, setEditRecipe } from '../../../../store/Recipe/recipe';
+import { newRecipe } from '../../../../store/Recipe/recipe';
 import { useGetUnits } from '../utils';
 import { listItemStyles } from '../styles';
 import { IProps } from './types';
 
 const IngredientsEditor = ({ ingredients, setIngredients, isEditMode }: IProps) => {
   const dispatch = useAppDispatch();
-  const { newRecipe: newRecipeFromStore, editRecipe: editRecipeFromStore } = useRecipeState();
+  const { newRecipe: newRecipeFromStore, editableRecipe: editRecipeFromStore } = useRecipeState();
   const units = useGetUnits();
   const addIngredientButtonDisabled = ingredients.some(item => !item.name || !item.quantity || !item.unit);
 

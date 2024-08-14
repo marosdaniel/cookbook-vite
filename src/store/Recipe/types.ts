@@ -1,8 +1,12 @@
 import { TCategoryMetadata, TLabelMetadata, TLevelMetadata } from '../Metadata/types';
 
+export type TStepNumber = 0 | 1 | 2;
+
 export interface IRecipeState {
-  newRecipe: TRecipe | undefined;
-  editRecipe: TRecipe | undefined;
+  editableRecipe: {
+    recipe: TRecipe | undefined;
+    completedSteps: TStepNumber[];
+  };
 }
 
 export type TRecipe = {
