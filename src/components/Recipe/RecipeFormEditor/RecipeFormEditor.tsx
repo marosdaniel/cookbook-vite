@@ -79,7 +79,7 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
   });
 
   const {
-    editableRecipe: { recipe: editRecipe1, completedSteps },
+    editableRecipe: { recipe: recipe, completedSteps },
   } = useRecipeState();
 
   const metaDifficultyLevels = useGetDifficultyLevels();
@@ -97,8 +97,8 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
   // const [preparationSteps, setPreparationSteps] = useState<TPreparationStep[]>(initialPreparationSteps);
 
   const onSubmit = async () => {
-    const inputValues = editRecipe1;
-    const id = editRecipe1?._id;
+    const inputValues = recipe;
+    const id = recipe?._id;
 
     const recipeInput = {
       title: inputValues?.title,
@@ -141,17 +141,17 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
   };
 
   const initialValues = {
-    title: editRecipe1?.title || '',
-    description: editRecipe1?.description || '',
-    imgSrc: editRecipe1?.imgSrc || '',
-    servings: editRecipe1?.servings || 1,
-    cookingTime: editRecipe1?.cookingTime || 0,
-    difficultyLevel: editRecipe1?.difficultyLevel || undefined,
-    category: editRecipe1?.category || undefined,
-    labels: editRecipe1?.labels || [],
-    youtubeLink: editRecipe1?.youtubeLink || '',
-    ingredients: editRecipe1?.ingredients || [],
-    preparationSteps: editRecipe1?.preparationSteps || [],
+    title: recipe?.title || '',
+    description: recipe?.description || '',
+    imgSrc: recipe?.imgSrc || '',
+    servings: recipe?.servings || 1,
+    cookingTime: recipe?.cookingTime || 0,
+    difficultyLevel: recipe?.difficultyLevel || undefined,
+    category: recipe?.category || undefined,
+    labels: recipe?.labels || [],
+    youtubeLink: recipe?.youtubeLink || '',
+    ingredients: recipe?.ingredients || [],
+    preparationSteps: recipe?.preparationSteps || [],
   };
 
   const { values, handleChange, handleSubmit, handleBlur, errors, touched, isSubmitting, setFieldValue } =
@@ -366,7 +366,7 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
       </Box>
 
       <Group justify="flex-end" mt="xl">
-        <Button variant="default" onClick={prevStep}>
+        <Button variant="default" onClick={prevStep} disabled={active === 0}>
           Back
         </Button>
         <Button type={isFinalStep ? 'submit' : 'button'} onClick={nextStep} loading={isSubmitting}>
