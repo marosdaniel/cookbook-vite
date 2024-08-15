@@ -83,18 +83,20 @@ const GeneralsEditor = ({ handleChange, handleBlur, values, touched, errors, set
         description={touched.cookingTime && Boolean(errors.cookingTime) ? 'Set your recipes cookingTime' : ''}
       />
       <Select
+        required
         mt="md"
         label="Difficulty level"
         placeholder="Choose difficulty level"
         name="difficultyLevel"
         onChange={value => {
           const selectedLevel = cleanedDifficultyLevels.find(level => level.key === value);
-          return setFieldValue('difficultyLevel', selectedLevel);
+          setFieldValue('difficultyLevel', selectedLevel);
         }}
+        value={values.difficultyLevel?.key || ''}
         onBlur={handleBlur}
         error={touched.difficultyLevel && Boolean(errors.difficultyLevel)}
         description={
-          touched.difficultyLevel && Boolean(errors.difficultyLevel) ? 'Set your recipes difficulty level' : ''
+          touched.difficultyLevel && Boolean(errors.difficultyLevel) ? "Set your recipe's difficulty level" : ''
         }
         comboboxProps={{ transitionProps: { transition: 'pop', duration: 80 }, shadow: 'md' }}
         data={transformedDifficultyLevels.map(level => ({ value: level.value, label: level.label }))}
