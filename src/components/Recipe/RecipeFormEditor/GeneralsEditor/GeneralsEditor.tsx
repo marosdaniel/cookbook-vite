@@ -1,11 +1,16 @@
-import { MultiSelect, NumberInput, Paper, TextInput } from '@mantine/core';
+import { MultiSelect, NumberInput, Paper, Select, TextInput } from '@mantine/core';
 import { IProps } from './types';
-import { cleanLabels, useGetLabels } from '../utils';
+import { cleanDifficultyLevel, cleanLabels, useGetDifficultyLevels, useGetLabels } from '../utils';
 
 const GeneralsEditor = ({ handleChange, handleBlur, values, touched, errors, setFieldValue }: IProps) => {
   const labels = useGetLabels();
-  const cleaned = cleanLabels(labels);
-  const transformed = cleaned.map(label => ({ value: label.key, label: label.label }));
+  const cleanedLabels = cleanLabels(labels);
+  const transformedLabels = cleanedLabels.map(label => ({ value: label.key, label: label.label }));
+
+  const difficultyLevels = useGetDifficultyLevels();
+  const cleanedDifficultyLevels = difficultyLevels.map(level => cleanDifficultyLevel(level));
+  const transformedDifficultyLevels = cleanedDifficultyLevels.map(level => ({ value: level.key, label: level.label }));
+
   return (
     <Paper withBorder shadow="md" p={30} mt={30} radius="md">
       <TextInput
@@ -35,7 +40,6 @@ const GeneralsEditor = ({ handleChange, handleBlur, values, touched, errors, set
         description={touched.description && Boolean(errors.description) ? 'Set your recipes description' : ''}
       />
       <TextInput
-        required
         id="imgSrc"
         placeholder="imgSrc"
         mt="md"
@@ -78,19 +82,38 @@ const GeneralsEditor = ({ handleChange, handleBlur, values, touched, errors, set
         error={touched.cookingTime && Boolean(errors.cookingTime)}
         description={touched.cookingTime && Boolean(errors.cookingTime) ? 'Set your recipes cookingTime' : ''}
       />
+      <Select
+        mt="md"
+        label="Difficulty level"
+        placeholder="Choose difficulty level"
+        name="difficultyLevel"
+        onChange={value => {
+          const selectedLevel = cleanedDifficultyLevels.find(level => level.key === value);
+          return setFieldValue('difficultyLevel', selectedLevel);
+        }}
+        onBlur={handleBlur}
+        error={touched.difficultyLevel && Boolean(errors.difficultyLevel)}
+        description={
+          touched.difficultyLevel && Boolean(errors.difficultyLevel) ? 'Set your recipes difficulty level' : ''
+        }
+        comboboxProps={{ transitionProps: { transition: 'pop', duration: 80 }, shadow: 'md' }}
+        data={transformedDifficultyLevels.map(level => ({ value: level.value, label: level.label }))}
+      />
+
       <MultiSelect
         mt="md"
         label="Add labels"
-        placeholder="Pick any amount of labels"
-        data={transformed}
+        placeholder="Select labels"
+        data={transformedLabels}
         searchable
         hidePickedOptions
+        comboboxProps={{ transitionProps: { transition: 'pop', duration: 80 }, shadow: 'md' }}
         value={values.labels.map(label => label.label)}
         onChange={value => {
           setFieldValue(
             'labels',
             value.map(label => {
-              const found = cleaned.find(l => l.key === label);
+              const found = cleanedLabels.find(l => l.key === label);
               return { value: found?.label || '', label };
             }),
           );

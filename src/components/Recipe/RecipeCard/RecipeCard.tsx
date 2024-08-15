@@ -1,17 +1,28 @@
 import { Link as RouterLink } from 'react-router-dom';
-import { Card, Badge, Group, Center, Avatar, ActionIcon, Image, Text } from '@mantine/core';
+import { Card, Badge, Group, Center, Avatar, ActionIcon, Image, Text, Anchor } from '@mantine/core';
 import { IProps } from './types';
 
 const RecipeCard = ({ title, description, createdBy, id }: IProps) => {
+  const linkToUser = (userName: string) => (
+    <Anchor
+      size="sm"
+      variant="gradient"
+      gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
+      component={RouterLink}
+      to={`/users/${userName}`}
+    >
+      {userName}
+    </Anchor>
+  );
   return (
-    <Card withBorder radius="md" h={400} shadow="xl">
+    <Card radius="md" h={400} shadow="xl">
       <Card.Section>
         <RouterLink to={`/recipes/${id}`}>
           <Image src="https://cdn-icons-png.flaticon.com/256/6039/6039575.png" height={180} fit="contain" />
         </RouterLink>
       </Card.Section>
 
-      <Badge variant="gradient" gradient={{ from: 'yellow', to: 'red' }} mt={'md'}>
+      <Badge size="sm" variant="gradient" gradient={{ from: 'yellow', to: 'red' }} mt={'md'}>
         outstanding
       </Badge>
 
@@ -32,7 +43,7 @@ const RecipeCard = ({ title, description, createdBy, id }: IProps) => {
             mr="xs"
           />
           <Text fz="sm" inline>
-            {createdBy}
+            {linkToUser(createdBy)}
           </Text>
         </Center>
 

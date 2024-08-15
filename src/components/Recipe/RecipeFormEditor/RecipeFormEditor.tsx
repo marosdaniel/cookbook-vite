@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { useFormik } from 'formik';
-import { Box, Button, Container, Group, Stepper, Title } from '@mantine/core';
+import { Box, Button, Center, Container, Group, Stepper, Title } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 
 import { useAppDispatch } from '../../../store/hooks';
 import { recipeFormValidationSchema } from '../../../utils/validation';
 import { useRecipeState } from '../../../store/Recipe';
-import { TIngredient, TPreparationStep } from '../../../store/Recipe/types';
+import { TIngredient, TPreparationStep, TRecipe } from '../../../store/Recipe/types';
 import { ENonProtectedRoutes } from '../../../router/types';
 import { CREATE_RECIPE, EDIT_RECIPE } from '../../../graphql/recipe/createRecipe';
 
@@ -24,16 +24,19 @@ import {
   getInitialIngredients,
   getInitialPreparationSteps,
   getInitialValues,
+  nextEnabled,
   resetFormFields,
   useGetCategories,
   useGetDifficultyLevels,
   useGetLabels,
 } from './utils';
 import { IFormikProps, IProps } from './types';
+import { setCompletedSteps, setEditRecipe } from '../../../store/Recipe/recipe';
 
 const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState<number>(0);
   const nextStep = () => setActive(current => (current < 3 ? current + 1 : current));
   const prevStep = () => setActive(current => (current > 0 ? current - 1 : current));
   const isFinalStep = active === 2;
@@ -55,6 +58,13 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
         title: 'Recipe created',
         message: 'Your recipe has been successfully created',
         color: 'green',
+      });
+    },
+    onError: error => {
+      notifications.show({
+        title: 'Recipe not created',
+        message: error.message,
+        color: 'red',
       });
     },
   });
@@ -81,10 +91,6 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
   const {
     editableRecipe: { recipe: recipe, completedSteps },
   } = useRecipeState();
-
-  const metaDifficultyLevels = useGetDifficultyLevels();
-  const metaCategories = useGetCategories();
-  const metaLabels = useGetLabels();
 
   // const initialIngredients = getInitialIngredients(isEditMode || false, newRecipeFromStore, editRecipeFromStore);
   // const initialPreparationSteps = getInitialPreparationSteps(
@@ -199,6 +205,21 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
     // }
   };
 
+  const handleNext = () => {
+    if (isFinalStep) {
+      onSubmit();
+      return;
+    }
+    dispatch(
+      setEditRecipe({
+        _id: recipe?._id,
+        ...values,
+      } as TRecipe),
+    );
+    dispatch(setCompletedSteps(active));
+    nextStep();
+  };
+
   const handleOnReset = () => {
     if (isEditMode) {
       // dispatch(resetEditRecipe());
@@ -224,13 +245,7 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedValues]);
 
-  // if (createRecipeLoading || editRecipeLoading) {
-  //   return <LoadingBar />;
-  // }
-
-  // if (createRecipeError || editRecipeError) {
-  //   return <ErrorMessage />;
-  // }
+  console.log(values);
 
   return (
     // <WrapperContainer id="edit-recipe-page">
@@ -357,11 +372,13 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
           <Stepper.Step
             label="Instructions & save"
             description="Add instructions & save"
-            disabled={!completedSteps.includes(0, 1)}
+            disabled={!(completedSteps.includes(0) && completedSteps.includes(1))}
           >
             COOKING INSTRUCTIONS
           </Stepper.Step>
-          {/* <Stepper.Completed>Completed, click back button to get to previous step</Stepper.Completed> */}
+          <Stepper.Completed>
+            <Center h={384}>You successfully created a recipe</Center>
+          </Stepper.Completed>
         </Stepper>
       </Box>
 
@@ -369,7 +386,12 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
         <Button variant="default" onClick={prevStep} disabled={active === 0}>
           Back
         </Button>
-        <Button type={isFinalStep ? 'submit' : 'button'} onClick={nextStep} loading={isSubmitting}>
+        <Button
+          type={isFinalStep ? 'submit' : 'button'}
+          onClick={handleNext}
+          loading={isSubmitting}
+          disabled={!nextEnabled(values, active)}
+        >
           {isFinalStep ? 'Save' : 'Next'}
         </Button>
       </Group>

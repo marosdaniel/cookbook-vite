@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IRecipeState, TRecipe, TStepNumber } from './types';
+import { IRecipeState, TRecipe } from './types';
 
 const initialState: IRecipeState = {
   editableRecipe: {
@@ -15,8 +15,10 @@ const recipeSlice = createSlice({
     setEditRecipe: (state, action: PayloadAction<TRecipe>) => {
       state.editableRecipe.recipe = action.payload;
     },
-    setCompletedSteps: (state, action: PayloadAction<TStepNumber[]>) => {
-      state.editableRecipe.completedSteps = action.payload;
+    setCompletedSteps: (state, action: PayloadAction<number>) => {
+      if (!state.editableRecipe.completedSteps.includes(action.payload)) {
+        state.editableRecipe.completedSteps.push(action.payload);
+      }
     },
     resetEditRecipe: state => {
       state.editableRecipe = initialState.editableRecipe;
@@ -24,5 +26,5 @@ const recipeSlice = createSlice({
   },
 });
 
-export const { setEditRecipe, resetEditRecipe } = recipeSlice.actions;
+export const { setEditRecipe, resetEditRecipe, setCompletedSteps } = recipeSlice.actions;
 export default recipeSlice.reducer;

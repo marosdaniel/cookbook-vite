@@ -1,16 +1,14 @@
 import { TCategoryMetadata, TLabelMetadata, TLevelMetadata } from '../Metadata/types';
 
-export type TStepNumber = 0 | 1 | 2;
-
 export interface IRecipeState {
   editableRecipe: {
     recipe: TRecipe | undefined;
-    completedSteps: TStepNumber[];
+    completedSteps: number[];
   };
 }
 
 export type TRecipe = {
-  _id: string;
+  _id?: string;
   title: string;
   description: string;
   ingredients: TIngredient[];
