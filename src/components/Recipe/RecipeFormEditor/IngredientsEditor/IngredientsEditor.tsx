@@ -1,127 +1,73 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
 
 import { TIngredient } from '../../../../store/Recipe/types';
-import { useRecipeState } from '../../../../store/Recipe';
 import { useAppDispatch } from '../../../../store/hooks';
-import { newRecipe } from '../../../../store/Recipe/recipe';
 import { useGetUnits } from '../utils';
-import { listItemStyles } from '../styles';
 import { IProps } from './types';
+import { Button, Group, NumberInput, Paper, Select, TextInput } from '@mantine/core';
 
-const IngredientsEditor = ({ ingredients, setIngredients, isEditMode }: IProps) => {
+const IngredientsEditor = ({
+  ingredients,
+  isEditMode,
+  errors,
+  handleBlur,
+  handleChange,
+  setFieldValue,
+  touched,
+  values,
+}: IProps) => {
   const dispatch = useAppDispatch();
-  const { newRecipe: newRecipeFromStore, editableRecipe: editRecipeFromStore } = useRecipeState();
   const units = useGetUnits();
-  const addIngredientButtonDisabled = ingredients.some(item => !item.name || !item.quantity || !item.unit);
 
-  const handleAddIngredient = () => {
-    const newId = (ingredients.length + 1).toString();
-    setIngredients(prevIngredients => [...prevIngredients, { localId: newId, name: '', quantity: 1, unit: '' }]);
+  const units1 = [
+    { value: 'g', label: 'gramm' },
+    { value: 'kg', label: 'kilogramm' },
+    { value: 'ml', label: 'milliliter' },
+    { value: 'l', label: 'liter' },
+    { value: 'tbsp', label: 'evőkanál' },
+    { value: 'tsp', label: 'teáskanál' },
+  ];
+  const [ingredients1, setIngredients] = useState([{ name: '', quantity: '', unit: '' }]);
+
+  const handleIngredientChange = (index, field, value) => {
+    const newIngredients = [...ingredients1];
+    newIngredients[index][field] = value;
+    setIngredients(newIngredients);
   };
 
-  const handleRemoveIngredient = (itemId: string) => {
-    setIngredients(prevIngredients => prevIngredients.filter(item => item.localId !== itemId));
+  const addIngredient = () => {
+    setIngredients([...ingredients1, { name: '', quantity: '', unit: '' }]);
   };
-
-  const handleIngredientChange = (updatedItem: TIngredient) => {
-    setIngredients(prevIngredients =>
-      prevIngredients.map(item => (item.localId === updatedItem.localId ? { ...updatedItem } : item)),
-    );
-  };
-
-  useEffect(() => {
-    if (isEditMode) {
-      const difficultyLevel = editRecipeFromStore?.difficultyLevel;
-      const category = editRecipeFromStore?.category;
-      if (difficultyLevel !== undefined && category !== undefined && editRecipeFromStore?._id !== undefined) {
-        dispatch(
-          setEditRecipe({
-            ...editRecipeFromStore,
-            ingredients,
-          }),
-        );
-      }
-    } else {
-      dispatch(newRecipe({ ...newRecipeFromStore, ingredients }));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ingredients]);
 
   return (
-    <Grid item xs={12} sm={12} md={10} lg={8} marginBottom={8}>
-      <Typography variant="h6">Ingredients</Typography>
-      <List>
-        <TransitionGroup>
-          {ingredients.map(item => (
-            <Collapse key={item.localId}>
-              <ListItem
-                sx={listItemStyles}
-                secondaryAction={
-                  <IconButton
-                    edge="end"
-                    aria-label="delete"
-                    title="Delete"
-                    onClick={() => handleRemoveIngredient(item.localId)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                }
-              >
-                <Grid item xs={12} md={6} lg={9.5}>
-                  <TextField
-                    value={item.name}
-                    label="Name"
-                    variant="standard"
-                    onChange={event => handleIngredientChange({ ...item, name: event.target.value })}
-                    sx={{ width: '90%' }}
-                    required
-                  />
-                </Grid>
-                <Grid item xs={6} md={3} lg={1} marginRight={2}>
-                  <TextField
-                    value={item.quantity}
-                    label="Quantity"
-                    variant="standard"
-                    onChange={event => handleIngredientChange({ ...item, quantity: +event.target.value })}
-                    inputProps={{ min: 0, style: { textAlign: 'right' } }}
-                    sx={{ width: '90%' }}
-                    required
-                  />
-                </Grid>
-                <Grid item xs={6} md={3} lg={1.5} marginRight={0}>
-                  <TextField
-                    select
-                    id="unit-dropdown"
-                    label="Unit"
-                    value={item.unit}
-                    onChange={event => handleIngredientChange({ ...item, unit: event.target.value })}
-                    variant="standard"
-                    required
-                    sx={{
-                      width: '90%',
-                    }}
-                  >
-                    {units.map(unit => (
-                      <MenuItem key={unit.key} value={unit.name}>
-                        {unit.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </Grid>
-              </ListItem>
-            </Collapse>
-          ))}
-        </TransitionGroup>
-      </List>
-      <Button
-        variant="outlined"
-        onClick={handleAddIngredient}
-        disabled={addIngredientButtonDisabled}
-        sx={{ marginTop: '12px' }}
-      >
-        +
+    <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+      {ingredients1.map((ingredient, index) => (
+        <Group key={index} mt="md" justify="space-between">
+          <TextInput
+            placeholder="Hozzávaló neve"
+            value={ingredient.name}
+            onChange={event => handleIngredientChange(index, 'name', event.currentTarget.value)}
+            required
+          />
+          <NumberInput
+            placeholder="Mennyiség"
+            value={ingredient.quantity}
+            onChange={value => handleIngredientChange(index, 'quantity', value)}
+            required
+          />
+          <Select
+            placeholder="Mértékegység"
+            data={units1}
+            value={ingredient.unit}
+            onChange={value => handleIngredientChange(index, 'unit', value)}
+            required
+          />
+        </Group>
+      ))}
+      <Button mt="md" fullWidth onClick={addIngredient}>
+        + Hozzávaló hozzáadása
       </Button>
-    </Grid>
+    </Paper>
   );
 };
 

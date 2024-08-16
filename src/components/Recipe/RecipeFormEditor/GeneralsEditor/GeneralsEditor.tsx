@@ -1,6 +1,13 @@
 import { MultiSelect, NumberInput, Paper, Select, TextInput } from '@mantine/core';
 import { IProps } from './types';
-import { cleanDifficultyLevel, cleanLabels, useGetDifficultyLevels, useGetLabels } from '../utils';
+import {
+  cleanCategory,
+  cleanDifficultyLevel,
+  cleanLabels,
+  useGetCategories,
+  useGetDifficultyLevels,
+  useGetLabels,
+} from '../utils';
 
 const GeneralsEditor = ({ handleChange, handleBlur, values, touched, errors, setFieldValue }: IProps) => {
   const labels = useGetLabels();
@@ -10,6 +17,10 @@ const GeneralsEditor = ({ handleChange, handleBlur, values, touched, errors, set
   const difficultyLevels = useGetDifficultyLevels();
   const cleanedDifficultyLevels = difficultyLevels.map(level => cleanDifficultyLevel(level));
   const transformedDifficultyLevels = cleanedDifficultyLevels.map(level => ({ value: level.key, label: level.label }));
+
+  const categories = useGetCategories();
+  const cleanedCategories = categories.map(category => cleanCategory(category));
+  const transformedCategories = cleanedCategories.map(category => ({ value: category.key, label: category.label }));
 
   return (
     <Paper withBorder shadow="md" p={30} mt={30} radius="md">
@@ -43,7 +54,7 @@ const GeneralsEditor = ({ handleChange, handleBlur, values, touched, errors, set
         id="imgSrc"
         placeholder="imgSrc"
         mt="md"
-        label="Image URL"
+        label="Cover image url"
         name="imgSrc"
         onChange={handleChange}
         onBlur={handleBlur}
@@ -101,6 +112,23 @@ const GeneralsEditor = ({ handleChange, handleBlur, values, touched, errors, set
         comboboxProps={{ transitionProps: { transition: 'pop', duration: 80 }, shadow: 'md' }}
         data={transformedDifficultyLevels.map(level => ({ value: level.value, label: level.label }))}
       />
+      <Select
+        required
+        mt="md"
+        label="Category"
+        placeholder="Select category"
+        name="category"
+        onChange={value => {
+          const selectedCategory = cleanedCategories.find(cat => cat.key === value);
+          setFieldValue('category', selectedCategory);
+        }}
+        value={values.category?.key || ''}
+        onBlur={handleBlur}
+        error={touched.category && Boolean(errors.category)}
+        description={touched.category && Boolean(errors.category) ? 'Set the category' : ''}
+        comboboxProps={{ transitionProps: { transition: 'pop', duration: 80 }, shadow: 'md' }}
+        data={transformedCategories.map(cat => ({ value: cat.value, label: cat.label }))}
+      />
 
       <MultiSelect
         mt="md"
@@ -120,6 +148,18 @@ const GeneralsEditor = ({ handleChange, handleBlur, values, touched, errors, set
             }),
           );
         }}
+      />
+      <TextInput
+        id="youtubeLink"
+        placeholder="youtube url"
+        mt="md"
+        label="Youtube link"
+        name="youtubeLink"
+        onChange={handleChange}
+        onBlur={handleBlur}
+        value={values.youtubeLink}
+        error={touched.youtubeLink && Boolean(errors.youtubeLink)}
+        description={touched.youtubeLink && Boolean(errors.youtubeLink) ? 'Add a youtube video' : ''}
       />
     </Paper>
   );
