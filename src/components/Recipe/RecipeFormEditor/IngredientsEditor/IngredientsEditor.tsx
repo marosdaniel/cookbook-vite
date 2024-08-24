@@ -1,74 +1,79 @@
-import { useState } from 'react';
-import { Button, Group, NumberInput, Paper, Select, TextInput } from '@mantine/core';
-import { FaPlus } from 'react-icons/fa6';
+import { useEffect } from 'react';
+import { Button, Group, NumberInput, Paper, Select, TextInput, ActionIcon } from '@mantine/core';
+import { FaPlus, FaTrash } from 'react-icons/fa6';
 
 import { TIngredient } from '../../../../store/Recipe/types';
-import { useAppDispatch } from '../../../../store/hooks';
-import { useGetUnits } from '../utils';
+import { isIngredientsFormValid, useGetUnits } from '../utils';
 import { IProps } from './types';
 
-const IngredientsEditor = ({
-  isEditMode,
-  errors,
-  handleBlur,
-  handleChange,
-  setFieldValue,
-  touched,
-  values,
-}: IProps) => {
-  const dispatch = useAppDispatch();
+const IngredientsEditor = ({ handleBlur, setFieldValue, handleChange, values }: IProps) => {
   const units = useGetUnits();
   const transformedUnits = units.map(unit => ({ value: unit.key, label: unit.label }));
-  const initialIngredients = [{ name: '', quantity: '', unit: undefined }];
+  const initialIngredients: Partial<TIngredient>[] = [{ name: '', quantity: undefined, unit: '' }];
 
-  const [ingredients, setIngredients] = useState(
-    values.ingredients.length > 0 ? values.ingredients : initialIngredients,
-  );
-
-  const handleIngredientChange = (index, field, value) => {
-    const newIngredients = [...ingredients];
-    newIngredients[index][field] = value;
-    setIngredients(newIngredients);
-  };
+  useEffect(() => {
+    if (values.ingredients.length === 0) {
+      setFieldValue('ingredients', initialIngredients);
+    }
+  }, [values.ingredients, setFieldValue]);
 
   const addIngredient = () => {
-    setIngredients([...ingredients, initialIngredients]);
+    setFieldValue('ingredients', [...values.ingredients, ...initialIngredients]);
   };
+
+  const deleteIngredient = (index: number) => {
+    const newIngredients = values.ingredients.filter((_, i) => i !== index);
+    setFieldValue('ingredients', newIngredients.length > 0 ? newIngredients : []);
+  };
+
+  const addDisabled = isIngredientsFormValid(values);
 
   return (
     <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-      {ingredients.map((ingredient, index) => (
+      {values.ingredients.map((ingredient, index) => (
         <Group key={index} mt="md" justify="space-between">
           <TextInput
             placeholder="Ingredient"
+            name={`ingredients[${index}].name`}
             value={ingredient.name}
-            onChange={event => handleIngredientChange(index, 'name', event.currentTarget.value)}
+            onChange={handleChange}
+            onBlur={handleBlur}
             required
           />
           <NumberInput
             placeholder="Quantity"
+            name={`ingredients[${index}].quantity`}
             value={ingredient.quantity}
-            onChange={value => handleIngredientChange(index, 'quantity', value)}
+            onChange={value => setFieldValue(`ingredients[${index}].quantity`, value)}
             required
+            min={0}
           />
           <Select
             placeholder="Unit"
+            name={`ingredients[${index}].unit`}
             data={transformedUnits}
-            // onChange={value => {
-            //   const selectedCategory = cleanedCategories.find(cat => cat.key === value);
-            //   setFieldValue('category', selectedCategory);
-            // }}
-            // value={values.category?.key || ''}
-            // value={ingredient.unit}
-            // onChange={value => handleIngredientChange(index, 'unit', value)}
             value={ingredient.unit}
-            onChange={value => handleIngredientChange(index, 'unit', value)}
+            onChange={value => setFieldValue(`ingredients[${index}].unit`, value ?? '')}
             required
             comboboxProps={{ transitionProps: { transition: 'pop', duration: 80 }, shadow: 'md' }}
           />
+          <ActionIcon
+            color="red"
+            variant="outline"
+            onClick={() => deleteIngredient(index)}
+            aria-label="Delete ingredient"
+          >
+            <FaTrash />
+          </ActionIcon>
         </Group>
       ))}
-      <Button mt="lg" fullWidth onClick={addIngredient} leftSection={<FaPlus />}>
+      <Button
+        mt="lg"
+        fullWidth
+        onClick={addIngredient}
+        leftSection={<FaPlus />}
+        disabled={addDisabled && values.ingredients.length > 0}
+      >
         Add Ingredient
       </Button>
     </Paper>

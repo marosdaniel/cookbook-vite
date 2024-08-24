@@ -191,12 +191,18 @@ export const getInitialPreparationSteps = (
   return preparationSteps;
 };
 
+export const isIngredientsFormValid = (values: IFormikProps) => {
+  return values.ingredients.some(
+    ingredient => !ingredient.name || ingredient.quantity === undefined || !ingredient.unit,
+  );
+};
+
 export const nextEnabled = (values: IFormikProps, step: number) => {
   if (step === 0) {
-    return values.title && values.description && values.servings && values.cookingTime;
+    return !!values.title && !!values.description && !!values.servings && !!values.cookingTime;
   }
   if (step === 1) {
-    return values.ingredients.length > 0;
+    return !isIngredientsFormValid(values);
   }
   if (step === 2) {
     return values.preparationSteps.length > 0;

@@ -1,5 +1,6 @@
 import { TCategoryMetadata, TLabelMetadata, TLevelMetadata } from '../Metadata/types';
 
+export type TIngredientField = 'name' | 'quantity' | 'unit';
 export interface IRecipeState {
   editableRecipe: {
     recipe: TRecipe | undefined;

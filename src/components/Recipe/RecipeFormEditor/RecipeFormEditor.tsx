@@ -216,13 +216,6 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
   console.log(values);
 
   return (
-    //     <IngredientsEditor ingredients={ingredients} setIngredients={setIngredients} isEditMode={isEditMode} />
-    //     <PreparationStepsEditor
-    //       preparationSteps={preparationSteps}
-    //       setPreparationSteps={setPreparationSteps}
-    //       isEditMode={isEditMode}
-    //     />
-
     <Container size="md" id={id}>
       <Title order={2} mb="xl">
         {title}
@@ -241,7 +234,6 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
           </Stepper.Step>
           <Stepper.Step label="Ingredients" description="Add ingredients" disabled={!completedSteps.includes(0)}>
             <IngredientsEditor
-              ingredients={recipe?.ingredients || []}
               handleChange={handleChange}
               handleBlur={handleBlur}
               values={values}
@@ -272,7 +264,7 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
           type={isFinalStep ? 'submit' : 'button'}
           onClick={handleNext}
           loading={isSubmitting}
-          disabled={!nextEnabled(values, active) || !isValid}
+          disabled={!nextEnabled(values, active)}
         >
           {isFinalStep ? 'Save' : 'Next'}
         </Button>
