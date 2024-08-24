@@ -7,7 +7,7 @@ export interface IProps {
 interface IMenuItemBase {
   name: string;
   path?: ENonProtectedRoutes | EProtectedRoutes;
-  iconComponent: React.FC;
+  iconComponent: React.FC<any>;
   disabled: boolean;
   hidden: boolean;
   key: string;

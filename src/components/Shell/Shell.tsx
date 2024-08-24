@@ -99,7 +99,7 @@ const Shell = ({ children }: IProps) => {
                   key={item.key}
                   to={item.path ?? '/'}
                   label={item.name}
-                  leftSection={<item.iconComponent />}
+                  leftSection={<item.iconComponent size={20} />}
                   active={isActiveNavLink}
                   c="var(--mantine-color-gray-7)"
                   fw={600}
@@ -120,7 +120,7 @@ const Shell = ({ children }: IProps) => {
                   key={item.key}
                   to={item.path ?? '/'}
                   label={item.name}
-                  leftSection={<item.iconComponent />}
+                  leftSection={<item.iconComponent size={20} />}
                   onClick={e => handleClick(e, item)}
                   active={isActiveNavLink}
                   c="var(--mantine-color-gray-7)"

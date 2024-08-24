@@ -5,7 +5,7 @@ import { MdAdminPanelSettings } from 'react-icons/md';
 import { CgProfile } from 'react-icons/cg';
 import { MdOutlineCreate } from 'react-icons/md';
 import { FaRegFileAlt } from 'react-icons/fa';
-import { CiLogout } from 'react-icons/ci';
+import { LuLogOut } from 'react-icons/lu';
 
 import { ERole } from './../../store/Auth/types';
 import { logout } from '../../store/Auth/auth';
@@ -88,7 +88,7 @@ export const useBottomMenuItems = (): IBottomMenuItem[] => {
     {
       name: 'Logout',
       action: handleLogout,
-      iconComponent: CiLogout,
+      iconComponent: LuLogOut,
       hidden: !isAuthenticated,
       key: 'logout',
       disabled: false,

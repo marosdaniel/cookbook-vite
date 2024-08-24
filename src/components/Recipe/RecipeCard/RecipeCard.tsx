@@ -15,7 +15,7 @@ const RecipeCard = ({ title, description, createdBy, id }: IProps) => {
     </Anchor>
   );
   return (
-    <Card radius="md" h={400} shadow="xl">
+    <Card radius="md" h={400} shadow="lg" bg="gray.0">
       <Card.Section>
         <RouterLink to={`/recipes/${id}`}>
           <Image src="https://cdn-icons-png.flaticon.com/256/6039/6039575.png" height={180} fit="contain" />

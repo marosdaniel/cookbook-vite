@@ -1,13 +1,13 @@
 import { useState } from 'react';
+import { Button, Group, NumberInput, Paper, Select, TextInput } from '@mantine/core';
+import { FaPlus } from 'react-icons/fa6';
 
 import { TIngredient } from '../../../../store/Recipe/types';
 import { useAppDispatch } from '../../../../store/hooks';
 import { useGetUnits } from '../utils';
 import { IProps } from './types';
-import { Button, Group, NumberInput, Paper, Select, TextInput } from '@mantine/core';
 
 const IngredientsEditor = ({
-  ingredients,
   isEditMode,
   errors,
   handleBlur,
@@ -18,54 +18,58 @@ const IngredientsEditor = ({
 }: IProps) => {
   const dispatch = useAppDispatch();
   const units = useGetUnits();
+  const transformedUnits = units.map(unit => ({ value: unit.key, label: unit.label }));
+  const initialIngredients = [{ name: '', quantity: '', unit: undefined }];
 
-  const units1 = [
-    { value: 'g', label: 'gramm' },
-    { value: 'kg', label: 'kilogramm' },
-    { value: 'ml', label: 'milliliter' },
-    { value: 'l', label: 'liter' },
-    { value: 'tbsp', label: 'evőkanál' },
-    { value: 'tsp', label: 'teáskanál' },
-  ];
-  const [ingredients1, setIngredients] = useState([{ name: '', quantity: '', unit: '' }]);
+  const [ingredients, setIngredients] = useState(
+    values.ingredients.length > 0 ? values.ingredients : initialIngredients,
+  );
 
   const handleIngredientChange = (index, field, value) => {
-    const newIngredients = [...ingredients1];
+    const newIngredients = [...ingredients];
     newIngredients[index][field] = value;
     setIngredients(newIngredients);
   };
 
   const addIngredient = () => {
-    setIngredients([...ingredients1, { name: '', quantity: '', unit: '' }]);
+    setIngredients([...ingredients, initialIngredients]);
   };
 
   return (
     <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-      {ingredients1.map((ingredient, index) => (
+      {ingredients.map((ingredient, index) => (
         <Group key={index} mt="md" justify="space-between">
           <TextInput
-            placeholder="Hozzávaló neve"
+            placeholder="Ingredient"
             value={ingredient.name}
             onChange={event => handleIngredientChange(index, 'name', event.currentTarget.value)}
             required
           />
           <NumberInput
-            placeholder="Mennyiség"
+            placeholder="Quantity"
             value={ingredient.quantity}
             onChange={value => handleIngredientChange(index, 'quantity', value)}
             required
           />
           <Select
-            placeholder="Mértékegység"
-            data={units1}
+            placeholder="Unit"
+            data={transformedUnits}
+            // onChange={value => {
+            //   const selectedCategory = cleanedCategories.find(cat => cat.key === value);
+            //   setFieldValue('category', selectedCategory);
+            // }}
+            // value={values.category?.key || ''}
+            // value={ingredient.unit}
+            // onChange={value => handleIngredientChange(index, 'unit', value)}
             value={ingredient.unit}
             onChange={value => handleIngredientChange(index, 'unit', value)}
             required
+            comboboxProps={{ transitionProps: { transition: 'pop', duration: 80 }, shadow: 'md' }}
           />
         </Group>
       ))}
-      <Button mt="md" fullWidth onClick={addIngredient}>
-        + Hozzávaló hozzáadása
+      <Button mt="lg" fullWidth onClick={addIngredient} leftSection={<FaPlus />}>
+        Add Ingredient
       </Button>
     </Paper>
   );

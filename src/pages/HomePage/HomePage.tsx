@@ -8,6 +8,8 @@ import { TRecipe } from '../../store/Recipe/types';
 import RecipeCard from '../../components/Recipe/RecipeCard';
 import Seo from '../../components/Seo';
 
+import classes from './HomePage.module.css';
+
 const HomePage = () => {
   const { loading, error, data } = useQuery(GET_RECIPES, {
     variables: { limit: 9 },
@@ -39,6 +41,7 @@ const HomePage = () => {
         Popular recipes /mock/
       </Title>
       <Carousel
+        classNames={classes}
         withIndicators
         controlSize={36}
         height="100%"
@@ -48,12 +51,12 @@ const HomePage = () => {
         align="start"
       >
         {mockRecipes.map(recipe => (
-          <Carousel.Slide key={recipe._id}>
+          <Carousel.Slide key={recipe._id} p={'32px 12px'}>
             <RecipeCard
               title={recipe.title}
               description={recipe.description}
               createdBy={recipe.createdBy}
-              id={recipe._id}
+              id={recipe._id || ''}
             />
           </Carousel.Slide>
         ))}
@@ -64,6 +67,7 @@ const HomePage = () => {
       </Title>
       {!loading ? (
         <Carousel
+          classNames={classes}
           withIndicators
           controlSize={36}
           height="100%"
@@ -73,7 +77,7 @@ const HomePage = () => {
           align="start"
         >
           {recipes.map(recipe => (
-            <Carousel.Slide key={recipe._id}>
+            <Carousel.Slide key={recipe._id} p={'32px 12px'}>
               <RecipeCard
                 title={recipe.title || ''}
                 description={recipe.description || ''}
