@@ -1,7 +1,6 @@
-import { TPreparationStep } from '../../../../store/Recipe/types';
+import { IFormikProps } from '../types';
 
 export interface IProps {
-  preparationSteps: TPreparationStep[] | [];
-  setPreparationSteps: React.Dispatch<React.SetStateAction<TPreparationStep[]>>;
-  isEditMode?: boolean;
+  values: IFormikProps;
+  setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
 }

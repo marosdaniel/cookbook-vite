@@ -8,30 +8,16 @@ import { notifications } from '@mantine/notifications';
 import { useAppDispatch } from '../../../store/hooks';
 import { recipeFormValidationSchema } from '../../../utils/validation';
 import { useRecipeState } from '../../../store/Recipe';
-import { TIngredient, TPreparationStep, TRecipe } from '../../../store/Recipe/types';
+import { setCompletedSteps, setEditRecipe } from '../../../store/Recipe/recipe';
+import { TNewRecipe, TRecipe } from '../../../store/Recipe/types';
 import { ENonProtectedRoutes } from '../../../router/types';
 import { CREATE_RECIPE, EDIT_RECIPE } from '../../../graphql/recipe/createRecipe';
 
 import PreparationStepsEditor from './PreparationStepsEditor';
 import IngredientsEditor from './IngredientsEditor';
 import GeneralsEditor from './GeneralsEditor';
-import {
-  cleanCategory,
-  cleanDifficultyLevel,
-  cleanIngredients,
-  cleanLabels,
-  cleanPreparationSteps,
-  getInitialIngredients,
-  getInitialPreparationSteps,
-  getInitialValues,
-  nextEnabled,
-  resetFormFields,
-  useGetCategories,
-  useGetDifficultyLevels,
-  useGetLabels,
-} from './utils';
+import { cleanLabels, nextEnabled, resetFormFields, useGetLabels } from './utils';
 import { IFormikProps, IProps } from './types';
-import { setCompletedSteps, setEditRecipe } from '../../../store/Recipe/recipe';
 
 const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
   const dispatch = useAppDispatch();
@@ -41,7 +27,7 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
   const prevStep = () => setActive(current => (current > 0 ? current - 1 : current));
   const isFinalStep = active === 2;
 
-  // const dispatch = useAppDispatch();
+  const labels = useGetLabels();
 
   const [createRecipe] = useMutation(CREATE_RECIPE, {
     update(cache, { data }) {
@@ -92,41 +78,41 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
     editableRecipe: { recipe, completedSteps },
   } = useRecipeState();
 
-  // const initialIngredients = getInitialIngredients(isEditMode || false, newRecipeFromStore, editRecipeFromStore);
-  // const initialPreparationSteps = getInitialPreparationSteps(
-  //   isEditMode || false,
-  //   newRecipeFromStore,
-  //   editRecipeFromStore,
-  // );
-
-  // const [ingredients, setIngredients] = useState<TIngredient[]>(initialIngredients);
-  // const [preparationSteps, setPreparationSteps] = useState<TPreparationStep[]>(initialPreparationSteps);
-
   const onSubmit = async () => {
-    const inputValues = recipe;
+    if (!values.difficultyLevel || !values.category) {
+      notifications.show({
+        title: 'Please select difficulty level and category',
+        message: 'You have to select difficulty level and category to proceed',
+        color: 'red',
+      });
+      return;
+    }
+
+    const selectedLabels = values.labels
+      .map(selectedLabel => {
+        return cleanLabels(labels).find(label => label.key === selectedLabel.label);
+      })
+      .filter(label => label !== undefined);
+
     const id = recipe?._id;
 
-    const recipeInput = {
-      title: inputValues?.title,
-      description: inputValues?.description,
-      imgSrc: inputValues?.imgSrc,
-      cookingTime: inputValues?.cookingTime,
-      difficultyLevel: cleanDifficultyLevel(inputValues?.difficultyLevel),
-      category: cleanCategory(inputValues?.category),
-      labels: cleanLabels(inputValues?.labels || []),
-      ingredients: cleanIngredients(inputValues?.ingredients || []),
-      preparationSteps: cleanPreparationSteps(inputValues?.preparationSteps || []),
-      servings: inputValues?.servings || 1,
-      youtubeLink: inputValues?.youtubeLink,
+    const recipeInput: TRecipe | TNewRecipe = {
+      ...values,
+      difficultyLevel: values.difficultyLevel,
+      category: values.category,
+      labels: selectedLabels,
     };
 
     try {
+      let recipeId = id;
+
       if (!isEditMode) {
-        await createRecipe({
+        const { data } = await createRecipe({
           variables: {
             recipeCreateInput: recipeInput,
           },
         });
+        recipeId = data?.createRecipe._id;
       } else {
         await editRecipe({
           variables: {
@@ -137,12 +123,13 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
       }
 
       setIsEditMode?.(false);
-      // dispatch(resetNewRecipe());
-      // dispatch(resetEditRecipe());
-      navigate(`${ENonProtectedRoutes.RECIPES}/${id}`);
+      if (recipeId) {
+        navigate(`${ENonProtectedRoutes.RECIPES}/${recipeId}`);
+      } else {
+        navigate(ENonProtectedRoutes.RECIPES);
+      }
     } catch (_error) {
       console.log((_error as Error).message);
-      // dispatch an error message for the snack bar
     }
   };
 
@@ -160,7 +147,7 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
     preparationSteps: recipe?.preparationSteps || [],
   };
 
-  const { values, handleChange, handleSubmit, handleBlur, errors, touched, isSubmitting, setFieldValue, isValid } =
+  const { values, handleChange, handleSubmit, handleBlur, errors, touched, isSubmitting, setFieldValue } =
     useFormik<IFormikProps>({
       initialValues,
       onSubmit,
@@ -237,10 +224,8 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
               handleChange={handleChange}
               handleBlur={handleBlur}
               values={values}
-              touched={touched}
               errors={errors}
               setFieldValue={setFieldValue}
-              isEditMode={isEditMode}
             />
           </Stepper.Step>
           <Stepper.Step
@@ -248,7 +233,7 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
             description="Add instructions & save"
             disabled={!(completedSteps.includes(0) && completedSteps.includes(1))}
           >
-            COOKING INSTRUCTIONS
+            <PreparationStepsEditor values={values} setFieldValue={setFieldValue} />
           </Stepper.Step>
           <Stepper.Completed>
             <Center h={384}>You successfully created a recipe</Center>

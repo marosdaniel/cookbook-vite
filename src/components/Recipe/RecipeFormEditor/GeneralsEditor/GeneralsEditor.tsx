@@ -1,4 +1,4 @@
-import { MultiSelect, NumberInput, Paper, Select, TextInput } from '@mantine/core';
+import { MultiSelect, NumberInput, Paper, Select, TextInput, Title } from '@mantine/core';
 import { IProps } from './types';
 import {
   cleanCategory,
@@ -24,6 +24,9 @@ const GeneralsEditor = ({ handleChange, handleBlur, values, touched, errors, set
 
   return (
     <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+      <Title order={3} mt={0}>
+        Recipe Details
+      </Title>
       <TextInput
         required
         id="title"

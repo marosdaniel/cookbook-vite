@@ -1,99 +1,81 @@
-import { useEffect } from 'react';
-
-import { useAppDispatch } from '../../../../store/hooks';
-import { newRecipe } from '../../../../store/Recipe/recipe';
-import { useRecipeState } from '../../../../store/Recipe';
-import { listItemStyles } from '../styles';
 import { IProps } from './types';
+import { Paper, Title, Textarea, Button, Group, ActionIcon } from '@mantine/core';
+import { FaPlus, FaTrash, FaArrowUp, FaArrowDown } from 'react-icons/fa6';
 
-const PreparationStepsEditor = ({ preparationSteps, setPreparationSteps, isEditMode }: IProps) => {
-  const dispatch = useAppDispatch();
-  const { newRecipe: newRecipeFromStore, editableRecipe: editRecipeFromStore } = useRecipeState();
-
-  const addPreparationStepButtonDisabled = preparationSteps.some(step => step.description === '');
-
-  const handleAddPreparationStep = () => {
-    const newOrder = preparationSteps.length + 1;
-    setPreparationSteps(prevSteps => [
-      ...prevSteps,
-      {
-        description: '',
-        order: newOrder,
-      },
-    ]);
+const PreparationStepsEditor = ({ values, setFieldValue }: IProps) => {
+  const handleStepChange = (index: number, value: string) => {
+    const newSteps = [...values.preparationSteps];
+    newSteps[index].description = value;
+    setFieldValue('preparationSteps', newSteps);
   };
 
-  const handleRemovePreparationStep = (indexToRemove: number) => {
-    setPreparationSteps(prevSteps => {
-      const updatedSteps = prevSteps
-        .filter((_, index) => index !== indexToRemove)
-        .map((step, index) => ({ ...step, order: index + 1 }));
-      return updatedSteps;
-    });
+  const addStep = () => {
+    const newSteps = [...values.preparationSteps, { description: '', order: values.preparationSteps.length + 1 }];
+    setFieldValue('preparationSteps', newSteps);
   };
 
-  const handlePreparationStepChange = (index: number, updatedStep: string) => {
-    const newStep = { ...preparationSteps[index] };
-    newStep.description = updatedStep;
-    setPreparationSteps(prevSteps => prevSteps.map((step, i) => (i === index ? newStep : step)));
+  const deleteStep = (index: number) => {
+    const newSteps = values.preparationSteps
+      .filter((_, i) => i !== index)
+      .map((step, i) => ({
+        ...step,
+        order: i + 1, // update order after deletion
+      }));
+    setFieldValue('preparationSteps', newSteps);
   };
 
-  useEffect(() => {
-    if (isEditMode) {
-      const difficultyLevel = editRecipeFromStore?.difficultyLevel;
-      const category = editRecipeFromStore?.category;
-      if (difficultyLevel !== undefined && category !== undefined && editRecipeFromStore?._id !== undefined) {
-        dispatch(
-          setEditRecipe({
-            ...editRecipeFromStore,
-            preparationSteps,
-          }),
-        );
-      }
-    } else {
-      dispatch(newRecipe({ ...newRecipeFromStore, preparationSteps }));
+  const moveStep = (index: number, direction: 'up' | 'down') => {
+    const newSteps = [...values.preparationSteps];
+    const swapIndex = direction === 'up' ? index - 1 : index + 1;
+
+    if (swapIndex >= 0 && swapIndex < newSteps.length) {
+      [newSteps[index], newSteps[swapIndex]] = [newSteps[swapIndex], newSteps[index]]; // Swap the steps
+      newSteps.forEach((step, i) => (step.order = i + 1)); // Reorder after swapping
+      setFieldValue('preparationSteps', newSteps);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [preparationSteps]);
+  };
+
+  const isAddDisabled = values.preparationSteps.some(step => step.description.trim() === '');
 
   return (
-    <Grid item xs={12} sm={12} md={10} lg={8} marginBottom={8}>
-      <Typography variant="h6">Cooking instructions</Typography>
-      <List>
-        <TransitionGroup>
-          {preparationSteps.map((step, index) => (
-            <Collapse key={index}>
-              <ListItem sx={listItemStyles}>
-                <TextField
-                  value={step.description}
-                  label={`Step ${index + 1}`}
-                  variant="standard"
-                  onChange={e => handlePreparationStepChange(index, e.target.value)}
-                  sx={{ width: '100%' }}
-                  required
-                />
-                <IconButton
-                  edge="end"
-                  aria-label="delete"
-                  title="Delete"
-                  onClick={() => handleRemovePreparationStep(index)}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </ListItem>
-            </Collapse>
-          ))}
-        </TransitionGroup>
-      </List>
-      <Button
-        variant="outlined"
-        onClick={handleAddPreparationStep}
-        disabled={addPreparationStepButtonDisabled}
-        sx={{ marginTop: '12px' }}
-      >
-        +
+    <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+      <Title order={3} mt={0}>
+        Add Instructions
+      </Title>
+
+      {values.preparationSteps.map((step, index) => (
+        <Group key={index} mt="md" align="flex-start">
+          <Textarea
+            placeholder={`Step ${index + 1}`}
+            value={step.description}
+            onChange={event => handleStepChange(index, event.currentTarget.value)}
+            autosize
+            minRows={2}
+            required
+            style={{ flex: 1 }}
+          />
+          <Group>
+            <ActionIcon onClick={() => moveStep(index, 'up')} disabled={index === 0} aria-label="Move step up">
+              <FaArrowUp />
+            </ActionIcon>
+            <ActionIcon
+              onClick={() => moveStep(index, 'down')}
+              disabled={index === values.preparationSteps.length - 1}
+              aria-label="Move step down"
+            >
+              <FaArrowDown />
+            </ActionIcon>
+          </Group>
+          <ActionIcon color="red" variant="outline" onClick={() => deleteStep(index)} aria-label="Delete step">
+            <FaTrash />
+          </ActionIcon>
+        </Group>
+      ))}
+
+      <Button mt="lg" fullWidth onClick={addStep} leftSection={<FaPlus />} disabled={isAddDisabled}>
+        Add Step
       </Button>
-    </Grid>
+    </Paper>
   );
 };
 
