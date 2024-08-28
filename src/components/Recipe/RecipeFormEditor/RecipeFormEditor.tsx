@@ -175,15 +175,15 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
     nextStep();
   };
 
-  const handleOnReset = () => {
-    if (isEditMode) {
-      // dispatch(resetEditRecipe());
-      setIsEditMode?.(false);
-    } else {
-      // dispatch(resetNewRecipe());
-    }
-    resetFormFields(values);
-  };
+  // const handleOnReset = () => {
+  //   if (isEditMode) {
+  //     // dispatch(resetEditRecipe());
+  //     setIsEditMode?.(false);
+  //   } else {
+  //     // dispatch(resetNewRecipe());
+  //   }
+  //   resetFormFields(values);
+  // };
 
   useEffect(() => {
     const timer = setTimeout(() => {

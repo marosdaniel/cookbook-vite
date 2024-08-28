@@ -24,7 +24,7 @@ const RecipeList = ({ recipes }: IProps) => {
             title={recipe.title}
             description={recipe.description}
             createdBy={recipe.createdBy}
-            id={recipe._id}
+            id={recipe._id || ''}
           />
         </Grid.Col>
       ))}
