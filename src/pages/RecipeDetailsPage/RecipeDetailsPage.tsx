@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { useQuery } from '@apollo/client';
 import {
   Button,
@@ -22,6 +23,7 @@ import { MdOutlineModeEdit } from 'react-icons/md';
 import { GET_RECIPE_BY_ID } from '../../graphql/recipe/getRecipes';
 import { TRecipe } from '../../store/Recipe/types';
 import { useAuthState } from '../../store/Auth';
+import { setEditRecipe } from '../../store/Recipe/recipe';
 import { ENonProtectedRoutes } from '../../router/types';
 import RecipeFormEditor from '../../components/Recipe/RecipeFormEditor';
 
@@ -32,6 +34,7 @@ import SideDetails from './SideDetails';
 import { IRecipeDetailsData } from './types';
 
 const RecipeDetailsPage = () => {
+  const dispatch = useDispatch();
   const { id } = useParams<{ id: string }>();
 
   const { user } = useAuthState();
@@ -68,7 +71,7 @@ const RecipeDetailsPage = () => {
   const handleEdit = () => {
     if (recipe?.title) {
       // itt elég lenne csak editMode= true és RecipeFormEditornak át lehetne adni a recipet
-      // dispatch(setEditRecipe(recipe));
+      dispatch(setEditRecipe(recipe));
       setIsEditMode(true);
     }
   };
