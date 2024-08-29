@@ -2,13 +2,7 @@ import { IProps } from './types';
 import { Paper, Title, Textarea, Button, Group, ActionIcon } from '@mantine/core';
 import { FaPlus, FaTrash, FaArrowUp, FaArrowDown } from 'react-icons/fa6';
 
-const PreparationStepsEditor = ({ values, setFieldValue }: IProps) => {
-  const handleStepChange = (index: number, value: string) => {
-    const newSteps = [...values.preparationSteps];
-    newSteps[index].description = value;
-    setFieldValue('preparationSteps', newSteps);
-  };
-
+const PreparationStepsEditor = ({ values, setFieldValue, handleChange }: IProps) => {
   const addStep = () => {
     const newSteps = [...values.preparationSteps, { description: '', order: values.preparationSteps.length + 1 }];
     setFieldValue('preparationSteps', newSteps);
@@ -19,7 +13,7 @@ const PreparationStepsEditor = ({ values, setFieldValue }: IProps) => {
       .filter((_, i) => i !== index)
       .map((step, i) => ({
         ...step,
-        order: i + 1, // update order after deletion
+        order: i + 1,
       }));
     setFieldValue('preparationSteps', newSteps);
   };
@@ -29,8 +23,8 @@ const PreparationStepsEditor = ({ values, setFieldValue }: IProps) => {
     const swapIndex = direction === 'up' ? index - 1 : index + 1;
 
     if (swapIndex >= 0 && swapIndex < newSteps.length) {
-      [newSteps[index], newSteps[swapIndex]] = [newSteps[swapIndex], newSteps[index]]; // Swap the steps
-      newSteps.forEach((step, i) => (step.order = i + 1)); // Reorder after swapping
+      [newSteps[index], newSteps[swapIndex]] = [newSteps[swapIndex], newSteps[index]];
+      newSteps.forEach((step, i) => (step.order = i + 1));
       setFieldValue('preparationSteps', newSteps);
     }
   };
@@ -47,8 +41,9 @@ const PreparationStepsEditor = ({ values, setFieldValue }: IProps) => {
         <Group key={index} mt="md" align="flex-start">
           <Textarea
             placeholder={`Step ${index + 1}`}
+            name={`preparationSteps[${index}].description`}
             value={step.description}
-            onChange={event => handleStepChange(index, event.currentTarget.value)}
+            onChange={handleChange} // Use Formik's handleChange
             autosize
             minRows={2}
             required

@@ -74,9 +74,12 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
     },
   });
 
-  const {
-    editableRecipe: { recipe, completedSteps },
-  } = useRecipeState();
+  // const {
+  //   editableRecipe: { recipe, completedSteps },
+  // } = useRecipeState();
+  const { editableRecipe } = useRecipeState();
+  const recipe = isEditMode ? editableRecipe.recipe : undefined;
+  const completedSteps = isEditMode ? editableRecipe.completedSteps : [];
 
   const onSubmit = async () => {
     if (!values.difficultyLevel || !values.category) {
@@ -154,12 +157,6 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
       validationSchema: recipeFormValidationSchema,
     });
 
-  const [debouncedValues, setDebouncedValues] = useState<IFormikProps | undefined>(values);
-  const handleFormChange = () => {
-    if (!debouncedValues?.title) return;
-    console.log('handleFormChange');
-  };
-
   const handleNext = () => {
     if (isFinalStep) {
       onSubmit();
@@ -184,21 +181,6 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
   //   }
   //   resetFormFields(values);
   // };
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedValues(values);
-    }, 400);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [values]);
-
-  useEffect(() => {
-    handleFormChange();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedValues]);
 
   console.log(values);
 
@@ -233,7 +215,7 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
             description="Add instructions & save"
             disabled={!(completedSteps.includes(0) && completedSteps.includes(1))}
           >
-            <PreparationStepsEditor values={values} setFieldValue={setFieldValue} />
+            <PreparationStepsEditor values={values} setFieldValue={setFieldValue} handleChange={handleChange} />
           </Stepper.Step>
           <Stepper.Completed>
             <Center h={384}>You successfully created a recipe</Center>
