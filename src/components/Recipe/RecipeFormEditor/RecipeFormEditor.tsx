@@ -16,7 +16,7 @@ import { CREATE_RECIPE, EDIT_RECIPE } from '../../../graphql/recipe/createRecipe
 import PreparationStepsEditor from './PreparationStepsEditor';
 import IngredientsEditor from './IngredientsEditor';
 import GeneralsEditor from './GeneralsEditor';
-import { cleanLabels, nextEnabled, resetFormFields, useGetLabels } from './utils';
+import { cleanLabels, nextEnabled, useGetLabels } from './utils';
 import { IFormikProps, IProps } from './types';
 
 const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
