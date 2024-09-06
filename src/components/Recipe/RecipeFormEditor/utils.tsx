@@ -9,7 +9,7 @@ import {
 } from '../../../store/Metadata/types';
 import { GET_METADATA_BY_TYPE } from '../../../graphql/metadata/getMetadata';
 import { TIngredient, TPreparationStep, TRecipe } from '../../../store/Recipe/types';
-import { IFormikProps } from './types';
+import { IFormikProps, TRemoveTypeObject } from './types';
 
 export const useGetDifficultyLevels = () => {
   const { data, loading, error } = useQuery<{ getMetadataByType: TLevelMetadata[] }>(GET_METADATA_BY_TYPE, {
@@ -208,4 +208,17 @@ export const nextEnabled = (values: IFormikProps, step: number) => {
     return values.preparationSteps.length > 0;
   }
   return false;
+};
+
+export const removeTypename = (value: any): any => {
+  if (Array.isArray(value)) {
+    return value.map(v => removeTypename(v));
+  } else if (typeof value === 'object' && value !== null) {
+    const { __typename, ...rest } = value as TRemoveTypeObject;
+    return Object.keys(rest).reduce((acc, key) => {
+      acc[key] = removeTypename(rest[key]);
+      return acc;
+    }, {} as TRemoveTypeObject);
+  }
+  return value;
 };

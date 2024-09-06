@@ -26,3 +26,5 @@ export interface IFormikProps {
   servings: number;
   youtubeLink?: string;
 }
+
+export type TRemoveTypeObject = { [key: string]: any };

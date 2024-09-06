@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { useFormik } from 'formik';
@@ -16,7 +16,7 @@ import { CREATE_RECIPE, EDIT_RECIPE } from '../../../graphql/recipe/createRecipe
 import PreparationStepsEditor from './PreparationStepsEditor';
 import IngredientsEditor from './IngredientsEditor';
 import GeneralsEditor from './GeneralsEditor';
-import { cleanLabels, nextEnabled, useGetLabels } from './utils';
+import { cleanCategory, cleanDifficultyLevel, cleanLabels, nextEnabled, removeTypename, useGetLabels } from './utils';
 import { IFormikProps, IProps } from './types';
 
 const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
@@ -74,9 +74,6 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
     },
   });
 
-  // const {
-  //   editableRecipe: { recipe, completedSteps },
-  // } = useRecipeState();
   const { editableRecipe } = useRecipeState();
   const recipe = isEditMode ? editableRecipe.recipe : undefined;
   const completedSteps = isEditMode ? editableRecipe.completedSteps : [];
@@ -99,12 +96,12 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
 
     const id = recipe?._id;
 
-    const recipeInput: TRecipe | TNewRecipe = {
+    const recipeInput: TRecipe | TNewRecipe = removeTypename({
       ...values,
       difficultyLevel: values.difficultyLevel,
       category: values.category,
       labels: selectedLabels,
-    };
+    });
 
     try {
       let recipeId = id;
@@ -142,9 +139,9 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
     imgSrc: recipe?.imgSrc || '',
     servings: recipe?.servings || 1,
     cookingTime: recipe?.cookingTime || 0,
-    difficultyLevel: recipe?.difficultyLevel || undefined,
-    category: recipe?.category || undefined,
-    labels: recipe?.labels || [],
+    difficultyLevel: recipe?.difficultyLevel ? cleanDifficultyLevel(recipe.difficultyLevel) : undefined,
+    category: recipe?.category ? cleanCategory(recipe.category) : undefined,
+    labels: recipe?.labels ? cleanLabels(recipe.labels) : [],
     youtubeLink: recipe?.youtubeLink || '',
     ingredients: recipe?.ingredients || [],
     preparationSteps: recipe?.preparationSteps || [],
@@ -181,8 +178,6 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
   //   }
   //   resetFormFields(values);
   // };
-
-  console.log(values);
 
   return (
     <Container size="md" id={id}>
