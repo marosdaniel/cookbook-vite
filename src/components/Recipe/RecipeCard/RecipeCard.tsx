@@ -2,7 +2,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Card, Badge, Group, Center, Avatar, ActionIcon, Image, Text, Anchor } from '@mantine/core';
 import { IProps } from './types';
 
-const RecipeCard = ({ title, description, createdBy, id }: IProps) => {
+const RecipeCard = ({ title, description, createdBy, id, imgSrc }: IProps) => {
   const linkToUser = (userName: string) => (
     <Anchor
       size="sm"
@@ -18,7 +18,7 @@ const RecipeCard = ({ title, description, createdBy, id }: IProps) => {
     <Card radius="md" h={400} shadow="lg" bg="gray.0">
       <Card.Section>
         <RouterLink to={`/recipes/${id}`}>
-          <Image src="https://cdn-icons-png.flaticon.com/256/6039/6039575.png" height={180} fit="contain" />
+          <Image src={imgSrc ?? 'https://cdn-icons-png.flaticon.com/256/6039/6039575.png'} height={180} fit="contain" />
         </RouterLink>
       </Card.Section>
 
