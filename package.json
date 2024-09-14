@@ -32,11 +32,11 @@
     "@tiptap/starter-kit": "^2.6.6",
     "bcryptjs": "^2.4.3",
     "dayjs": "^1.11.13",
-    "embla-carousel-react": "^8.2.1",
+    "embla-carousel-react": "^8.3.0",
     "formik": "^2.4.6",
     "graphql": "^16.9.0",
     "graphql-tag": "^2.12.6",
-    "mongodb": "^6.8.1",
+    "mongodb": "^6.9.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-helmet-async": "^2.0.5",
@@ -55,7 +55,7 @@
     "@swc/plugin-styled-components": "^3.0.1",
     "@types/bcryptjs": "^2.4.6",
     "@types/loadable__component": "^5.13.9",
-    "@types/node": "^22.5.4",
+    "@types/node": "^22.5.5",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
     "@types/react-icons": "^3.0.0",
@@ -71,6 +71,6 @@
     "postcss-simple-vars": "^7.0.1",
     "prettier": "^3.3.3",
     "typescript": "^5.6.2",
-    "vite": "^5.4.4"
+    "vite": "^5.4.5"
   }
 }
