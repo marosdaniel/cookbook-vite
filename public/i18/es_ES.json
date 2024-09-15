@@ -1,5 +1,13 @@
 {
   "general.edit": "Editar",
   "general.delete": "Eliminar",
-  "misc.gram": "gramo"
+  "misc.gram": "gramo",
+  "sidebar.recipes": "Recetas",
+  "sidebar.blogs": "Blogs",
+  "sidebar.tipsAndTricks": "Consejos y Trucos",
+  "sidebar.admin": "Admin",
+  "sidebar.profile": "Perfil",
+  "sidebar.myRecipes": "Mis Recetas",
+  "sidebar.newRecipe": "Nueva Receta",
+  "sidebar.logout": "Cerrar sesión"
 }

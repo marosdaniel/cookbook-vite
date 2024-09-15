@@ -1,3 +1,5 @@
+import { sidebarMessages } from './../../messages/sidebar';
+import { useIntl } from 'react-intl';
 import { BsBook } from 'react-icons/bs';
 import { FaBlog } from 'react-icons/fa';
 import { MdOutlineTipsAndUpdates } from 'react-icons/md';
@@ -16,9 +18,10 @@ import { ENonProtectedRoutes, EProtectedRoutes } from '../../router/types';
 import { IBottomMenuItem, ITopMenuItem } from './types';
 
 export const useTopMenuItems = (): ITopMenuItem[] => {
+  const { formatMessage } = useIntl();
   return [
     {
-      name: 'Recipes',
+      name: formatMessage(sidebarMessages.recipes),
       path: ENonProtectedRoutes.RECIPES,
       iconComponent: BsBook,
       hidden: false,
@@ -26,7 +29,7 @@ export const useTopMenuItems = (): ITopMenuItem[] => {
       disabled: false,
     },
     {
-      name: 'Blogs',
+      name: formatMessage(sidebarMessages.blogs),
       path: ENonProtectedRoutes.BLOGS,
       iconComponent: FaBlog,
       hidden: false,
@@ -34,7 +37,7 @@ export const useTopMenuItems = (): ITopMenuItem[] => {
       disabled: true,
     },
     {
-      name: 'Tips and Tricks',
+      name: formatMessage(sidebarMessages.tipsAndTricks),
       path: ENonProtectedRoutes.TIPS_AND_TRICKS,
       iconComponent: MdOutlineTipsAndUpdates,
       hidden: false,
@@ -46,6 +49,7 @@ export const useTopMenuItems = (): ITopMenuItem[] => {
 
 export const useBottomMenuItems = (): IBottomMenuItem[] => {
   const { isAuthenticated, user } = useAuthState();
+  const { formatMessage } = useIntl();
   const dispatch = useAppDispatch();
 
   const handleLogout = () => {
@@ -54,7 +58,7 @@ export const useBottomMenuItems = (): IBottomMenuItem[] => {
 
   return [
     {
-      name: 'Admin',
+      name: formatMessage(sidebarMessages.admin),
       path: EProtectedRoutes.ADMIN_USERS,
       iconComponent: MdAdminPanelSettings,
       disabled: user?.role !== ERole.ADMIN,
@@ -62,7 +66,7 @@ export const useBottomMenuItems = (): IBottomMenuItem[] => {
       hidden: user?.role !== ERole.ADMIN,
     },
     {
-      name: 'Profile',
+      name: formatMessage(sidebarMessages.profile),
       path: EProtectedRoutes.PROFILE,
       iconComponent: CgProfile,
       disabled: false,
@@ -70,7 +74,7 @@ export const useBottomMenuItems = (): IBottomMenuItem[] => {
       hidden: !isAuthenticated,
     },
     {
-      name: 'My Recipes',
+      name: formatMessage(sidebarMessages.myRecipes),
       path: EProtectedRoutes.MY_RECIPES,
       iconComponent: FaRegFileAlt,
       hidden: !isAuthenticated,
@@ -78,7 +82,7 @@ export const useBottomMenuItems = (): IBottomMenuItem[] => {
       disabled: false,
     },
     {
-      name: 'New Recipe',
+      name: formatMessage(sidebarMessages.newRecipe),
       path: EProtectedRoutes.NEW_RECIPE,
       iconComponent: MdOutlineCreate,
       hidden: !isAuthenticated,
@@ -86,7 +90,7 @@ export const useBottomMenuItems = (): IBottomMenuItem[] => {
       disabled: false,
     },
     {
-      name: 'Logout',
+      name: formatMessage(sidebarMessages.logout),
       action: handleLogout,
       iconComponent: LuLogOut,
       hidden: !isAuthenticated,

@@ -1,5 +1,13 @@
 {
-  "general.edit": "Szerkeszt",
-  "general.delete": "Töröl",
-  "misc.gram": "gramm"
+  "general.edit": "Szerkesztés",
+  "general.delete": "Törlés",
+  "misc.gram": "gramm",
+  "sidebar.recipes": "Receptek",
+  "sidebar.blogs": "Blogok",
+  "sidebar.tipsAndTricks": "Tippek és Trükkök",
+  "sidebar.admin": "Admin",
+  "sidebar.profile": "Profil",
+  "sidebar.myRecipes": "Saját Receptek",
+  "sidebar.newRecipe": "Új Recept",
+  "sidebar.logout": "Kijelentkezés"
 }
