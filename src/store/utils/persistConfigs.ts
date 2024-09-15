@@ -11,3 +11,9 @@ export const recipePersistConfig = {
   version: 1,
   storage: storage,
 };
+
+export const globalPersistConfig = {
+  key: 'global',
+  version: 1,
+  storage: storage,
+};

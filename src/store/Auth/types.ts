@@ -23,4 +23,5 @@ export type TUser = {
   role: ERole;
   favoriteRecipes?: TRecipe[];
   createdAt: string;
+  recipes?: TRecipe[];
 };

@@ -1,6 +1,7 @@
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { AppShell, Burger, Button, Divider, Group, Menu, NavLink, Text } from '@mantine/core';
+import { AppShell, Burger, Button, Divider, Flex, Group, Menu, NavLink, Text } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+
 import { useAuthState } from '../../store/Auth';
 import { logout } from '../../store/Auth/auth';
 import { useAppDispatch } from '../../store/hooks';
@@ -13,6 +14,8 @@ import { IBottomMenuItem, IProps } from './types';
 import { APP_SHELL_WIDTH } from './consts';
 
 import classNames from './Shell.module.css';
+import DarkModeSwitcher from '../DarkModeSwitcher';
+import LanguagePicker from '../LanguagePicker';
 
 const Shell = ({ children }: IProps) => {
   const navigate = useNavigate();
@@ -63,23 +66,26 @@ const Shell = ({ children }: IProps) => {
             </Text>
           </Group>
           {isAuthenticated ? (
-            <Menu withArrow>
-              <Menu.Target>
-                <UserButton image="avatar-1.png" name={user!.userName} email={user!.email} />
-              </Menu.Target>
-              <Menu.Dropdown>
-                <Menu.Item component={RouterLink} to={EProtectedRoutes.PROFILE}>
-                  My profile
-                </Menu.Item>
-                <Menu.Item component={RouterLink} to={EProtectedRoutes.MY_RECIPES}>
-                  My recipes
-                </Menu.Item>
-                <Menu.Item component={RouterLink} to={EProtectedRoutes.FAVORITES}>
-                  Favorites
-                </Menu.Item>
-                <Menu.Item onClick={handleLogout}>Log out</Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
+            <Flex dir="row" align="center" gap="md">
+              <DarkModeSwitcher />
+              <Menu withArrow>
+                <Menu.Target>
+                  <UserButton image="avatar-1.png" name={user!.userName} email={user!.email} />
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Item component={RouterLink} to={EProtectedRoutes.PROFILE}>
+                    My profile
+                  </Menu.Item>
+                  <Menu.Item component={RouterLink} to={EProtectedRoutes.MY_RECIPES}>
+                    My recipes
+                  </Menu.Item>
+                  <Menu.Item component={RouterLink} to={EProtectedRoutes.FAVORITES}>
+                    Favorites
+                  </Menu.Item>
+                  <Menu.Item onClick={handleLogout}>Log out</Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
+            </Flex>
           ) : (
             <Button size="lg" component={RouterLink} to={ENonProtectedRoutes.SIGNIN} variant="subtle">
               Login
@@ -129,6 +135,9 @@ const Shell = ({ children }: IProps) => {
               ) : null;
             })}
           </Group>
+        </AppShell.Section>
+        <AppShell.Section>
+          <LanguagePicker />
         </AppShell.Section>
       </AppShell.Navbar>
 
