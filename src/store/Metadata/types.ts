@@ -26,3 +26,15 @@ export type TUnitMetadata = TMetadata & {
 export type TLabelMetadata = TMetadata & {
   type: TMetadataType.LABEL;
 };
+
+export type TMetadataPartial = {
+  value: string;
+  label: string;
+};
+
+export interface IMetadataState {
+  levels?: TLevelMetadata[];
+  categories?: TCategoryMetadata[];
+  units?: TUnitMetadata[];
+  labels?: TMetadataPartial[];
+}

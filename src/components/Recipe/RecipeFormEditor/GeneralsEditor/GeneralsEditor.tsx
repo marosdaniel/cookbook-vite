@@ -1,18 +1,10 @@
 import { MultiSelect, NumberInput, Paper, Select, TextInput, Title } from '@mantine/core';
 import { IProps } from './types';
-import {
-  cleanCategory,
-  cleanDifficultyLevel,
-  cleanLabels,
-  useGetCategories,
-  useGetDifficultyLevels,
-  useGetLabels,
-} from '../utils';
+import { cleanCategory, cleanDifficultyLevel, useGetCategories, useGetDifficultyLevels } from '../utils';
+import { useGetLabels } from '../../../../store/Metadata';
 
 const GeneralsEditor = ({ handleChange, handleBlur, values, touched, errors, setFieldValue }: IProps) => {
   const labels = useGetLabels();
-  const cleanedLabels = cleanLabels(labels);
-  const transformedLabels = cleanedLabels.map(label => ({ value: label.key, label: label.label }));
 
   const difficultyLevels = useGetDifficultyLevels();
   const cleanedDifficultyLevels = difficultyLevels.map(level => cleanDifficultyLevel(level));
@@ -137,21 +129,18 @@ const GeneralsEditor = ({ handleChange, handleBlur, values, touched, errors, set
         mt="md"
         label="Add labels"
         placeholder="Select labels"
-        data={transformedLabels}
+        data={labels}
         searchable
         hidePickedOptions
         comboboxProps={{ transitionProps: { transition: 'pop', duration: 80 }, shadow: 'md' }}
-        value={values.labels.map(label => label.label)}
-        onChange={value => {
-          setFieldValue(
-            'labels',
-            value.map(label => {
-              const found = cleanedLabels.find(l => l.key === label);
-              return { value: found?.label || '', label };
-            }),
-          );
+        value={values.labels.map(label => label.value)}
+        onChange={selectedValues => {
+          const selectedObjects = selectedValues.map(value => labels.find(item => item.value === value));
+
+          setFieldValue('labels', selectedObjects.filter(Boolean));
         }}
       />
+
       <TextInput
         id="youtubeLink"
         placeholder="youtube url"

@@ -4,6 +4,7 @@ import {
   TCategoryMetadata,
   TLabelMetadata,
   TLevelMetadata,
+  TMetadataPartial,
   TMetadataType,
   TUnitMetadata,
 } from '../../../store/Metadata/types';
@@ -33,17 +34,6 @@ export const useGetUnits = () => {
   return data?.getMetadataByType || [];
 };
 
-export const useGetLabels = () => {
-  const { data, loading, error } = useQuery<{ getMetadataByType: TLabelMetadata[] }>(GET_METADATA_BY_TYPE, {
-    variables: { type: TMetadataType.LABEL },
-  });
-
-  if (loading) return [];
-  if (error) return [];
-
-  return data?.getMetadataByType || [];
-};
-
 export const useGetCategories = () => {
   const { data, loading, error } = useQuery<{ getMetadataByType: TCategoryMetadata[] }>(GET_METADATA_BY_TYPE, {
     variables: { type: TMetadataType.CATEGORY },
@@ -64,12 +54,10 @@ export const cleanCategory = (category: TCategoryMetadata | undefined): TCategor
   };
 };
 
-export const cleanLabels = (labels: TLabelMetadata[]): TLabelMetadata[] => {
+export const cleanLabels = (labels: TLabelMetadata[]): TMetadataPartial[] => {
   return labels.map(label => ({
-    key: label.key,
-    label: label.label,
-    name: label.name,
-    type: TMetadataType.LABEL,
+    value: label.key,
+    label: label.name,
   }));
 };
 

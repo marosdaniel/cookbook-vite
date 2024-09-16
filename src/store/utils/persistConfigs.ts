@@ -17,3 +17,9 @@ export const globalPersistConfig = {
   version: 1,
   storage: storage,
 };
+
+export const metadataPersistConfig = {
+  key: 'metadata',
+  version: 1,
+  storage: storage,
+};

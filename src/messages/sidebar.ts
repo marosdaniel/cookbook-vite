@@ -33,4 +33,12 @@ export const sidebarMessages = defineMessages({
     id: 'sidebar.logout',
     defaultMessage: 'Logout',
   },
+  myProfile: {
+    id: 'sidebar.myProfile',
+    defaultMessage: 'My Profile',
+  },
+  favorites: {
+    id: 'sidebar.favorites',
+    defaultMessage: 'Favorites',
+  },
 });

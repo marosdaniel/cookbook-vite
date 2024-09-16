@@ -1,4 +1,4 @@
-import { TCategoryMetadata, TLabelMetadata, TLevelMetadata } from '../../../store/Metadata/types';
+import { TCategoryMetadata, TLevelMetadata, TMetadataPartial } from '../../../store/Metadata/types';
 import { TIngredient, TPreparationStep } from '../../../store/Recipe/types';
 
 export interface IProps {
@@ -20,7 +20,7 @@ export interface IFormikProps {
   cookingTime: number;
   difficultyLevel: TLevelMetadata | undefined;
   category: TCategoryMetadata | undefined;
-  labels: TLabelMetadata[] | [];
+  labels: TMetadataPartial[] | [];
   ingredients: TIngredient[] | [];
   preparationSteps: TPreparationStep[] | [];
   servings: number;

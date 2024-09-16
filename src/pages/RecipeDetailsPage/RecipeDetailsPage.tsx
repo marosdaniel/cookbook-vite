@@ -19,6 +19,7 @@ import {
   Grid,
   ActionIcon,
   Menu,
+  Flex,
 } from '@mantine/core';
 import { MdDeleteOutline, MdOutlineModeEdit } from 'react-icons/md';
 import { BsThreeDotsVertical } from 'react-icons/bs';
@@ -116,7 +117,7 @@ const RecipeDetailsPage = () => {
 
   return (
     <Container id="recipe-detail-page" size="md">
-      <Group mb={80} justify="space-between">
+      <Flex mb={80} justify="space-between">
         <Title id="recipe-title" order={1} mb="lg" c="gray.7">
           {title}
         </Title>
@@ -139,7 +140,7 @@ const RecipeDetailsPage = () => {
             </Menu>
           </Group>
         ) : null}
-      </Group>
+      </Flex>
 
       {!!error?.message && (
         <Center h="384px">

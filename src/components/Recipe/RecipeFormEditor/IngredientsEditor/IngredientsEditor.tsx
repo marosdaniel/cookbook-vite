@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Button, Group, NumberInput, Paper, Select, TextInput, ActionIcon, Title } from '@mantine/core';
 import { FaPlus, FaTrash } from 'react-icons/fa6';
-import { v4 as uuidv4 } from 'uuid'; // Importáld a uuid v4 függvényét
+import { v4 as uuidv4 } from 'uuid';
 
 import { TIngredient } from '../../../../store/Recipe/types';
 import { isIngredientsFormValid, useGetUnits } from '../utils';

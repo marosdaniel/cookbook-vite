@@ -4,12 +4,19 @@ import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, 
 import authReducer from './Auth/auth';
 import recipeReducer from './Recipe/recipe';
 import globalReducer from './Global/global';
-import { authPersistConfig, recipePersistConfig, globalPersistConfig } from './utils/persistConfigs';
+import metadataReducer from './Metadata/metadata';
+import {
+  authPersistConfig,
+  recipePersistConfig,
+  globalPersistConfig,
+  metadataPersistConfig,
+} from './utils/persistConfigs';
 
 const reducers = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
   recipe: persistReducer(recipePersistConfig, recipeReducer),
   global: persistReducer(globalPersistConfig, globalReducer),
+  metadata: persistReducer(metadataPersistConfig, metadataReducer),
 });
 
 export const store = configureStore({

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { useFormik } from 'formik';
@@ -16,8 +16,9 @@ import { CREATE_RECIPE, EDIT_RECIPE } from '../../../graphql/recipe/createRecipe
 import PreparationStepsEditor from './PreparationStepsEditor';
 import IngredientsEditor from './IngredientsEditor';
 import GeneralsEditor from './GeneralsEditor';
-import { cleanCategory, cleanDifficultyLevel, cleanLabels, nextEnabled, removeTypename, useGetLabels } from './utils';
+import { cleanCategory, cleanDifficultyLevel, cleanLabels, nextEnabled, removeTypename } from './utils';
 import { IFormikProps, IProps } from './types';
+import { getLabelsThunk } from '../../../store/Metadata/thunk/getLabelsThunk';
 
 const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
   const dispatch = useAppDispatch();
@@ -27,7 +28,9 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
   const prevStep = () => setActive(current => (current > 0 ? current - 1 : current));
   const isFinalStep = active === 2;
 
-  const labels = useGetLabels();
+  useEffect(() => {
+    dispatch(getLabelsThunk());
+  }, []);
 
   const [createRecipe] = useMutation(CREATE_RECIPE, {
     update(cache, { data }) {
@@ -88,11 +91,11 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
       return;
     }
 
-    const selectedLabels = values.labels
-      .map(selectedLabel => {
-        return cleanLabels(labels).find(label => label.key === selectedLabel.label);
-      })
-      .filter(label => label !== undefined);
+    // const selectedLabels = values.labels
+    //   .map(selectedLabel => {
+    //     return cleanLabels(labels).find(label => label.key === selectedLabel.label);
+    //   })
+    //   .filter(label => label !== undefined);
 
     const id = recipe?._id;
 
@@ -100,7 +103,7 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
       ...values,
       difficultyLevel: values.difficultyLevel,
       category: values.category,
-      labels: selectedLabels,
+      labels: values.labels,
     });
 
     try {

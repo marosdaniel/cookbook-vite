@@ -1,7 +1,6 @@
 {
   "general.edit": "Edit",
   "general.delete": "Delete",
-  "misc.gram": "gram",
   "sidebar.recipes": "Recipes",
   "sidebar.blogs": "Blogs",
   "sidebar.tipsAndTricks": "Tips & Tricks",
@@ -9,5 +8,8 @@
   "sidebar.profile": "Profile",
   "sidebar.myRecipes": "My Recipes",
   "sidebar.newRecipe": "New Recipe",
-  "sidebar.logout": "Logout"
+  "sidebar.logout": "Logout",
+  "sidebar.myProfile": "My Profile",
+  "sidebar.favorites": "Favorites",
+  "misc.gram": "gram"
 }

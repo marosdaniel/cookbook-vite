@@ -1,4 +1,5 @@
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useIntl } from 'react-intl';
 import { AppShell, Burger, Button, Divider, Flex, Group, Menu, NavLink, Text } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 
@@ -16,8 +17,10 @@ import { APP_SHELL_WIDTH } from './consts';
 import classNames from './Shell.module.css';
 import DarkModeSwitcher from '../DarkModeSwitcher';
 import LanguagePicker from '../LanguagePicker';
+import { sidebarMessages } from '../../messages/sidebar';
 
 const Shell = ({ children }: IProps) => {
+  const { formatMessage } = useIntl();
   const navigate = useNavigate();
   const { isAuthenticated, user } = useAuthState();
   const dispatch = useAppDispatch();
@@ -74,13 +77,13 @@ const Shell = ({ children }: IProps) => {
                 </Menu.Target>
                 <Menu.Dropdown>
                   <Menu.Item component={RouterLink} to={EProtectedRoutes.PROFILE}>
-                    My profile
+                    {formatMessage(sidebarMessages.profile)}
                   </Menu.Item>
                   <Menu.Item component={RouterLink} to={EProtectedRoutes.MY_RECIPES}>
-                    My recipes
+                    {formatMessage(sidebarMessages.myRecipes)}
                   </Menu.Item>
                   <Menu.Item component={RouterLink} to={EProtectedRoutes.FAVORITES}>
-                    Favorites
+                    {formatMessage(sidebarMessages.favorites)}
                   </Menu.Item>
                   <Menu.Item onClick={handleLogout}>Log out</Menu.Item>
                 </Menu.Dropdown>
@@ -136,7 +139,7 @@ const Shell = ({ children }: IProps) => {
             })}
           </Group>
         </AppShell.Section>
-        <AppShell.Section>
+        <AppShell.Section ml={20}>
           <LanguagePicker />
         </AppShell.Section>
       </AppShell.Navbar>
