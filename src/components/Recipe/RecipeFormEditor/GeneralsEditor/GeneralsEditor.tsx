@@ -1,18 +1,11 @@
 import { MultiSelect, NumberInput, Paper, Select, TextInput, Title } from '@mantine/core';
 import { IProps } from './types';
-import { cleanCategory, cleanDifficultyLevel, useGetCategories, useGetDifficultyLevels } from '../utils';
-import { useGetLabels } from '../../../../store/Metadata';
+import { useGetCategories, useGetLabels, useGetLevels } from '../../../../store/Metadata';
 
 const GeneralsEditor = ({ handleChange, handleBlur, values, touched, errors, setFieldValue }: IProps) => {
   const labels = useGetLabels();
-
-  const difficultyLevels = useGetDifficultyLevels();
-  const cleanedDifficultyLevels = difficultyLevels.map(level => cleanDifficultyLevel(level));
-  const transformedDifficultyLevels = cleanedDifficultyLevels.map(level => ({ value: level.key, label: level.label }));
-
   const categories = useGetCategories();
-  const cleanedCategories = categories.map(category => cleanCategory(category));
-  const transformedCategories = cleanedCategories.map(category => ({ value: category.key, label: category.label }));
+  const difficultyLevels = useGetLevels();
 
   return (
     <Paper withBorder shadow="md" p={30} mt={30} radius="md">
@@ -95,17 +88,17 @@ const GeneralsEditor = ({ handleChange, handleBlur, values, touched, errors, set
         placeholder="Choose difficulty level"
         name="difficultyLevel"
         onChange={value => {
-          const selectedLevel = cleanedDifficultyLevels.find(level => level.key === value);
+          const selectedLevel = difficultyLevels.find(level => level.value === value);
           setFieldValue('difficultyLevel', selectedLevel);
         }}
-        value={values.difficultyLevel?.key || ''}
+        value={values.difficultyLevel?.value || ''}
         onBlur={handleBlur}
         error={touched.difficultyLevel && Boolean(errors.difficultyLevel)}
         description={
           touched.difficultyLevel && Boolean(errors.difficultyLevel) ? "Set your recipe's difficulty level" : ''
         }
         comboboxProps={{ transitionProps: { transition: 'pop', duration: 80 }, shadow: 'md' }}
-        data={transformedDifficultyLevels.map(level => ({ value: level.value, label: level.label }))}
+        data={difficultyLevels}
       />
       <Select
         required
@@ -114,15 +107,16 @@ const GeneralsEditor = ({ handleChange, handleBlur, values, touched, errors, set
         placeholder="Select category"
         name="category"
         onChange={value => {
-          const selectedCategory = cleanedCategories.find(cat => cat.key === value);
+          const selectedCategory = categories.find(cat => cat.value === value);
+          console.log('selectedCategory', selectedCategory);
           setFieldValue('category', selectedCategory);
         }}
-        value={values.category?.key || ''}
+        value={values.category?.value || ''}
         onBlur={handleBlur}
         error={touched.category && Boolean(errors.category)}
         description={touched.category && Boolean(errors.category) ? 'Set the category' : ''}
         comboboxProps={{ transitionProps: { transition: 'pop', duration: 80 }, shadow: 'md' }}
-        data={transformedCategories.map(cat => ({ value: cat.value, label: cat.label }))}
+        data={categories}
       />
 
       <MultiSelect
@@ -133,7 +127,7 @@ const GeneralsEditor = ({ handleChange, handleBlur, values, touched, errors, set
         searchable
         hidePickedOptions
         comboboxProps={{ transitionProps: { transition: 'pop', duration: 80 }, shadow: 'md' }}
-        value={values.labels.map(label => label.value)}
+        value={values.labels?.map(label => label.value)}
         onChange={selectedValues => {
           const selectedObjects = selectedValues.map(value => labels.find(item => item.value === value));
 

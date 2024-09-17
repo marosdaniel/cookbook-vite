@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IRecipeState, TRecipe } from './types';
+import { IRecipeState, TRecipe, TRecipeCleaned } from './types';
 
 const initialState: IRecipeState = {
   editableRecipe: {
@@ -12,7 +12,7 @@ const recipeSlice = createSlice({
   name: 'recipe',
   initialState,
   reducers: {
-    setEditRecipe: (state, action: PayloadAction<TRecipe>) => {
+    setEditRecipe: (state, action: PayloadAction<TRecipeCleaned>) => {
       state.editableRecipe.recipe = action.payload;
     },
     setCompletedSteps: (state, action: PayloadAction<number>) => {

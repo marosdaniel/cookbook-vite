@@ -1,9 +1,9 @@
-import { TCategoryMetadata, TLabelMetadata, TLevelMetadata } from '../Metadata/types';
+import { TCategoryMetadata, TLabelMetadata, TLevelMetadata, TMetadataCleaned } from '../Metadata/types';
 
 export type TIngredientField = 'name' | 'quantity' | 'unit';
 export interface IRecipeState {
   editableRecipe: {
-    recipe: TRecipe | undefined;
+    recipe: TRecipe | TRecipeCleaned | undefined;
     completedSteps: number[];
   };
 }
@@ -22,6 +22,24 @@ export type TRecipe = {
   difficultyLevel: TLevelMetadata;
   category: TCategoryMetadata;
   labels: TLabelMetadata[] | [];
+  servings: number;
+  youtubeLink?: string;
+};
+
+export type TRecipeCleaned = {
+  _id?: string;
+  title: string;
+  description: string;
+  ingredients: TIngredient[];
+  preparationSteps: TPreparationStep[];
+  createdAt?: string;
+  createdBy?: string;
+  updatedAt?: string;
+  imgSrc?: string;
+  cookingTime: number;
+  difficultyLevel: TMetadataCleaned;
+  category: TMetadataCleaned;
+  labels: TMetadataCleaned[] | [];
   servings: number;
   youtubeLink?: string;
 };

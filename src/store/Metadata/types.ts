@@ -27,7 +27,9 @@ export type TLabelMetadata = TMetadata & {
   type: TMetadataType.LABEL;
 };
 
-export type TMetadataPartial = {
+export type TAllMetadata = TLevelMetadata | TCategoryMetadata | TUnitMetadata | TLabelMetadata;
+
+export type TMetadataCleaned = {
   value: string;
   label: string;
 };
@@ -36,5 +38,6 @@ export interface IMetadataState {
   levels?: TLevelMetadata[];
   categories?: TCategoryMetadata[];
   units?: TUnitMetadata[];
-  labels?: TMetadataPartial[];
+  labels?: TMetadataCleaned[];
+  allMetadata?: TAllMetadata[];
 }

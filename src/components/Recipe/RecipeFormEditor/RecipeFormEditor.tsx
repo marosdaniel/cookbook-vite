@@ -10,15 +10,16 @@ import { recipeFormValidationSchema } from '../../../utils/validation';
 import { useRecipeState } from '../../../store/Recipe';
 import { setCompletedSteps, setEditRecipe } from '../../../store/Recipe/recipe';
 import { TNewRecipe, TRecipe } from '../../../store/Recipe/types';
+import { getAllMetadataThunk } from '../../../store/Metadata/thunk/getAllMetadataThunk';
 import { ENonProtectedRoutes } from '../../../router/types';
 import { CREATE_RECIPE, EDIT_RECIPE } from '../../../graphql/recipe/createRecipe';
 
 import PreparationStepsEditor from './PreparationStepsEditor';
 import IngredientsEditor from './IngredientsEditor';
 import GeneralsEditor from './GeneralsEditor';
-import { cleanCategory, cleanDifficultyLevel, cleanLabels, nextEnabled, removeTypename } from './utils';
+import { cleanMetadata, cleanSingleMetadata, nextEnabled, removeTypename } from './utils';
 import { IFormikProps, IProps } from './types';
-import { getLabelsThunk } from '../../../store/Metadata/thunk/getLabelsThunk';
+import { TCategoryMetadata, TLabelMetadata, TLevelMetadata } from '../../../store/Metadata/types';
 
 const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
   const dispatch = useAppDispatch();
@@ -29,7 +30,7 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
   const isFinalStep = active === 2;
 
   useEffect(() => {
-    dispatch(getLabelsThunk());
+    dispatch(getAllMetadataThunk());
   }, []);
 
   const [createRecipe] = useMutation(CREATE_RECIPE, {
@@ -136,19 +137,23 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
     }
   };
 
+  console.log('recipe', recipe);
+
   const initialValues = {
     title: recipe?.title || '',
     description: recipe?.description || '',
     imgSrc: recipe?.imgSrc || '',
     servings: recipe?.servings || 1,
     cookingTime: recipe?.cookingTime || 0,
-    difficultyLevel: recipe?.difficultyLevel ? cleanDifficultyLevel(recipe.difficultyLevel) : undefined,
-    category: recipe?.category ? cleanCategory(recipe.category) : undefined,
-    labels: recipe?.labels ? cleanLabels(recipe.labels) : [],
+    difficultyLevel: cleanSingleMetadata(recipe?.difficultyLevel as TLevelMetadata) || null,
+    category: recipe?.category ? cleanSingleMetadata(recipe?.category as TCategoryMetadata) : null,
+    labels: recipe?.labels ? cleanMetadata(recipe?.labels as TLabelMetadata[]) : [],
     youtubeLink: recipe?.youtubeLink || '',
     ingredients: recipe?.ingredients || [],
     preparationSteps: recipe?.preparationSteps || [],
   };
+
+  console.log('initialValues', initialValues);
 
   const { values, handleChange, handleSubmit, handleBlur, errors, touched, isSubmitting, setFieldValue } =
     useFormik<IFormikProps>({
@@ -165,8 +170,18 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
     dispatch(
       setEditRecipe({
         _id: recipe?._id,
-        ...values,
-      } as TRecipe),
+        title: values.title,
+        description: values.description,
+        imgSrc: values.imgSrc,
+        servings: values.servings,
+        cookingTime: values.cookingTime,
+        labels: values.labels || [],
+        difficultyLevel: values.difficultyLevel!,
+        category: values.category!,
+        ingredients: values.ingredients,
+        preparationSteps: values.preparationSteps,
+        youtubeLink: values.youtubeLink,
+      }),
     );
     dispatch(setCompletedSteps(active));
     nextStep();

@@ -1,27 +1,9 @@
 import { useQuery } from '@apollo/client';
 
-import {
-  TCategoryMetadata,
-  TLabelMetadata,
-  TLevelMetadata,
-  TMetadataPartial,
-  TMetadataType,
-  TUnitMetadata,
-} from '../../../store/Metadata/types';
+import { TAllMetadata, TMetadataCleaned, TMetadataType, TUnitMetadata } from '../../../store/Metadata/types';
 import { GET_METADATA_BY_TYPE } from '../../../graphql/metadata/getMetadata';
 import { TIngredient, TPreparationStep, TRecipe } from '../../../store/Recipe/types';
 import { IFormikProps, TRemoveTypeObject } from './types';
-
-export const useGetDifficultyLevels = () => {
-  const { data, loading, error } = useQuery<{ getMetadataByType: TLevelMetadata[] }>(GET_METADATA_BY_TYPE, {
-    variables: { type: TMetadataType.LEVEL },
-  });
-
-  if (loading) return [];
-  if (error) return [];
-
-  return data?.getMetadataByType || [];
-};
 
 export const useGetUnits = () => {
   const { data, loading, error } = useQuery<{ getMetadataByType: TUnitMetadata[] }>(GET_METADATA_BY_TYPE, {
@@ -34,31 +16,18 @@ export const useGetUnits = () => {
   return data?.getMetadataByType || [];
 };
 
-export const useGetCategories = () => {
-  const { data, loading, error } = useQuery<{ getMetadataByType: TCategoryMetadata[] }>(GET_METADATA_BY_TYPE, {
-    variables: { type: TMetadataType.CATEGORY },
-  });
-
-  if (loading) return [];
-  if (error) return [];
-
-  return data?.getMetadataByType || [];
-};
-
-export const cleanCategory = (category: TCategoryMetadata | undefined): TCategoryMetadata => {
-  return {
-    key: category?.key || '',
-    label: category?.label || '',
-    name: category?.name || '',
-    type: TMetadataType.CATEGORY,
-  };
-};
-
-export const cleanLabels = (labels: TLabelMetadata[]): TMetadataPartial[] => {
-  return labels.map(label => ({
-    value: label.key,
-    label: label.name,
+export const cleanMetadata = (metadata: TAllMetadata[]): TMetadataCleaned[] => {
+  return metadata.map(item => ({
+    value: item.key,
+    label: item.name,
   }));
+};
+
+export const cleanSingleMetadata = (metadata: TAllMetadata): TMetadataCleaned => {
+  return {
+    value: metadata.key,
+    label: metadata.name,
+  };
 };
 
 export const cleanIngredients = (ingredients: TIngredient[] | undefined): TIngredient[] => {
@@ -79,15 +48,6 @@ export const cleanPreparationSteps = (preparationSteps: TPreparationStep[] | und
       order: step.order,
     })) || []
   );
-};
-
-export const cleanDifficultyLevel = (difficultyLevel: TLevelMetadata | undefined): TLevelMetadata => {
-  return {
-    key: difficultyLevel?.key || '',
-    label: difficultyLevel?.label || '',
-    name: difficultyLevel?.name || '',
-    type: TMetadataType.LEVEL,
-  };
 };
 
 export const getInitialValues = (
@@ -132,8 +92,8 @@ export const resetFormFields = (values: IFormikProps) => {
   values.imgSrc = '';
   values.servings = 1;
   values.cookingTime = 0;
-  values.difficultyLevel = undefined;
-  values.category = undefined;
+  values.difficultyLevel = null;
+  values.category = null;
   values.labels = [];
   values.ingredients = [];
   values.preparationSteps = [];

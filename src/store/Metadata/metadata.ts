@@ -1,16 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IMetadataState, TMetadataPartial } from './types';
-import { getLabelsThunk } from './thunk/getLabelsThunk';
+import { getAllMetadataThunk } from './thunk/getAllMetadataThunk';
+import { IMetadataState, TAllMetadata } from './types';
 
-const initialState: IMetadataState = {};
+const initialState: IMetadataState = {
+  allMetadata: [],
+};
 
 const metadataSlice = createSlice({
   name: 'metadata',
   initialState,
   reducers: {},
   extraReducers(builder) {
-    builder.addCase(getLabelsThunk.fulfilled, (state, action: PayloadAction<TMetadataPartial[]>) => {
-      state.labels = action.payload;
+    builder.addCase(getAllMetadataThunk.fulfilled, (state, action: PayloadAction<TAllMetadata[]>) => {
+      state.allMetadata = action.payload;
     });
   },
 });

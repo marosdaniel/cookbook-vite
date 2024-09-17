@@ -22,4 +22,15 @@ const GET_METADATA_BY_KEY = gql`
   }
 `;
 
-export { GET_METADATA_BY_TYPE, GET_METADATA_BY_KEY };
+const GET_ALL_METADATA = gql`
+  query GetAllMetadata {
+    getAllMetadata {
+      key
+      label
+      name
+      type
+    }
+  }
+`;
+
+export { GET_METADATA_BY_TYPE, GET_METADATA_BY_KEY, GET_ALL_METADATA };
