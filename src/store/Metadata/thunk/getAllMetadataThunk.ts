@@ -12,7 +12,7 @@ export const getAllMetadataThunk = createAsyncThunk<TAllMetadata[], void, { stat
         query: GET_ALL_METADATA,
       });
 
-      return data.getAllMetadata || [];
+      return data.getAllMetadata;
     } catch (error) {
       return rejectWithValue(error);
     }

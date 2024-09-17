@@ -13,13 +13,14 @@ import { TNewRecipe, TRecipe } from '../../../store/Recipe/types';
 import { getAllMetadataThunk } from '../../../store/Metadata/thunk/getAllMetadataThunk';
 import { ENonProtectedRoutes } from '../../../router/types';
 import { CREATE_RECIPE, EDIT_RECIPE } from '../../../graphql/recipe/createRecipe';
+import { useGetAllMetadata } from '../../../store/Metadata';
+import { TCategoryMetadata, TLabelMetadata, TLevelMetadata } from '../../../store/Metadata/types';
 
 import PreparationStepsEditor from './PreparationStepsEditor';
 import IngredientsEditor from './IngredientsEditor';
 import GeneralsEditor from './GeneralsEditor';
 import { cleanMetadata, cleanSingleMetadata, nextEnabled, removeTypename } from './utils';
 import { IFormikProps, IProps } from './types';
-import { TCategoryMetadata, TLabelMetadata, TLevelMetadata } from '../../../store/Metadata/types';
 
 const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
   const dispatch = useAppDispatch();
@@ -28,9 +29,12 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
   const nextStep = () => setActive(current => (current < 3 ? current + 1 : current));
   const prevStep = () => setActive(current => (current > 0 ? current - 1 : current));
   const isFinalStep = active === 2;
+  const allMetadata = useGetAllMetadata();
 
   useEffect(() => {
-    dispatch(getAllMetadataThunk());
+    if (!allMetadata.length) {
+      dispatch(getAllMetadataThunk());
+    }
   }, []);
 
   const [createRecipe] = useMutation(CREATE_RECIPE, {
@@ -92,12 +96,6 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
       return;
     }
 
-    // const selectedLabels = values.labels
-    //   .map(selectedLabel => {
-    //     return cleanLabels(labels).find(label => label.key === selectedLabel.label);
-    //   })
-    //   .filter(label => label !== undefined);
-
     const id = recipe?._id;
 
     const recipeInput: TRecipe | TNewRecipe = removeTypename({
@@ -137,8 +135,6 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
     }
   };
 
-  console.log('recipe', recipe);
-
   const initialValues = {
     title: recipe?.title || '',
     description: recipe?.description || '',
@@ -152,8 +148,6 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
     ingredients: recipe?.ingredients || [],
     preparationSteps: recipe?.preparationSteps || [],
   };
-
-  console.log('initialValues', initialValues);
 
   const { values, handleChange, handleSubmit, handleBlur, errors, touched, isSubmitting, setFieldValue } =
     useFormik<IFormikProps>({

@@ -3,11 +3,11 @@ import { RootState } from '..';
 import { TAllMetadata, TMetadataCleaned, TMetadataType } from './types';
 import { cleanMetadata } from '../../components/Recipe/RecipeFormEditor/utils';
 
-export const selectMetadataState = (state: RootState) => state.metadata;
+export const selectMetadataState = (state: RootState) => state.metadata.allMetadata;
 export const useMetadataState = () => useSelector(selectMetadataState);
 
 export const useGetAllMetadata = (): TAllMetadata[] => {
-  return useMetadataState().allMetadata || [];
+  return useMetadataState() || [];
 };
 
 export const useGetLabels = (): TMetadataCleaned[] => {

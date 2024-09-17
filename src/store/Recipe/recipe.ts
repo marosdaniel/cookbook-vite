@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IRecipeState, TRecipe, TRecipeCleaned } from './types';
+import { IRecipeState, TRecipeCleaned } from './types';
 
 const initialState: IRecipeState = {
   editableRecipe: {
