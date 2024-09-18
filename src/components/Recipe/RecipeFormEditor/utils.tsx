@@ -102,8 +102,8 @@ export const resetFormFields = (values: IFormikProps) => {
   values.imgSrc = '';
   values.servings = 1;
   values.cookingTime = 0;
-  values.difficultyLevel = null;
-  values.category = null;
+  values.difficultyLevel = undefined;
+  values.category = undefined;
   values.labels = [];
   values.ingredients = [];
   values.preparationSteps = [];

@@ -18,8 +18,8 @@ export interface IFormikProps {
   description: string;
   imgSrc?: string;
   cookingTime: number;
-  difficultyLevel: TMetadataCleaned | null;
-  category?: TMetadataCleaned | null;
+  difficultyLevel?: TMetadataCleaned;
+  category?: TMetadataCleaned;
   labels?: TMetadataCleaned[] | [];
   ingredients: TIngredient[] | [];
   preparationSteps: TPreparationStep[] | [];
