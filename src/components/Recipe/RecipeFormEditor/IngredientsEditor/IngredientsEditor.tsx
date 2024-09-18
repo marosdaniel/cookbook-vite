@@ -4,12 +4,13 @@ import { FaPlus, FaTrash } from 'react-icons/fa6';
 import { v4 as uuidv4 } from 'uuid';
 
 import { TIngredient } from '../../../../store/Recipe/types';
-import { isIngredientsFormValid, useGetUnits } from '../utils';
+import { isIngredientsFormValid } from '../utils';
 import { IProps } from './types';
+import { useGetUnits } from '../../../../store/Metadata';
 
 const IngredientsEditor = ({ handleBlur, setFieldValue, handleChange, values }: IProps) => {
   const units = useGetUnits();
-  const transformedUnits = units.map(unit => ({ value: unit.key, label: unit.label }));
+  const transformedUnits = units.map(unit => ({ value: unit.value, label: unit.label }));
 
   const initialIngredients: Partial<TIngredient>[] = [{ name: '', quantity: undefined, unit: '', localId: uuidv4() }];
 

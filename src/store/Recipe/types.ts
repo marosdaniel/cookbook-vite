@@ -37,9 +37,9 @@ export type TRecipeCleaned = {
   updatedAt?: string;
   imgSrc?: string;
   cookingTime: number;
-  difficultyLevel: TMetadataCleaned;
-  category: TMetadataCleaned;
-  labels: TMetadataCleaned[] | [];
+  difficultyLevel?: TMetadataCleaned;
+  category?: TMetadataCleaned;
+  labels?: TMetadataCleaned[] | [];
   servings: number;
   youtubeLink?: string;
 };

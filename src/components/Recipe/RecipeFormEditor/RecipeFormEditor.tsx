@@ -14,12 +14,11 @@ import { getAllMetadataThunk } from '../../../store/Metadata/thunk/getAllMetadat
 import { ENonProtectedRoutes } from '../../../router/types';
 import { CREATE_RECIPE, EDIT_RECIPE } from '../../../graphql/recipe/createRecipe';
 import { useGetAllMetadata } from '../../../store/Metadata';
-import { TCategoryMetadata, TLabelMetadata, TLevelMetadata } from '../../../store/Metadata/types';
 
 import PreparationStepsEditor from './PreparationStepsEditor';
 import IngredientsEditor from './IngredientsEditor';
 import GeneralsEditor from './GeneralsEditor';
-import { cleanMetadata, cleanSingleMetadata, nextEnabled, removeTypename } from './utils';
+import { cleanedRecipe, nextEnabled, removeTypename } from './utils';
 import { IFormikProps, IProps } from './types';
 
 const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
@@ -135,19 +134,7 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
     }
   };
 
-  const initialValues = {
-    title: recipe?.title || '',
-    description: recipe?.description || '',
-    imgSrc: recipe?.imgSrc || '',
-    servings: recipe?.servings || 1,
-    cookingTime: recipe?.cookingTime || 0,
-    difficultyLevel: cleanSingleMetadata(recipe?.difficultyLevel as TLevelMetadata) || null,
-    category: recipe?.category ? cleanSingleMetadata(recipe?.category as TCategoryMetadata) : null,
-    labels: recipe?.labels ? cleanMetadata(recipe?.labels as TLabelMetadata[]) : [],
-    youtubeLink: recipe?.youtubeLink || '',
-    ingredients: recipe?.ingredients || [],
-    preparationSteps: recipe?.preparationSteps || [],
-  };
+  const initialValues = cleanedRecipe(recipe as TRecipe);
 
   const { values, handleChange, handleSubmit, handleBlur, errors, touched, isSubmitting, setFieldValue } =
     useFormik<IFormikProps>({

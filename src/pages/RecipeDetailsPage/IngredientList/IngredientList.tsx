@@ -29,6 +29,7 @@ const IngredientList = ({ ingredients, title }: IProps) => {
             <List.Item
               key={index}
             >{`${name} - ${quantity} ${formatMessage((miscMessages as MiscMessages)[unit])}`}</List.Item>
+            // >{`${name} - ${quantity} `}</List.Item>
           );
         })}
       </List>

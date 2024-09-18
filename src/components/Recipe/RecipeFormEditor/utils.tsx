@@ -1,20 +1,12 @@
-import { useQuery } from '@apollo/client';
-
-import { TAllMetadata, TMetadataCleaned, TMetadataType, TUnitMetadata } from '../../../store/Metadata/types';
-import { GET_METADATA_BY_TYPE } from '../../../graphql/metadata/getMetadata';
-import { TIngredient, TPreparationStep, TRecipe } from '../../../store/Recipe/types';
+import {
+  TAllMetadata,
+  TCategoryMetadata,
+  TLabelMetadata,
+  TLevelMetadata,
+  TMetadataCleaned,
+} from '../../../store/Metadata/types';
+import { TIngredient, TPreparationStep, TRecipe, TRecipeCleaned } from '../../../store/Recipe/types';
 import { IFormikProps, TRemoveTypeObject } from './types';
-
-export const useGetUnits = () => {
-  const { data, loading, error } = useQuery<{ getMetadataByType: TUnitMetadata[] }>(GET_METADATA_BY_TYPE, {
-    variables: { type: TMetadataType.UNIT },
-  });
-
-  if (loading) return [];
-  if (error) return [];
-
-  return data?.getMetadataByType || [];
-};
 
 export const cleanMetadata = (metadata: TAllMetadata[]): TMetadataCleaned[] => {
   return metadata.map(item => ({
@@ -48,6 +40,24 @@ export const cleanPreparationSteps = (preparationSteps: TPreparationStep[] | und
       order: step.order,
     })) || []
   );
+};
+
+export const cleanedRecipe = (recipe: TRecipe): TRecipeCleaned => {
+  return {
+    title: recipe?.title || '',
+    description: recipe?.description || '',
+    imgSrc: recipe?.imgSrc || '',
+    servings: recipe?.servings || 1,
+    cookingTime: recipe?.cookingTime || 0,
+    difficultyLevel: recipe?.difficultyLevel
+      ? cleanSingleMetadata(recipe.difficultyLevel as TLevelMetadata)
+      : undefined,
+    category: recipe?.category ? cleanSingleMetadata(recipe.category as TCategoryMetadata) : undefined,
+    labels: recipe?.labels ? cleanMetadata(recipe?.labels as TLabelMetadata[]) : [],
+    youtubeLink: recipe?.youtubeLink || '',
+    ingredients: recipe?.ingredients || [],
+    preparationSteps: recipe?.preparationSteps || [],
+  };
 };
 
 export const getInitialValues = (
