@@ -95,8 +95,6 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
       return;
     }
 
-    const id = recipe?._id;
-
     const recipeInput: TRecipe | TNewRecipe = removeTypename({
       ...values,
       difficultyLevel: values.difficultyLevel,
@@ -105,7 +103,7 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
     });
 
     try {
-      let recipeId = id;
+      let recipeId = recipe?._id;
 
       if (!isEditMode) {
         const { data } = await createRecipe({
@@ -117,7 +115,7 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
       } else {
         await editRecipe({
           variables: {
-            editRecipeId: id,
+            editRecipeId: recipeId,
             recipeEditInput: recipeInput,
           },
         });
