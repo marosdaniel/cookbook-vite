@@ -81,4 +81,16 @@ export const miscMessages = defineMessages({
     id: 'misc.soup',
     defaultMessage: 'soup',
   },
+  'category-salad': {
+    id: 'misc.salad',
+    defaultMessage: 'salad',
+  },
+  'category-appetizer': {
+    id: 'misc.appetizer',
+    defaultMessage: 'appetizer',
+  },
+  'category-bakery': {
+    id: 'misc.bakery',
+    defaultMessage: 'bakery',
+  },
 });

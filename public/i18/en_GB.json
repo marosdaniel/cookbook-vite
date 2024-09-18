@@ -30,5 +30,8 @@
   "misc.dessert": "dessert",
   "misc.other": "other",
   "misc.sauce": "sauce",
-  "misc.soup": "soup"
+  "misc.soup": "soup",
+  "misc.salad": "salad",
+  "misc.appetizer": "appetizer",
+  "misc.bakery": "bakery"
 }

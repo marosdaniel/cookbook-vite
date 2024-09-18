@@ -30,5 +30,8 @@
   "misc.dessert": "desszert",
   "misc.other": "egyéb",
   "misc.sauce": "szósz",
-  "misc.soup": "leves"
+  "misc.soup": "leves",
+  "misc.salad": "saláta",
+  "misc.appetizer": "előétel",
+  "misc.bakery": "péksütemény"
 }

@@ -30,5 +30,8 @@
   "misc.dessert": "postre",
   "misc.other": "otro",
   "misc.sauce": "salsa",
-  "misc.soup": "sopa"
+  "misc.soup": "sopa",
+  "misc.salad": "ensalada",
+  "misc.appetizer": "aperitivo",
+  "misc.bakery": "panadería"
 }
