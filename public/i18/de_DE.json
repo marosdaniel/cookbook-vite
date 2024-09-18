@@ -33,5 +33,14 @@
   "misc.soup": "Suppe",
   "misc.salad": "Salat",
   "misc.appetizer": "Vorspeise",
-  "misc.bakery": "Backwaren"
+  "misc.bakery": "Backwaren",
+  "misc.vegan": "vegan",
+  "misc.vegetarian": "vegetarisch",
+  "misc.glutenfree": "glutenfrei",
+  "misc.asian": "asiatisch",
+  "misc.bbq": "Grill",
+  "misc.sugarfree": "zuckerfrei",
+  "misc.smoothie": "Smoothie",
+  "misc.cocktail": "Cocktail",
+  "misc.hungarian": "ungarisch"
 }

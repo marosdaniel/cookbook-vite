@@ -18,7 +18,7 @@ import { useGetAllMetadata } from '../../../store/Metadata';
 import PreparationStepsEditor from './PreparationStepsEditor';
 import IngredientsEditor from './IngredientsEditor';
 import GeneralsEditor from './GeneralsEditor';
-import { cleanedRecipe, nextEnabled, removeTypename } from './utils';
+import { nextEnabled, removeTypename } from './utils';
 import { IFormikProps, IProps } from './types';
 
 const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
@@ -134,7 +134,19 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
     }
   };
 
-  const initialValues = cleanedRecipe(recipe as TRecipe);
+  const initialValues = {
+    title: recipe?.title || '',
+    description: recipe?.description || '',
+    imgSrc: recipe?.imgSrc || '',
+    servings: recipe?.servings || 1,
+    cookingTime: recipe?.cookingTime || 0,
+    difficultyLevel: recipe?.difficultyLevel ?? undefined,
+    category: recipe?.category ?? undefined,
+    labels: recipe?.labels || [],
+    youtubeLink: recipe?.youtubeLink || '',
+    ingredients: recipe?.ingredients || [],
+    preparationSteps: recipe?.preparationSteps || [],
+  };
 
   const { values, handleChange, handleSubmit, handleBlur, errors, touched, isSubmitting, setFieldValue } =
     useFormik<IFormikProps>({

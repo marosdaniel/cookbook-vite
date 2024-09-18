@@ -33,5 +33,14 @@
   "misc.soup": "soup",
   "misc.salad": "salad",
   "misc.appetizer": "appetizer",
-  "misc.bakery": "bakery"
+  "misc.bakery": "bakery",
+  "misc.vegan": "vegan",
+  "misc.vegetarian": "vegetarian",
+  "misc.glutenfree": "gluten free",
+  "misc.asian": "asian",
+  "misc.bbq": "bbq",
+  "misc.sugarfree": "sugar free",
+  "misc.smoothie": "smoothie",
+  "misc.cocktail": "cocktail",
+  "misc.hungarian": "hungarian"
 }

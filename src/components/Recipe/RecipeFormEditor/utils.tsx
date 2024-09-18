@@ -44,6 +44,7 @@ export const cleanPreparationSteps = (preparationSteps: TPreparationStep[] | und
 
 export const cleanedRecipe = (recipe: TRecipe): TRecipeCleaned => {
   return {
+    createdBy: recipe?.createdBy || '',
     title: recipe?.title || '',
     description: recipe?.description || '',
     imgSrc: recipe?.imgSrc || '',

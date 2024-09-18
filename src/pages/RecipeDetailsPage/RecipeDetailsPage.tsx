@@ -25,12 +25,12 @@ import { MdDeleteOutline, MdOutlineModeEdit } from 'react-icons/md';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 
 import { GET_RECIPE_BY_ID } from '../../graphql/recipe/getRecipes';
-import { TRecipe } from '../../store/Recipe/types';
+import { TRecipe, TRecipeCleaned } from '../../store/Recipe/types';
 import { useAuthState } from '../../store/Auth';
 import { setEditRecipe } from '../../store/Recipe/recipe';
 import { ENonProtectedRoutes } from '../../router/types';
 import RecipeFormEditor from '../../components/Recipe/RecipeFormEditor';
-import { generalMessages } from '../../messages';
+import { generalMessages, miscMessages } from '../../messages';
 
 import PreparationStepList from './PreparationStepList';
 import IngredientList from './IngredientList';
@@ -38,8 +38,8 @@ import Labels from './Labels';
 import SideDetails from './SideDetails';
 import AuthorSection from './AuthorSection';
 import { IRecipeDetailsData } from './types';
-
-const generalM = generalMessages;
+import { cleanedRecipe } from '../../components/Recipe/RecipeFormEditor/utils';
+import { MiscMessages } from '../../providers/IntlProviderContainer/types';
 
 const RecipeDetailsPage = () => {
   const dispatch = useDispatch();
@@ -54,7 +54,9 @@ const RecipeDetailsPage = () => {
 
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
 
-  const recipe: TRecipe | undefined = data?.getRecipeById;
+  const rawRecipe: TRecipe | undefined = data?.getRecipeById;
+  if (!rawRecipe) return null;
+  const recipe: TRecipeCleaned | undefined = cleanedRecipe(rawRecipe);
 
   const {
     title,
@@ -92,8 +94,8 @@ const RecipeDetailsPage = () => {
   );
 
   const categoryLink = (
-    <Anchor c="teal.5" component={RouterLink} to={`${ENonProtectedRoutes.RECIPES}/?category=${category?.key}`}>
-      {category?.label}
+    <Anchor c="teal.5" component={RouterLink} to={`${ENonProtectedRoutes.RECIPES}/?category=${category?.value}`}>
+      {formatMessage((miscMessages as MiscMessages)[category!.value])}
     </Anchor>
   );
 
@@ -131,10 +133,10 @@ const RecipeDetailsPage = () => {
               </Menu.Target>
               <Menu.Dropdown>
                 <Menu.Item leftSection={<MdOutlineModeEdit size={16} />} onClick={handleEdit}>
-                  {formatMessage(generalM.edit)}
+                  {formatMessage(generalMessages.edit)}
                 </Menu.Item>
                 <Menu.Item leftSection={<MdDeleteOutline size={16} />} color="red">
-                  {formatMessage(generalM.delete)}
+                  {formatMessage(generalMessages.delete)}
                 </Menu.Item>
               </Menu.Dropdown>
             </Menu>

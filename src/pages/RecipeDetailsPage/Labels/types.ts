@@ -1,5 +1,5 @@
-import { TLabelMetadata } from '../../../store/Metadata/types';
+import { TMetadataCleaned } from '../../../store/Metadata/types';
 
 export interface IProps {
-  labels: TLabelMetadata[];
+  labels: TMetadataCleaned[];
 }

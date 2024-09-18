@@ -33,5 +33,14 @@
   "misc.soup": "leves",
   "misc.salad": "saláta",
   "misc.appetizer": "előétel",
-  "misc.bakery": "péksütemény"
+  "misc.bakery": "péksütemény",
+  "misc.vegan": "vegán",
+  "misc.vegetarian": "vegetáriánus",
+  "misc.glutenfree": "gluténmentes",
+  "misc.asian": "ázsiai",
+  "misc.bbq": "bbq",
+  "misc.sugarfree": "cukormentes",
+  "misc.smoothie": "turmix",
+  "misc.cocktail": "koktél",
+  "misc.hungarian": "magyar"
 }

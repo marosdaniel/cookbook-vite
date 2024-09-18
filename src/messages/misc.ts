@@ -93,4 +93,40 @@ export const miscMessages = defineMessages({
     id: 'misc.bakery',
     defaultMessage: 'bakery',
   },
+  'label-vegan': {
+    id: 'misc.vegan',
+    defaultMessage: 'vegan',
+  },
+  'label-vegetarian': {
+    id: 'misc.vegetarian',
+    defaultMessage: 'vegetarian',
+  },
+  'label-glutenfree': {
+    id: 'misc.glutenfree',
+    defaultMessage: 'gluten free',
+  },
+  'label-asian': {
+    id: 'misc.asian',
+    defaultMessage: 'asian',
+  },
+  'label-bbq': {
+    id: 'misc.bbq',
+    defaultMessage: 'bbq',
+  },
+  'label-sugarfree': {
+    id: 'misc.sugarfree',
+    defaultMessage: 'sugar free',
+  },
+  'label-smoothie': {
+    id: 'misc.smoothie',
+    defaultMessage: 'smoothie',
+  },
+  'label-cocktail': {
+    id: 'misc.cocktail',
+    defaultMessage: 'cocktail',
+  },
+  'label-hungarian': {
+    id: 'misc.hungarian',
+    defaultMessage: 'hungarian',
+  },
 });
