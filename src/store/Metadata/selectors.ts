@@ -14,8 +14,14 @@ export const useGetAllMetadata = (): TAllMetadata[] => {
 };
 
 export const useGetLabels = (): TMetadataCleaned[] => {
+  const { formatMessage } = useIntl();
   const labels = useGetAllMetadata().filter(metadata => metadata.type === TMetadataType.LABEL);
-  return cleanMetadata(labels);
+  return cleanMetadata(labels).map(label => {
+    return {
+      value: label.value,
+      label: formatMessage((miscMessages as MiscMessages)[label.value]),
+    };
+  });
 };
 
 export const useGetUnits = (): TMetadataCleaned[] => {
