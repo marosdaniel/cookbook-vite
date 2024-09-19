@@ -62,7 +62,7 @@ const AuthorSection: React.FC<IProps> = ({ author, isOwnRecipe }) => {
         </Flex>
         <Flex justify="space-between">
           <Text size="sm" tt="uppercase" c="gray.7">
-            {formatMessage(userMessages.favorites)}
+            {formatMessage(userMessages.favoriteRecipes)}
           </Text>
           <Text size="sm" fw="bold" c="gray.7">
             {favoriteRecipeCount}

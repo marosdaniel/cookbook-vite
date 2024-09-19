@@ -9,8 +9,8 @@ export const userMessages = defineMessages({
     id: 'user.recipes',
     defaultMessage: 'Recipes',
   },
-  favorites: {
-    id: 'user.favorites',
+  favoriteRecipes: {
+    id: 'user.favoriteRecipes',
     defaultMessage: 'Favorites',
   },
   followers: {
