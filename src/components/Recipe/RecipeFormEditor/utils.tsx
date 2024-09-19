@@ -8,17 +8,17 @@ import {
 import { TIngredient, TPreparationStep, TRecipe, TRecipeCleaned } from '../../../store/Recipe/types';
 import { IFormikProps, TRemoveTypeObject } from './types';
 
-export const cleanMetadata = (metadata: TAllMetadata[]): TMetadataCleaned[] => {
+export const cleanMetadata = (metadata: TAllMetadata[] | TMetadataCleaned[]): TMetadataCleaned[] => {
   return metadata.map(item => ({
-    value: item.key,
-    label: item.name,
+    value: 'key' in item ? item.key : item.value,
+    label: 'name' in item ? item.name : item.label,
   }));
 };
 
-export const cleanSingleMetadata = (metadata: TAllMetadata): TMetadataCleaned => {
+export const cleanSingleMetadata = (metadata: TAllMetadata | TMetadataCleaned): TMetadataCleaned => {
   return {
-    value: metadata.key,
-    label: metadata.name,
+    value: 'key' in metadata ? metadata.key : metadata.value,
+    label: 'name' in metadata ? metadata.name : metadata.label,
   };
 };
 

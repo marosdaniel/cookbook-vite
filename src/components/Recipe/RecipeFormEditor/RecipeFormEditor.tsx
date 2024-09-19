@@ -18,7 +18,7 @@ import { useGetAllMetadata } from '../../../store/Metadata';
 import PreparationStepsEditor from './PreparationStepsEditor';
 import IngredientsEditor from './IngredientsEditor';
 import GeneralsEditor from './GeneralsEditor';
-import { nextEnabled, removeTypename } from './utils';
+import { cleanMetadata, cleanSingleMetadata, nextEnabled, removeTypename } from './utils';
 import { IFormikProps, IProps } from './types';
 
 const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
@@ -138,9 +138,9 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
     imgSrc: recipe?.imgSrc || '',
     servings: recipe?.servings || 1,
     cookingTime: recipe?.cookingTime || 0,
-    difficultyLevel: recipe?.difficultyLevel ?? undefined,
-    category: recipe?.category ?? undefined,
-    labels: recipe?.labels || [],
+    difficultyLevel: recipe?.difficultyLevel ? cleanSingleMetadata(recipe?.difficultyLevel) : undefined,
+    category: recipe?.category ? cleanSingleMetadata(recipe?.category) : undefined,
+    labels: recipe?.labels ? cleanMetadata(recipe?.labels) : [],
     youtubeLink: recipe?.youtubeLink || '',
     ingredients: recipe?.ingredients || [],
     preparationSteps: recipe?.preparationSteps || [],
