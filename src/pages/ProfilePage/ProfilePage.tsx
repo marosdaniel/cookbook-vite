@@ -1,3 +1,4 @@
+import { useIntl } from 'react-intl';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Container, Tabs, Text } from '@mantine/core';
 
@@ -6,8 +7,10 @@ import ProfileTab from './TabContents/ProfileTab';
 import MyRecipesTab from './TabContents/MyRecipesTab';
 import FavoritesTab from './TabContents/FavoritesTab';
 import Seo from '../../components/Seo';
+import { userMessages } from '../../messages';
 
 const ProfilePage = () => {
+  const { formatMessage } = useIntl();
   const navigate = useNavigate();
   const { profileTab } = useParams();
 
@@ -39,13 +42,13 @@ const ProfilePage = () => {
       >
         <Tabs.List>
           <Tabs.Tab component={Text} value="profile">
-            Profile
+            {formatMessage(userMessages.profileTabTitle)}
           </Tabs.Tab>
           <Tabs.Tab component={Text} value="recipes">
-            My recipes
+            {formatMessage(userMessages.myRecipesTabTitle)}
           </Tabs.Tab>
           <Tabs.Tab component={Text} value="favorites">
-            Favorites
+            {formatMessage(userMessages.favoritesTabTitle)}
           </Tabs.Tab>
         </Tabs.List>
         <Tabs.Panel value="profile">

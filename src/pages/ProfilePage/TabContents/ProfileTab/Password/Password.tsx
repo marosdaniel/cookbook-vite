@@ -1,16 +1,19 @@
 import { useState } from 'react';
+import { useIntl } from 'react-intl';
 import { useMutation } from '@apollo/client';
+import { useFormik } from 'formik';
 import { Paper, Group, Title, Button, Box, PasswordInput, Text } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import { CHANGE_PASSWORD } from '../../../../../graphql/user/editUser';
+import { passwordEditValidationSchema } from '../../../../../utils/validation';
+import { useAuthState } from '../../../../../store/Auth';
+import { generalMessages, userMessages } from '../../../../../messages';
+import { IFormikProps } from './types';
 
 import classNames from './Password.module.css';
-import { useFormik } from 'formik';
-import { IFormikProps } from './types';
-import { useAuthState } from '../../../../../store/Auth';
-import { passwordEditValidationSchema } from '../../../../../utils/validation';
-import { notifications } from '@mantine/notifications';
 
 const Password = () => {
+  const { formatMessage } = useIntl();
   const { user } = useAuthState();
   const [changePassword, { loading }] = useMutation(CHANGE_PASSWORD, {
     onCompleted: () => {
@@ -84,7 +87,7 @@ const Password = () => {
     >
       <Group className={classNames.group} display="flex" justify="space-between" align="baseline">
         <Title order={5} mb="lg">
-          Change your password
+          {formatMessage(userMessages.changePasswordTitle)}
         </Title>
         {!isEditMode ? (
           <Button variant="subtle" onClick={() => setIsEditMode(true)}>
@@ -95,7 +98,7 @@ const Password = () => {
       {!isEditMode ? (
         <Box>
           <Box mb="lg">
-            <Text size="sm">Password</Text>
+            <Text size="sm">{formatMessage(userMessages.password)}</Text>
             <Text size="md">***************</Text>
           </Box>
         </Box>
@@ -105,9 +108,9 @@ const Password = () => {
             <PasswordInput
               required
               id="passoword"
-              placeholder="Password"
+              placeholder={formatMessage(userMessages.password)}
               mt="md"
-              label="Current password"
+              label={formatMessage(userMessages.currentPassword)}
               name="currentPassword"
               onChange={handleChange}
               onBlur={handleBlur}
@@ -117,10 +120,10 @@ const Password = () => {
             />
             <PasswordInput
               required
-              id="passoword"
-              placeholder="New password"
+              id="new-passoword"
+              placeholder={formatMessage(userMessages.newPassword)}
               mt="md"
-              label="New password"
+              label={formatMessage(userMessages.newPassword)}
               name="newPassword"
               onChange={handleChange}
               onBlur={handleBlur}
@@ -131,9 +134,9 @@ const Password = () => {
             <PasswordInput
               required
               id="confirm-passoword"
-              placeholder="Confirm password"
+              placeholder={formatMessage(userMessages.confirmPassword)}
               mt="md"
-              label="Confirm Password"
+              label={formatMessage(userMessages.confirmPassword)}
               name="confirmNewPassword"
               onChange={handleChange}
               onBlur={handleBlur}
@@ -146,10 +149,10 @@ const Password = () => {
           </Box>
           <Group mt="xl" display="flex" justify="flex-end">
             <Button size="sm" onClick={handleCancelPasswordEdit}>
-              Cancel
+              {formatMessage(generalMessages.cancel)}
             </Button>
             <Button size="sm" type="submit" disabled={!isValid || !dirty} loading={loading}>
-              Save
+              {formatMessage(generalMessages.save)}
             </Button>
           </Group>
         </Box>

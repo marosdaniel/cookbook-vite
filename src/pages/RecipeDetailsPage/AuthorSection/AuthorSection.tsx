@@ -1,13 +1,16 @@
 import { Link as RouterLink } from 'react-router-dom';
-import { Anchor, Avatar, Button, Divider, Flex, Group, Paper, Text } from '@mantine/core';
-import { IProps } from './types';
 import { useQuery } from '@apollo/client';
+import { useIntl } from 'react-intl';
+import { Anchor, Avatar, Button, Divider, Flex, Group, Paper, Text } from '@mantine/core';
 import { FaPlus } from 'react-icons/fa';
 
 import { GET_USER_BY_USERNAME } from '../../../graphql/user/getUser';
 import { IGetUserByUserNameData } from '../../../graphql/user/getUser/types';
+import { userMessages } from '../../../messages';
+import { IProps } from './types';
 
 const AuthorSection: React.FC<IProps> = ({ author, isOwnRecipe }) => {
+  const { formatMessage } = useIntl();
   const { data } = useQuery<IGetUserByUserNameData>(GET_USER_BY_USERNAME, {
     variables: { userName: author },
   });
@@ -51,7 +54,7 @@ const AuthorSection: React.FC<IProps> = ({ author, isOwnRecipe }) => {
       <Flex mt="lg" direction="column">
         <Flex justify="space-between">
           <Text size="sm" tt="uppercase" c="gray.7">
-            Recipes
+            {formatMessage(userMessages.recipes)}
           </Text>
           <Text size="sm" fw="bold" c="gray.7">
             {recipeCount}
@@ -59,7 +62,7 @@ const AuthorSection: React.FC<IProps> = ({ author, isOwnRecipe }) => {
         </Flex>
         <Flex justify="space-between">
           <Text size="sm" tt="uppercase" c="gray.7">
-            Favorites
+            {formatMessage(userMessages.favorites)}
           </Text>
           <Text size="sm" fw="bold" c="gray.7">
             {favoriteRecipeCount}
@@ -68,7 +71,7 @@ const AuthorSection: React.FC<IProps> = ({ author, isOwnRecipe }) => {
         <Divider mt="md" />
         <Flex justify="space-between" mt="md">
           <Text size="sm" tt="uppercase" c="gray.7">
-            Followings
+            {formatMessage(userMessages.followings)}
           </Text>
           <Text size="sm" fw="bold" c="gray.7">
             {0}
@@ -76,7 +79,7 @@ const AuthorSection: React.FC<IProps> = ({ author, isOwnRecipe }) => {
         </Flex>
         <Flex justify="space-between">
           <Text size="sm" tt="uppercase" c="gray.7">
-            Followers
+            {formatMessage(userMessages.followers)}
           </Text>
           <Text size="sm" fw="bold" c="gray.7">
             {0}
@@ -87,7 +90,7 @@ const AuthorSection: React.FC<IProps> = ({ author, isOwnRecipe }) => {
       {!isOwnRecipe ? (
         <Flex mt="xl" justify="center">
           <Button variant="filled" color="pink" leftSection={<FaPlus />} onClick={handleFollow}>
-            Follow
+            {formatMessage(userMessages.follow)}
           </Button>
         </Flex>
       ) : null}
