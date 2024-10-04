@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useIntl } from 'react-intl';
 import { useMutation } from '@apollo/client';
 import { useFormik } from 'formik';
 import { Box, Button, Center, Container, Group, Stepper, Title } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 
+import { generalMessages } from '../../../messages';
 import { useAppDispatch } from '../../../store/hooks';
 import { recipeFormValidationSchema } from '../../../utils/validation';
 import { useRecipeState } from '../../../store/Recipe';
@@ -22,6 +24,7 @@ import { cleanMetadata, cleanSingleMetadata, nextEnabled, removeTypename } from 
 import { IFormikProps, IProps } from './types';
 
 const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
+  const { formatMessage } = useIntl();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [active, setActive] = useState<number>(0);
@@ -229,7 +232,7 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
 
       <Group justify="flex-end" mt="xl">
         <Button variant="default" onClick={prevStep} disabled={active === 0}>
-          Back
+          {formatMessage(generalMessages.back)}
         </Button>
         <Button
           type={isFinalStep ? 'submit' : 'button'}

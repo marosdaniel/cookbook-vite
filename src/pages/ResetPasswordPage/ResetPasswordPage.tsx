@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { useIntl } from 'react-intl';
 import { useMutation } from '@apollo/client';
 import { useFormik } from 'formik';
 import { Alert, Button, Container, Group, Paper, Text, TextInput, Title } from '@mantine/core';
@@ -7,6 +8,7 @@ import { notifications } from '@mantine/notifications';
 import { CiCircleInfo } from 'react-icons/ci';
 import { IoArrowBackOutline } from 'react-icons/io5';
 
+import { authMessages, responseMessages, userMessages } from '../../messages';
 import Seo from '../../components/Seo';
 import { RESET_PASSWORD } from '../../graphql/user/editUser';
 import { ENonProtectedRoutes } from '../../router/types';
@@ -14,6 +16,7 @@ import { resetPasswordValidationSchema } from '../../utils/validation';
 import { IFormikProps } from './types';
 
 const ResetPasswordPage = () => {
+  const { formatMessage } = useIntl();
   const [error, setError] = useState<string>('');
   const [resetPassword, { loading }] = useMutation(RESET_PASSWORD);
   const [isResetPasswordEmailSent, setIsResetPasswordEmailSent] = useState(false);
@@ -28,7 +31,7 @@ const ResetPasswordPage = () => {
     } catch (_error: any) {
       setError(_error.message);
       notifications.show({
-        title: 'Reset password failed',
+        title: formatMessage(responseMessages.resetPasswordFailed),
         message: error,
         color: 'red',
       });
@@ -55,9 +58,9 @@ const ResetPasswordPage = () => {
         canonicalUrl="https://cookbook-vite.vercel.app/reset-password"
         locale="en_GB"
       />
-      <Title ta="center">Forgot your password?</Title>
+      <Title ta="center">{formatMessage(authMessages.forgotPasswordTitle)}</Title>
       <Text c="dimmed" fz="sm" ta="center">
-        Enter your email to get a reset link
+        {formatMessage(authMessages.forgotPasswordDescription)}
       </Text>
 
       <Paper component="form" onSubmit={handleSubmit} withBorder shadow="md" p={30} radius="md" mt="xl">
@@ -66,14 +69,16 @@ const ResetPasswordPage = () => {
             <TextInput
               id="email"
               name="email"
-              label="Your email"
+              label={formatMessage(userMessages.email)}
               placeholder="your@email.com"
               required
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.email}
               error={touched.email && Boolean(errors.email)}
-              description={touched.email && Boolean(errors.email) ? 'Should be a valid email' : ''}
+              description={
+                touched.email && Boolean(errors.email) ? formatMessage(responseMessages.shouldBeValidEmail) : ''
+              }
             />
             <Group mt="lg">
               <Button
@@ -83,13 +88,13 @@ const ResetPasswordPage = () => {
                 fullWidth
                 disabled={touched.email && Boolean(errors.email)}
               >
-                Reset password
+                {formatMessage(authMessages.resetPasswordButton)}
               </Button>
             </Group>
           </>
         ) : (
           <Alert variant="light" color="green" title="Email sent successfully" icon={<CiCircleInfo size={30} />}>
-            <Text size="sm">An email with a link to reset your password has been sent to your email address.</Text>
+            <Text size="sm">{formatMessage(responseMessages.emailWithResetLinkSent)}</Text>
           </Alert>
         )}
         <Button
@@ -102,7 +107,7 @@ const ResetPasswordPage = () => {
           pr={0}
           leftSection={<IoArrowBackOutline />}
         >
-          Back to login
+          {formatMessage(authMessages.backToLogin)}
         </Button>
       </Paper>
     </Container>

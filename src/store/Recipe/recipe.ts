@@ -12,7 +12,7 @@ const recipeSlice = createSlice({
   name: 'recipe',
   initialState,
   reducers: {
-    setEditRecipe: (state, action: PayloadAction<TRecipe | TRecipeCleaned>) => {
+    setEditRecipe: (state, action: PayloadAction<TRecipe | TRecipeCleaned | undefined>) => {
       state.editableRecipe.recipe = action.payload;
     },
     setCompletedSteps: (state, action: PayloadAction<number>) => {

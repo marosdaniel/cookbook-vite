@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { useIntl } from 'react-intl';
 import { useMutation } from '@apollo/client';
 import { useFormik } from 'formik';
 import {
@@ -16,6 +17,7 @@ import {
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 
+import { authMessages, userMessages } from '../../../messages';
 import { login } from '../../../store/Auth/auth';
 import { useAppDispatch } from '../../../store/hooks';
 import { CREATE_USER } from '../../../graphql/user/createUser';
@@ -27,6 +29,7 @@ import Seo from '../../../components/Seo';
 import { IFormikProps, IProps } from './types';
 
 const Register = ({ setIsLogin }: IProps) => {
+  const { formatMessage } = useIntl();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [createUser, { loading }] = useMutation(CREATE_USER);
@@ -43,7 +46,7 @@ const Register = ({ setIsLogin }: IProps) => {
       target="_blank"
       rel="noopener noreferrer"
     >
-      I accept the privacy policy
+      {formatMessage(authMessages.iAcceptThePrivacyPolicy)}
     </Anchor>
   );
 
@@ -122,14 +125,14 @@ const Register = ({ setIsLogin }: IProps) => {
         keywords="cookbook, register, create account, sign up, recipes, meal planning"
       />
       <Title ta="center" c="var(--mantine-color-gray-8)">
-        Welcome back!
+        {formatMessage(authMessages.welcomeBack)}
       </Title>
       <Group mt={5} justify="center" align="center">
         <Text c="dimmed" size="sm" ta="center">
-          Already have an account?{' '}
+          {formatMessage(authMessages.alreadyHaveAnAccount)}
         </Text>
         <Button variant="transparent" size="sm" onClick={() => setIsLogin(true)}>
-          Log in
+          {formatMessage(authMessages.login)}
         </Button>
       </Group>
 
@@ -137,9 +140,9 @@ const Register = ({ setIsLogin }: IProps) => {
         <TextInput
           required
           id="first-name"
-          placeholder="Your first name"
+          placeholder={formatMessage(userMessages.firstName)}
           mt="md"
-          label="First Name"
+          label={formatMessage(userMessages.firstName)}
           name="firstName"
           onChange={handleChange}
           onBlur={handleBlur}
@@ -150,9 +153,9 @@ const Register = ({ setIsLogin }: IProps) => {
         <TextInput
           required
           id="last-name"
-          placeholder="Your last name"
+          placeholder={formatMessage(userMessages.lastName)}
           mt="md"
-          label="Last Name"
+          label={formatMessage(userMessages.lastName)}
           name="lastName"
           onChange={handleChange}
           onBlur={handleBlur}
@@ -163,9 +166,9 @@ const Register = ({ setIsLogin }: IProps) => {
         <TextInput
           required
           id="user-name"
-          placeholder="Your username"
+          placeholder={formatMessage(userMessages.userName)}
           mt="md"
-          label="Username"
+          label={formatMessage(userMessages.userName)}
           name="userName"
           onChange={handleChange}
           onBlur={handleBlur}
@@ -174,7 +177,7 @@ const Register = ({ setIsLogin }: IProps) => {
           description={touched.userName && Boolean(errors.userName) ? 'Add a unique username' : ''}
         />
         <TextInput
-          label="Email"
+          label={formatMessage(userMessages.email)}
           placeholder="your@email.com"
           required
           mt="md"
@@ -187,11 +190,11 @@ const Register = ({ setIsLogin }: IProps) => {
           description={touched.email && Boolean(errors.email) ? 'Should be a valid email' : ''}
         />
         <PasswordInput
-          placeholder="Your password"
+          placeholder={formatMessage(userMessages.password)}
           required
           mt="md"
           id="password"
-          label="Password"
+          label={formatMessage(userMessages.password)}
           onChange={handleChange('password')}
           onBlur={handleBlur('password')}
           value={values.password}
@@ -199,11 +202,11 @@ const Register = ({ setIsLogin }: IProps) => {
           description={touched.password && Boolean(errors.password) ? 'Should be a valid password' : ''}
         />
         <PasswordInput
-          placeholder="Confirm password"
+          placeholder={formatMessage(userMessages.confirmPassword)}
           required
           mt="md"
           id="confirm-password"
-          label="Confirm your password"
+          label={formatMessage(userMessages.confirmPassword)}
           onChange={handleChange('confirmPassword')}
           onBlur={handleBlur('confirmPassword')}
           value={values.confirmPassword}
@@ -214,7 +217,7 @@ const Register = ({ setIsLogin }: IProps) => {
         <Checkbox size="md" label={privacyLink} mt="xl" checked={isPrivacyAccepted} onClick={handleChangePrivacy} />
 
         <Button fullWidth mt="xl" type="submit" disabled={loading || loginLoading || !isPrivacyAccepted}>
-          Create an account
+          {formatMessage(authMessages.createAnAccountButton)}
         </Button>
       </Paper>
     </Container>

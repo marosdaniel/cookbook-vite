@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useIntl } from 'react-intl';
 import { useMutation } from '@apollo/client';
 import { useFormik } from 'formik';
 import {
@@ -26,8 +27,10 @@ import { ENonProtectedRoutes } from '../../../router/types';
 import Seo from '../../../components/Seo';
 
 import { IFormikProps, IProps } from './types';
+import { authMessages, userMessages } from '../../../messages';
 
 const Login = ({ setIsLogin }: IProps) => {
+  const { formatMessage } = useIntl();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -85,20 +88,20 @@ const Login = ({ setIsLogin }: IProps) => {
         keywords="cookbook, login, recipes, cooking, gastronomy"
       />
       <Title ta="center" c="var(--mantine-color-gray-8)">
-        Welcome back!
+        {formatMessage(authMessages.welcomeBack)}
       </Title>
       <Group mt={5} justify="center" align="center">
         <Text c="dimmed" size="sm" ta="center">
-          Do not have an account yet?{' '}
+          {`${formatMessage(authMessages.dontYouHaveAnAccount)} `}
         </Text>
         <Button variant="transparent" size="sm" onClick={() => setIsLogin(false)}>
-          Create account
+          {formatMessage(authMessages.createAccountButton)}
         </Button>
       </Group>
 
       <Paper component="form" withBorder shadow="md" p={30} mt={30} radius="md" onSubmit={handleSubmit}>
         <TextInput
-          label="Email"
+          label={formatMessage(userMessages.email)}
           placeholder="your@email.com"
           required
           id="email"
@@ -111,11 +114,11 @@ const Login = ({ setIsLogin }: IProps) => {
           // helperText={touched.email && errors.email}
         />
         <PasswordInput
-          placeholder="Your password"
+          placeholder={formatMessage(userMessages.password)}
           required
           mt="md"
           id="password"
-          label="Password"
+          label={formatMessage(userMessages.password)}
           onChange={handleChange('password')}
           onBlur={handleBlur('password')}
           value={values.password}
@@ -123,7 +126,7 @@ const Login = ({ setIsLogin }: IProps) => {
           // helperText={touched.password && errors.password}
         />
         <Group justify="space-between" mt="lg">
-          <Checkbox label="Remember me" />
+          <Checkbox label={formatMessage(authMessages.rememberMe)} />
           <Anchor
             variant="gradient"
             gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
@@ -131,11 +134,11 @@ const Login = ({ setIsLogin }: IProps) => {
             size="sm"
             to={ENonProtectedRoutes.RESET_PASSWORD}
           >
-            Forgot password?
+            {formatMessage(authMessages.forgotPassword)}
           </Anchor>
         </Group>
         <Button fullWidth mt="xl" type="submit" disabled={loading}>
-          Sign in
+          {formatMessage(authMessages.signIn)}
         </Button>
         <Button
           type="button"
@@ -147,7 +150,7 @@ const Login = ({ setIsLogin }: IProps) => {
           pl={8}
           leftSection={<IoArrowBackOutline size={20} />}
         >
-          Go to the recipes
+          {formatMessage(authMessages.goToTheRecipes)}
         </Button>
       </Paper>
     </Container>

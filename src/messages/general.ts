@@ -17,4 +17,8 @@ export const generalMessages = defineMessages({
     id: 'general.save',
     defaultMessage: 'Save',
   },
+  back: {
+    id: 'general.back',
+    defaultMessage: 'Back',
+  },
 });
