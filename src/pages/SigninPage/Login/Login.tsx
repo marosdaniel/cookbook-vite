@@ -25,9 +25,9 @@ import { LOGIN_USER } from '../../../graphql/user/loginUser';
 import { loginValidationSchema } from '../../../utils/validation';
 import { ENonProtectedRoutes } from '../../../router/types';
 import Seo from '../../../components/Seo';
+import { authMessages, userMessages } from '../../../messages';
 
 import { IFormikProps, IProps } from './types';
-import { authMessages, userMessages } from '../../../messages';
 
 const Login = ({ setIsLogin }: IProps) => {
   const { formatMessage } = useIntl();
