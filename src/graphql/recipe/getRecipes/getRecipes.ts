@@ -11,6 +11,9 @@ const GET_RECIPES = gql`
         createdAt
         cookingTime
         imgSrc
+        ratingsCount
+        description
+        isFavorite
       }
     }
   }
@@ -61,6 +64,9 @@ const GET_RECIPE_BY_ID = gql`
         type
       }
       servings
+      ratingsCount
+      description
+      isFavorite
     }
   }
 `;
@@ -94,6 +100,9 @@ const GET_RECIPES_BY_USER_NAME = gql`
         updatedAt
         title
         _id
+        ratingsCount
+        description
+        isFavorite
       }
     }
   }

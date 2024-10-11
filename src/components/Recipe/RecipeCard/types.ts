@@ -4,4 +4,5 @@ export interface IProps {
   createdBy: string;
   id: string;
   imgSrc?: string;
+  isFavorite?: boolean;
 }

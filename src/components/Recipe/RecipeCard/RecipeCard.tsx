@@ -1,8 +1,55 @@
 import { Link as RouterLink } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
 import { Card, Badge, Group, Center, Avatar, ActionIcon, Image, Text, Anchor } from '@mantine/core';
+import { FaHeart } from 'react-icons/fa';
+import { LuHeart } from 'react-icons/lu';
+import { ADD_TO_FAVORITE_RECIPES, REMOVE_FROM_FAVORITE_RECIPES } from '../../../graphql/user/favoriteRecipes';
+import { useAuthState } from '../../../store/Auth';
+
 import { IProps } from './types';
 
-const RecipeCard = ({ title, description, createdBy, id, imgSrc }: IProps) => {
+const RecipeCard = ({ title, description, createdBy, id, imgSrc, isFavorite }: IProps) => {
+  const { user } = useAuthState();
+  const userId = user?._id ?? '';
+
+  const [addToFavoriteRecipes] = useMutation(ADD_TO_FAVORITE_RECIPES, {
+    variables: { userId, recipeId: id },
+    update(cache, { data }) {
+      cache.modify({
+        fields: {
+          getFavoriteRecipes(existingRecipes = []) {
+            return [...existingRecipes, data?.addToFavorites];
+          },
+        },
+      });
+    },
+    onCompleted: () => {
+      console.log('Recipe added to favorites');
+    },
+    onError: error => {
+      console.error('Error while adding recipe to favorites', error);
+    },
+  });
+
+  const [removeFromFavoriteRecipes] = useMutation(REMOVE_FROM_FAVORITE_RECIPES, {
+    variables: { userId, recipeId: id },
+    update(cache, { data }) {
+      cache.modify({
+        fields: {
+          getFavoriteRecipes(existingRecipes = []) {
+            return existingRecipes.filter((recipe: any) => recipe._id !== data?.removeFromFavorites);
+          },
+        },
+      });
+    },
+    onCompleted: () => {
+      console.log('Recipe removed from favorites');
+    },
+    onError: error => {
+      console.error('Error while removing recipe from favorites', error);
+    },
+  });
+
   const linkToUser = (userName: string) => (
     <Anchor
       size="sm"
@@ -48,9 +95,15 @@ const RecipeCard = ({ title, description, createdBy, id, imgSrc }: IProps) => {
         </Center>
 
         <Group gap={8} mr={0}>
-          <ActionIcon>
-            {/* <IconHeart style={{ width: rem(16), height: rem(16) }} color={theme.colors.red[6]} /> */}
-          </ActionIcon>
+          {user?._id && (
+            <ActionIcon variant="transparent" color="red.6" size="sm">
+              {isFavorite ? (
+                <FaHeart style={{ width: '100%', height: '100%' }} onClick={() => addToFavoriteRecipes} />
+              ) : (
+                <LuHeart style={{ width: '100%', height: '100%' }} onClick={() => removeFromFavoriteRecipes} />
+              )}
+            </ActionIcon>
+          )}
           <ActionIcon>
             {/* <IconBookmark style={{ width: rem(16), height: rem(16) }} color={theme.colors.yellow[7]} /> */}
           </ActionIcon>

@@ -66,7 +66,7 @@ const GET_USER_BY_USERNAME = gql`
   }
 `;
 
-export const GET_ALL_USERS = gql`
+const GET_ALL_USERS = gql`
   query GetAllUser {
     getAllUser {
       _id
@@ -80,4 +80,4 @@ export const GET_ALL_USERS = gql`
   }
 `;
 
-export { GET_USER_BY_ID, GET_USER_BY_USERNAME };
+export { GET_USER_BY_ID, GET_USER_BY_USERNAME, GET_ALL_USERS };

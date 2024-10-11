@@ -83,6 +83,7 @@ const HomePage = () => {
                 description={recipe.description || ''}
                 createdBy={recipe.createdBy || 'Anonymous'}
                 id={recipe._id!}
+                imgSrc={recipe.imgSrc}
               />
             </Carousel.Slide>
           ))}
