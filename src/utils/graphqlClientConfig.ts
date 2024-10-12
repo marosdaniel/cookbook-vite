@@ -10,12 +10,13 @@ if (import.meta.env.DEV) {
 
 const httpLink = createHttpLink({ uri });
 
-const authLink = setContext((_, { headers }) => {
+const authLink = setContext((_, { headers = {} }) => {
   const token = localStorage.getItem('c_b_token');
+
   return {
     headers: {
       ...headers,
-      authorization: token ?? '',
+      authorization: token ? `Bearer ${token}` : '',
     },
   };
 });

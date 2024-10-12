@@ -9,6 +9,8 @@ const GET_FAVORITE_RECIPES = gql`
       averageRating
       ratingsCount
       description
+      isFavorite
+      _id
     }
   }
 `;

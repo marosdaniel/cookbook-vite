@@ -24,6 +24,7 @@ export type TRecipe = {
   labels: TLabelMetadata[] | [];
   servings: number;
   youtubeLink?: string;
+  isFavorite?: boolean;
 };
 
 export type TRecipeCleaned = {

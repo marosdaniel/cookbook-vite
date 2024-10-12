@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { Container, Center, Title } from '@mantine/core';
+import { Container, Center, Title, LoadingOverlay } from '@mantine/core';
 import RecipeList from '../../../../components/Recipe/RecipeList';
 import { useAuthState } from '../../../../store/Auth';
 import { GET_FAVORITE_RECIPES } from '../../../../graphql/user/getFavoriteRecipes';
@@ -12,6 +12,18 @@ const FavoritesTab = () => {
   });
 
   const favoriteRecipes = data?.getFavoriteRecipes || [];
+
+  console.log('favoriteRecipes', favoriteRecipes);
+
+  if (loading) {
+    return (
+      <Container id="my-recipes" mt="xl">
+        <Center h={200}>
+          <LoadingOverlay visible={loading} />
+        </Center>
+      </Container>
+    );
+  }
 
   return (
     <Container id="my-recipes" mt="xl">

@@ -84,6 +84,7 @@ const HomePage = () => {
                 createdBy={recipe.createdBy || 'Anonymous'}
                 id={recipe._id!}
                 imgSrc={recipe.imgSrc}
+                isFavorite={recipe.isFavorite}
               />
             </Carousel.Slide>
           ))}

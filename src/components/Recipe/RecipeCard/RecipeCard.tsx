@@ -1,52 +1,63 @@
-import { Link as RouterLink } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
-import { Card, Badge, Group, Center, Avatar, ActionIcon, Image, Text, Anchor } from '@mantine/core';
+import { ActionIcon, Anchor, Avatar, Badge, Card, Center, Group, Image, Text } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import { useState } from 'react';
 import { FaHeart } from 'react-icons/fa';
 import { LuHeart } from 'react-icons/lu';
+import { Link as RouterLink } from 'react-router-dom';
+
 import { ADD_TO_FAVORITE_RECIPES, REMOVE_FROM_FAVORITE_RECIPES } from '../../../graphql/user/favoriteRecipes';
 import { useAuthState } from '../../../store/Auth';
 
+import { getHost } from '../../../utils/getHost';
+import { ENonProtectedRoutes } from '../../../router/types';
+import CopyActionButton from '../../CopyActionButton';
 import { IProps } from './types';
 
-const RecipeCard = ({ title, description, createdBy, id, imgSrc, isFavorite }: IProps) => {
+const RecipeCard = ({ title, description, createdBy, id, imgSrc, isFavorite: initialIsFavorite }: IProps) => {
   const { user } = useAuthState();
   const userId = user?._id ?? '';
+  const recipePath = `${getHost()}${ENonProtectedRoutes.RECIPES}/${id}`;
 
-  const [addToFavoriteRecipes] = useMutation(ADD_TO_FAVORITE_RECIPES, {
-    variables: { userId, recipeId: id },
-    update(cache, { data }) {
-      cache.modify({
-        fields: {
-          getFavoriteRecipes(existingRecipes = []) {
-            return [...existingRecipes, data?.addToFavorites];
-          },
-        },
+  const [isFavorite, setIsFavorite] = useState(initialIsFavorite);
+
+  const [addToFavoriteRecipes, { loading: addFavLoading }] = useMutation(ADD_TO_FAVORITE_RECIPES, {
+    variables: { userId, recipeId: id.toString() },
+
+    onCompleted: () => {
+      setIsFavorite(true);
+      notifications.show({
+        title: 'Recipe added to favorites',
+        message: 'Your recipe has been successfully added to favorites',
+        color: 'green',
       });
     },
-    onCompleted: () => {
-      console.log('Recipe added to favorites');
-    },
-    onError: error => {
-      console.error('Error while adding recipe to favorites', error);
+    onError: () => {
+      notifications.show({
+        title: 'Error',
+        message: 'An error occurred while adding recipe to favorites',
+        color: 'red',
+      });
     },
   });
 
-  const [removeFromFavoriteRecipes] = useMutation(REMOVE_FROM_FAVORITE_RECIPES, {
-    variables: { userId, recipeId: id },
-    update(cache, { data }) {
-      cache.modify({
-        fields: {
-          getFavoriteRecipes(existingRecipes = []) {
-            return existingRecipes.filter((recipe: any) => recipe._id !== data?.removeFromFavorites);
-          },
-        },
+  const [removeFromFavoriteRecipes, { loading: removeFavLoading }] = useMutation(REMOVE_FROM_FAVORITE_RECIPES, {
+    variables: { userId, recipeId: id.toString() },
+
+    onCompleted: () => {
+      setIsFavorite(false);
+      notifications.show({
+        title: 'Recipe removed from favorites',
+        message: 'Your recipe has been successfully removed from favorites',
+        color: 'green',
       });
     },
-    onCompleted: () => {
-      console.log('Recipe removed from favorites');
-    },
-    onError: error => {
-      console.error('Error while removing recipe from favorites', error);
+    onError: () => {
+      notifications.show({
+        title: 'Error',
+        message: 'An error occurred while removing recipe from favorites',
+        color: 'red',
+      });
     },
   });
 
@@ -61,10 +72,19 @@ const RecipeCard = ({ title, description, createdBy, id, imgSrc, isFavorite }: I
       {userName}
     </Anchor>
   );
+
+  const toggleFavorite = () => {
+    if (isFavorite) {
+      removeFromFavoriteRecipes();
+    } else {
+      addToFavoriteRecipes();
+    }
+  };
+
   return (
     <Card radius="md" h={400} shadow="lg" bg="gray.0">
       <Card.Section>
-        <RouterLink to={`/recipes/${id}`}>
+        <RouterLink to={`${ENonProtectedRoutes.RECIPES}/${id}`}>
           <Image src={imgSrc ?? 'https://cdn-icons-png.flaticon.com/256/6039/6039575.png'} height={180} fit="contain" />
         </RouterLink>
       </Card.Section>
@@ -96,19 +116,16 @@ const RecipeCard = ({ title, description, createdBy, id, imgSrc, isFavorite }: I
 
         <Group gap={8} mr={0}>
           {user?._id && (
-            <ActionIcon variant="transparent" color="red.6" size="sm">
+            <ActionIcon variant="transparent" color="red.6" size="sm" loading={addFavLoading || removeFavLoading}>
               {isFavorite ? (
-                <FaHeart style={{ width: '100%', height: '100%' }} onClick={() => addToFavoriteRecipes} />
+                <FaHeart style={{ width: '100%', height: '100%' }} onClick={toggleFavorite} />
               ) : (
-                <LuHeart style={{ width: '100%', height: '100%' }} onClick={() => removeFromFavoriteRecipes} />
+                <LuHeart style={{ width: '100%', height: '100%' }} onClick={toggleFavorite} />
               )}
             </ActionIcon>
           )}
-          <ActionIcon>
-            {/* <IconBookmark style={{ width: rem(16), height: rem(16) }} color={theme.colors.yellow[7]} /> */}
-          </ActionIcon>
-          <ActionIcon>
-            {/* <IconShare style={{ width: rem(16), height: rem(16) }} color={theme.colors.blue[6]} /> */}
+          <ActionIcon variant="transparent">
+            <CopyActionButton path={recipePath} />
           </ActionIcon>
         </Group>
       </Group>
