@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { gql, useMutation } from '@apollo/client';
-import { ActionIcon, Anchor, Avatar, Badge, Card, Center, Group, Image, Text } from '@mantine/core';
+import { ActionIcon, Avatar, Badge, Card, Center, Group, Image, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { FaHeart } from 'react-icons/fa';
 import { LuHeart } from 'react-icons/lu';
@@ -14,6 +14,7 @@ import { ENonProtectedRoutes } from '../../../router/types';
 import { GET_FAVORITE_RECIPES } from '../../../graphql/user/getFavoriteRecipes';
 import { GET_RECIPES_BY_USER_NAME } from '../../../graphql/recipe/getRecipes';
 import CopyActionButton from '../../CopyActionButton';
+import LinkToUser from '../../LinkToUser';
 import { IProps } from './types';
 
 const RecipeCard = ({ title, description, createdBy, id, imgSrc, isFavorite: initialIsFavorite }: IProps) => {
@@ -193,18 +194,6 @@ const RecipeCard = ({ title, description, createdBy, id, imgSrc, isFavorite: ini
     },
   });
 
-  const linkToUser = (userName: string) => (
-    <Anchor
-      size="sm"
-      variant="gradient"
-      gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
-      component={RouterLink}
-      to={`/users/${userName}`}
-    >
-      {userName}
-    </Anchor>
-  );
-
   const toggleFavorite = () => {
     if (isFavorite) {
       removeFromFavoriteRecipes();
@@ -242,7 +231,7 @@ const RecipeCard = ({ title, description, createdBy, id, imgSrc, isFavorite: ini
             mr="xs"
           />
           <Text fz="sm" inline>
-            {linkToUser(createdBy)}
+            <LinkToUser userName={createdBy} />
           </Text>
         </Center>
 
