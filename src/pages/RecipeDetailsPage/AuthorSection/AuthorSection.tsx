@@ -28,10 +28,10 @@ const AuthorSection: React.FC<IProps> = ({ author, isOwnRecipe }) => {
   };
 
   return (
-    <Paper shadow="xl" radius="lg" p="xl" component="section" id="author-section">
+    <Paper shadow="xl" radius="lg" p="xl" component="section" id="author-section" mt={54}>
       <Group justify="center" id="avatar">
         <Avatar
-          mt={-32}
+          mt={-88}
           size={132}
           src="https://letstryai.com/wp-content/uploads/2023/11/stable-diffusion-avatar-prompt-example-2.jpg"
           alt="no image here"

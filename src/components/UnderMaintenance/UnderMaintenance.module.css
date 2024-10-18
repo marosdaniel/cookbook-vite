@@ -1,0 +1,26 @@
+/* UnderMaintenance.css */
+.wrapper {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  background: linear-gradient(to bottom, #ffffff, #d6336c);
+  text-align: center;
+}
+
+.title {
+  font-size: 48px;
+  font-weight: 900;
+}
+
+.text {
+  font-size: 18px;
+  color: #7a7a7a;
+  margin-bottom: 16px;
+}
+
+.button {
+  margin-top: 24px;
+}

@@ -40,6 +40,7 @@ import AuthorSection from './AuthorSection';
 import { IRecipeDetailsData } from './types';
 import { cleanedRecipe } from '../../components/Recipe/RecipeFormEditor/utils';
 import { MiscMessages } from '../../providers/IntlProviderContainer/types';
+import HeroImageBackground from '../../components/HeroImageBackground';
 
 const RecipeDetailsPage = () => {
   const dispatch = useDispatch();
@@ -118,88 +119,92 @@ const RecipeDetailsPage = () => {
   if (loading) return <LoadingOverlay visible={loading} />;
 
   return (
-    <Container id="recipe-detail-page" size="md">
-      <Flex mb={80} justify="space-between">
-        <Title id="recipe-title" order={1} mb="lg" c="gray.7">
-          {title}
-        </Title>
-        {isOwnRecipe ? (
-          <Group>
-            <Menu withArrow>
-              <Menu.Target>
-                <ActionIcon size="lg" variant="subtle">
-                  <BsThreeDotsVertical size={28} />
-                </ActionIcon>
-              </Menu.Target>
-              <Menu.Dropdown>
-                <Menu.Item leftSection={<MdOutlineModeEdit size={16} />} onClick={handleEdit}>
-                  {formatMessage(generalMessages.edit)}
-                </Menu.Item>
-                <Menu.Item leftSection={<MdDeleteOutline size={16} />} color="red">
-                  {formatMessage(generalMessages.delete)}
-                </Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
-          </Group>
-        ) : null}
-      </Flex>
-
-      {!!error?.message && (
-        <Center h="384px">
-          <Alert mt="md" color="red">
-            {error?.message ?? 'An error occurred while fetching recipes'}
-          </Alert>
-        </Center>
-      )}
-      <Grid justify="space-between" columns={24} grow gutter="xxs">
-        <Grid.Col
-          span={{
-            base: 24,
-            md: 16,
-            lg: 17,
-          }}
-        >
-          <AspectRatio ratio={16 / 9} style={{ flex: `0 0 ${rem(100)}` }} mb="xl">
-            <Image
-              alt={title}
-              radius="md"
-              h={'auto'}
-              mah={'380px'}
-              w="100%"
-              fit="contain"
-              src={imgSrc}
-              fallbackSrc="https://t3.ftcdn.net/jpg/02/60/12/88/360_F_260128861_Q2ttKHoVw2VrmvItxyCVBnEyM1852MoJ.jpg"
-            />
-          </AspectRatio>
-          {isLabels && <Labels labels={labels} />}
-
-          <Text id="recipe-subtitle" fs="italic" variant="text" ta="center">
-            {categoryLink} from {linkToCreator}'s kitchen
-          </Text>
-          <Text id="recipe-description" fs="italic" ta="center" mt="lg">
-            {description}
-          </Text>
-
-          <SideDetails difficultyLevel={difficultyLevel!} servings={servings!} cookingTime={cookingTime!} />
-
-          {ingredients && ingredients.length && <IngredientList ingredients={ingredients} title="Ingredients" />}
-          {orderedPreparationSteps && orderedPreparationSteps.length > 0 && (
-            <PreparationStepList preparationSteps={orderedPreparationSteps} title="Cooking instructions" />
-          )}
-        </Grid.Col>
-        {createdBy ? (
+    <>
+      <HeroImageBackground>
+        <Flex mb={80} justify="space-between">
+          <Title id="recipe-title" order={1} mt="xl" mb="lg" c="white" size={'h1'}>
+            {title}
+          </Title>
+          {isOwnRecipe ? (
+            <Group>
+              <Menu withArrow>
+                <Menu.Target>
+                  <ActionIcon size="lg" variant="subtle">
+                    <BsThreeDotsVertical size={32} color="white" />
+                  </ActionIcon>
+                </Menu.Target>
+                <Menu.Dropdown>
+                  <Menu.Item leftSection={<MdOutlineModeEdit size={16} />} onClick={handleEdit}>
+                    {formatMessage(generalMessages.edit)}
+                  </Menu.Item>
+                  <Menu.Item leftSection={<MdDeleteOutline size={16} />} color="red">
+                    {formatMessage(generalMessages.delete)}
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
+            </Group>
+          ) : null}
+        </Flex>
+      </HeroImageBackground>
+      <Container id="recipe-detail-page" size="md" mt={'-10%'}>
+        {!!error?.message && (
+          <Center h="384px">
+            <Alert mt="md" color="red">
+              {error?.message ?? 'An error occurred while fetching recipes'}
+            </Alert>
+          </Center>
+        )}
+        <Grid justify="space-between" columns={24} grow gutter="lg">
           <Grid.Col
+            style={{ zIndex: 1 }}
             span={{
               base: 24,
-              md: 8,
-              lg: 5,
+              md: 16,
+              lg: 17,
             }}
           >
-            <AuthorSection author={createdBy} isOwnRecipe={isOwnRecipe} />
+            <AspectRatio ratio={16 / 9} style={{ flex: `0 0 ${rem(100)}` }} mb="xl">
+              <Image
+                alt={title}
+                h={'auto'}
+                radius="lg"
+                mah={'380px'}
+                // fit="scale-down"
+                src={imgSrc}
+                fallbackSrc="https://t3.ftcdn.net/jpg/02/60/12/88/360_F_260128861_Q2ttKHoVw2VrmvItxyCVBnEyM1852MoJ.jpg"
+              />
+            </AspectRatio>
+            {isLabels && <Labels labels={labels} />}
+
+            <Text id="recipe-subtitle" fs="italic" variant="text" ta="center">
+              {categoryLink} from {linkToCreator}'s kitchen
+            </Text>
+            <Text id="recipe-description" fs="italic" ta="center" mt="lg">
+              {description}
+            </Text>
+
+            <SideDetails difficultyLevel={difficultyLevel!} servings={servings!} cookingTime={cookingTime!} />
+
+            {ingredients && ingredients.length && <IngredientList ingredients={ingredients} title="Ingredients" />}
+            {orderedPreparationSteps && orderedPreparationSteps.length > 0 && (
+              <PreparationStepList preparationSteps={orderedPreparationSteps} title="Cooking instructions" />
+            )}
           </Grid.Col>
-        ) : null}
-      </Grid>
-    </Container>
+          {createdBy ? (
+            <Grid.Col
+              style={{ zIndex: 1 }}
+              span={{
+                base: 24,
+                md: 8,
+                lg: 5,
+              }}
+            >
+              <AuthorSection author={createdBy} isOwnRecipe={isOwnRecipe} />
+            </Grid.Col>
+          ) : null}
+        </Grid>
+      </Container>
+    </>
   );
 };
 
