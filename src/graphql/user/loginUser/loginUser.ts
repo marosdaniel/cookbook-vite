@@ -7,6 +7,12 @@ const LOGIN_USER = gql`
       user {
         userName
         _id
+        role
+        email
+        firstName
+        lastName
+        locale
+        createdAt
       }
       userId
     }
