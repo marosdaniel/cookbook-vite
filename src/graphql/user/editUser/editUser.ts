@@ -21,13 +21,19 @@ const CHANGE_PASSWORD = gql`
 
 const RESET_PASSWORD = gql`
   mutation Mutation($email: String!) {
-    resetPassword(email: $email)
+    resetPassword(email: $email) {
+      success
+      message
+    }
   }
 `;
 
 const SET_NEW_PASSWORD = gql`
   mutation Mutation($newPassword: String!, $token: String!) {
-    setNewPassword(newPassword: $newPassword, token: $token)
+    setNewPassword(newPassword: $newPassword, token: $token) {
+      success
+      message
+    }
   }
 `;
 
