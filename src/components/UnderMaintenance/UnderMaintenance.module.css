@@ -10,6 +10,10 @@
   text-align: center;
 }
 
+.dark {
+  background: linear-gradient(to bottom, #1a1b1e 0%, #d6336c 100%);
+}
+
 .title {
   font-size: 48px;
   font-weight: 900;
@@ -17,7 +21,6 @@
 
 .text {
   font-size: 18px;
-  color: #7a7a7a;
   margin-bottom: 16px;
 }
 

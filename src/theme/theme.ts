@@ -1,4 +1,5 @@
-import { createTheme, MantineTheme, MantineThemeOverride, NavLink } from '@mantine/core';
+import { createTheme, MantineTheme, MantineThemeOverride } from '@mantine/core';
+import UnderMaintenance from '../components/UnderMaintenance';
 
 export const theme: MantineThemeOverride = createTheme({
   // fontFamily: 'Segoe UI',

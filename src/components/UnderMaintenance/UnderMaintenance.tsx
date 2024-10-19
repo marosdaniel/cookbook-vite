@@ -1,11 +1,18 @@
 import { Title, Text, Button } from '@mantine/core';
+import cx from 'clsx';
 
 import classes from './UnderMaintenance.module.css';
+import { useGlobalState } from '../../store/Global';
 
 const UnderMaintenance = () => {
+  const { isDarkMode } = useGlobalState();
+
+  const wrapperClasses = cx(classes.wrapper, {
+    [classes.dark]: isDarkMode,
+  });
   return (
-    <div className={classes.wrapper}>
-      <Title className={classes.title} order={1} c="gray.7" mb="xl">
+    <div className={wrapperClasses}>
+      <Title className={classes.title} order={1} mb="xl">
         Page under Maintenance
       </Title>
       <Text className={classes.text}>
