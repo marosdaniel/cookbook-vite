@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import cx from 'clsx';
 import { gql, useMutation } from '@apollo/client';
 import { ActionIcon, Avatar, Badge, Card, Center, Group, Image, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
@@ -13,11 +14,19 @@ import { getHost } from '../../../utils/getHost';
 import { ENonProtectedRoutes } from '../../../router/types';
 import { GET_FAVORITE_RECIPES } from '../../../graphql/user/getFavoriteRecipes';
 import { GET_RECIPES_BY_USER_NAME } from '../../../graphql/recipe/getRecipes';
+import { useGlobalState } from '../../../store/Global';
 import CopyActionButton from '../../CopyActionButton';
 import LinkToUser from '../../LinkToUser';
 import { IProps } from './types';
 
+import classes from './RecipeCard.module.css';
+
 const RecipeCard = ({ title, description, createdBy, id, imgSrc, isFavorite: initialIsFavorite }: IProps) => {
+  const { isDarkMode } = useGlobalState();
+
+  const wrapperClasses = cx({
+    [classes.dark]: isDarkMode,
+  });
   const { user } = useAuthState();
   const userId = user?._id ?? '';
   const recipePath = `${getHost()}${ENonProtectedRoutes.RECIPES}/${id}`;
@@ -203,7 +212,7 @@ const RecipeCard = ({ title, description, createdBy, id, imgSrc, isFavorite: ini
   };
 
   return (
-    <Card radius="md" h={400} shadow="lg" bg="gray.0">
+    <Card radius="md" h={400} shadow="lg" bg="gray.0" className={wrapperClasses}>
       <Card.Section>
         <RouterLink to={`${ENonProtectedRoutes.RECIPES}/${id}`}>
           <Image src={imgSrc ?? 'https://cdn-icons-png.flaticon.com/256/6039/6039575.png'} height={180} fit="contain" />

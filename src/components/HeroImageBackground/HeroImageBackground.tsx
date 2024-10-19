@@ -7,7 +7,10 @@ import { useGlobalState } from '../../store/Global';
 const HeroImageBackground = ({ children }: PropsWithChildren) => {
   const { isDarkMode } = useGlobalState();
 
-  const wrapperClasses = cx(classes.wrapper, children ? classes.wrapperWithChildren : null);
+  const wrapperClasses = cx(classes.wrapper, children ? classes.wrapperWithChildren : null, {
+    [classes.dark]: isDarkMode,
+  });
+
   const baseContent = (
     <div className={classes.inner}>
       <Title className={classes.title}>
