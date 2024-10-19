@@ -44,7 +44,6 @@ const HomePage = () => {
         classNames={classes}
         withIndicators
         controlSize={36}
-        height="100%"
         slideSize={{ base: '100%', md: '50%', lg: '33%' }}
         slideGap={{ base: 0, sm: 'md' }}
         loop
@@ -70,7 +69,6 @@ const HomePage = () => {
           classNames={classes}
           withIndicators
           controlSize={36}
-          height="100%"
           slideSize={{ base: '100%', md: '50%', lg: '33%' }}
           slideGap={{ base: 0, sm: 'md' }}
           loop

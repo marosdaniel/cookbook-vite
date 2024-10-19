@@ -9,7 +9,9 @@ import { useAppDispatch } from '../../store/hooks';
 const DarkModeSwitcher = () => {
   const { isDarkMode } = useGlobalState();
   const dispatch = useAppDispatch();
-  const { setColorScheme } = useMantineColorScheme();
+  const { setColorScheme } = useMantineColorScheme({
+    keepTransitions: true,
+  });
 
   const toggleDarkModeHandler = () => {
     dispatch(toggleDarkMode());

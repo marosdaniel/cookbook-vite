@@ -2,8 +2,11 @@ import cx from 'clsx';
 import { Title, Text, Container, Button } from '@mantine/core';
 import classes from './HeroImageBackground.module.css';
 import { PropsWithChildren } from 'react';
+import { useGlobalState } from '../../store/Global';
 
 const HeroImageBackground = ({ children }: PropsWithChildren) => {
+  const { isDarkMode } = useGlobalState();
+
   const wrapperClasses = cx(classes.wrapper, children ? classes.wrapperWithChildren : null);
   const baseContent = (
     <div className={classes.inner}>

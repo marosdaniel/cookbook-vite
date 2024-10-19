@@ -8,12 +8,19 @@
   background: linear-gradient(to bottom, #ffffff 0%, #d6336c 60%, #d6336c 100%);
 
   box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.2);
+  margin: -16px;
+
+  /* Dark Mode Background */
+  @media (prefers-color-scheme: dark) {
+    .wrapper {
+      background: linear-gradient(to bottom, #1a1b1e 0%, #d6336c 60%, #d6336c 100%);
+    }
+  }
 
   @media (max-width: $mantine-breakpoint-xs) {
     padding-top: rem(80px);
     padding-bottom: rem(50px);
   }
-  margin: -16px;
 }
 
 .wrapperWithChildren {
