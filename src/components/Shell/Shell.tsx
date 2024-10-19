@@ -110,8 +110,6 @@ const Shell = ({ children }: IProps) => {
                   label={item.name}
                   leftSection={<item.iconComponent size={20} />}
                   active={isActiveNavLink}
-                  c="var(--mantine-color-gray-7)"
-                  fw={600}
                   disabled={item.disabled}
                 />
               );
@@ -132,8 +130,6 @@ const Shell = ({ children }: IProps) => {
                   leftSection={<item.iconComponent size={20} />}
                   onClick={e => handleClick(e, item)}
                   active={isActiveNavLink}
-                  c="var(--mantine-color-gray-7)"
-                  fw={600}
                 />
               ) : null;
             })}

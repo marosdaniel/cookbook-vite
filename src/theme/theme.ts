@@ -1,4 +1,4 @@
-import { createTheme, MantineTheme, MantineThemeOverride } from '@mantine/core';
+import { createTheme, MantineTheme, MantineThemeOverride, NavLink } from '@mantine/core';
 
 export const theme: MantineThemeOverride = createTheme({
   // fontFamily: 'Segoe UI',
@@ -50,6 +50,12 @@ export const theme: MantineThemeOverride = createTheme({
     Checkbox: {
       defaultProps: {
         c: 'pink.7',
+      },
+    },
+    NavLink: {
+      defaultProps: {
+        c: 'gray.7',
+        fw: 600,
       },
     },
     Title: {
