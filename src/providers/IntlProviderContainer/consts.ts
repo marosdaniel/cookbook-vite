@@ -1,4 +1,4 @@
-import { ILanguageOption } from './types';
+import { ILanguageOption, TLanguageLocales } from './types';
 
 export const LANGUAGE_OPTIONS: ILanguageOption[] = [
   {
@@ -27,3 +27,10 @@ export const LANGUAGE_OPTIONS: ILanguageOption[] = [
     flag: '🇩🇪',
   },
 ];
+
+export const localeMap: Record<string, TLanguageLocales> = {
+  hu: 'hu_HU',
+  en: 'en_GB',
+  es: 'es_ES',
+  de: 'de_DE',
+};
