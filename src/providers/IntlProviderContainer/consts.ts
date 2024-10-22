@@ -1,4 +1,4 @@
-import { ILanguageOption, TLanguageLocales } from './types';
+import { ILanguageOption } from './types';
 
 export const LANGUAGE_OPTIONS: ILanguageOption[] = [
   {
