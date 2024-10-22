@@ -1,10 +1,11 @@
 import { ActionIcon, useMantineColorScheme } from '@mantine/core';
-
 import { IoSunny } from 'react-icons/io5';
 import { FaMoon } from 'react-icons/fa';
 import { useGlobalState } from '../../store/Global';
 import { toggleDarkMode } from '../../store/Global/global';
 import { useAppDispatch } from '../../store/hooks';
+
+import classes from './DarkModeSwitcher.module.css';
 
 const DarkModeSwitcher = () => {
   const { isDarkMode } = useGlobalState();
@@ -25,7 +26,7 @@ const DarkModeSwitcher = () => {
       onClick={toggleDarkModeHandler}
       title="Toggle color scheme"
     >
-      {isDarkMode ? <IoSunny size="lg" /> : <FaMoon size="lg" />}
+      {isDarkMode ? <IoSunny className={classes.icon} size={28} /> : <FaMoon className={classes.icon} size={28} />}
     </ActionIcon>
   );
 };

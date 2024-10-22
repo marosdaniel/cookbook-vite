@@ -1,0 +1,9 @@
+.icon {
+  display: inline-block !important;
+  width: auto !important;
+  height: auto !important;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
