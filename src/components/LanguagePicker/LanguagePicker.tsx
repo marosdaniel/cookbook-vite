@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import { Menu, UnstyledButton, Group, Text } from '@mantine/core';
+import { Menu, UnstyledButton, Group, Text, Image } from '@mantine/core';
 
 import { FaChevronDown } from 'react-icons/fa6';
 
 import { LANGUAGE_OPTIONS } from '../../providers/IntlProviderContainer/consts';
+import { ILanguageOption } from '../../providers/IntlProviderContainer/types';
 import { useGlobalState } from '../../store/Global';
-
-import classes from './LanguagePicker.module.css';
 import { useAppDispatch } from '../../store/hooks';
 import { setLocale } from '../../store/Global/global';
-import { ILanguageOption } from '../../providers/IntlProviderContainer/types';
+
+import classes from './LanguagePicker.module.css';
 
 const LanguagePicker = () => {
   const dispatch = useAppDispatch();
@@ -21,10 +21,15 @@ const LanguagePicker = () => {
   const selectLanguage = (item: ILanguageOption) => {
     setOpened(false);
     dispatch(setLocale(item.locale));
+    console.log('selected language: ', item.label);
   };
 
   const items = LANGUAGE_OPTIONS.map(item => (
-    <Menu.Item leftSection={item.flag} onClick={() => selectLanguage(item)} key={item.label}>
+    <Menu.Item
+      leftSection={<Image className={classes.flag} src={`/images/flags/${item.flag}.svg`} alt={item.label} />}
+      onClick={() => selectLanguage(item)}
+      key={item.label}
+    >
       {item.label}
     </Menu.Item>
   ));
@@ -34,7 +39,7 @@ const LanguagePicker = () => {
       <Menu.Target>
         <UnstyledButton className={classes.control} data-expanded={opened || undefined}>
           <Group gap="xs">
-            <Text className={classes.flag}>{selected.flag}</Text>
+            <Image className={classes.flag} src={`/images/flags/${selected.flag}.svg`} alt={selected.label} />
             <Text className={classes.label}>{selected.label}</Text>
           </Group>
           <FaChevronDown size="1rem" className={classes.icon} />

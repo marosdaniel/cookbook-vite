@@ -238,7 +238,8 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
           type={isFinalStep ? 'submit' : 'button'}
           onClick={handleNext}
           loading={isSubmitting}
-          disabled={!nextEnabled(values, active)}
+          loaderProps={{ type: 'dots' }}
+          disabled={!nextEnabled(values, active) || isSubmitting}
         >
           {isFinalStep ? 'Save' : 'Next'}
         </Button>

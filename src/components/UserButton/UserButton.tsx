@@ -16,7 +16,7 @@ const UserButton = forwardRef<HTMLButtonElement, IProps>(({ image, name, email, 
           {email}
         </Text>
       </Group>
-      <Avatar src="/avatar-1.png" radius="xl" alt="it's me" />
+      <Avatar src={image} radius="xl" alt="it's me" />
     </Group>
   </UnstyledButton>
 ));

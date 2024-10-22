@@ -1,8 +1,10 @@
 import { Title, Text, Button } from '@mantine/core';
 import cx from 'clsx';
+import { Link as RouterLink } from 'react-router-dom';
+import { useGlobalState } from '../../store/Global';
 
 import classes from './UnderMaintenance.module.css';
-import { useGlobalState } from '../../store/Global';
+import { ENonProtectedRoutes } from '../../router/types';
 
 const UnderMaintenance = () => {
   const { isDarkMode } = useGlobalState();
@@ -18,7 +20,14 @@ const UnderMaintenance = () => {
       <Text className={classes.text}>
         We are currently performing scheduled maintenance. <br /> We'll be back soon!
       </Text>
-      <Button className={classes.button} size="md" variant="filled" color="pink">
+      <Button
+        component={RouterLink}
+        to={ENonProtectedRoutes.HOME}
+        className={classes.button}
+        size="md"
+        variant="filled"
+        color="pink"
+      >
         Back to home page
       </Button>
     </div>

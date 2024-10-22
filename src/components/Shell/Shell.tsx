@@ -7,17 +7,17 @@ import { useAuthState } from '../../store/Auth';
 import { logout } from '../../store/Auth/auth';
 import { useAppDispatch } from '../../store/hooks';
 import { ENonProtectedRoutes, EProtectedRoutes } from '../../router/types';
+import { sidebarMessages } from '../../messages/sidebar';
 import Footer from '../Footer';
 import Logo from '../Logo';
 import UserButton from '../UserButton';
-import { useBottomMenuItems, useTopMenuItems } from './utils';
-import { IBottomMenuItem, IProps } from './types';
-import { APP_SHELL_WIDTH } from './consts';
-
-import classNames from './Shell.module.css';
 import DarkModeSwitcher from '../DarkModeSwitcher';
 import LanguagePicker from '../LanguagePicker';
-import { sidebarMessages } from '../../messages/sidebar';
+import { IBottomMenuItem, IProps } from './types';
+import { APP_SHELL_WIDTH } from './consts';
+import { useBottomMenuItems, useTopMenuItems } from './utils';
+
+import classNames from './Shell.module.css';
 
 const Shell = ({ children }: IProps) => {
   const { formatMessage } = useIntl();
@@ -68,32 +68,34 @@ const Shell = ({ children }: IProps) => {
               Where the recipes turn into magic!
             </Text>
           </Group>
-          {isAuthenticated ? (
-            <Flex dir="row" align="center" gap="md">
-              <DarkModeSwitcher />
-              <Menu withArrow>
-                <Menu.Target>
-                  <UserButton image="avatar-1.png" name={user!.userName} email={user!.email} />
-                </Menu.Target>
-                <Menu.Dropdown>
-                  <Menu.Item component={RouterLink} to={EProtectedRoutes.PROFILE}>
-                    {formatMessage(sidebarMessages.profile)}
-                  </Menu.Item>
-                  <Menu.Item component={RouterLink} to={EProtectedRoutes.MY_RECIPES}>
-                    {formatMessage(sidebarMessages.myRecipes)}
-                  </Menu.Item>
-                  <Menu.Item component={RouterLink} to={EProtectedRoutes.FAVORITES}>
-                    {formatMessage(sidebarMessages.favorites)}
-                  </Menu.Item>
-                  <Menu.Item onClick={handleLogout}>Log out</Menu.Item>
-                </Menu.Dropdown>
-              </Menu>
-            </Flex>
-          ) : (
-            <Button size="lg" component={RouterLink} to={ENonProtectedRoutes.SIGNIN} variant="subtle">
-              Login
-            </Button>
-          )}
+          <Flex dir="row" align="center" gap="md">
+            <DarkModeSwitcher />
+            {isAuthenticated ? (
+              <Flex dir="row" align="center" gap="md">
+                <Menu withArrow>
+                  <Menu.Target>
+                    <UserButton image="/images/avatars/avatar-1.png" name={user!.userName} email={user!.email} />
+                  </Menu.Target>
+                  <Menu.Dropdown>
+                    <Menu.Item component={RouterLink} to={EProtectedRoutes.PROFILE}>
+                      {formatMessage(sidebarMessages.profile)}
+                    </Menu.Item>
+                    <Menu.Item component={RouterLink} to={EProtectedRoutes.MY_RECIPES}>
+                      {formatMessage(sidebarMessages.myRecipes)}
+                    </Menu.Item>
+                    <Menu.Item component={RouterLink} to={EProtectedRoutes.FAVORITES}>
+                      {formatMessage(sidebarMessages.favorites)}
+                    </Menu.Item>
+                    <Menu.Item onClick={handleLogout}>Log out</Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
+              </Flex>
+            ) : (
+              <Button size="lg" component={RouterLink} to={ENonProtectedRoutes.SIGNIN} variant="subtle">
+                Login
+              </Button>
+            )}
+          </Flex>
         </Group>
       </AppShell.Header>
 

@@ -216,7 +216,14 @@ const Register = ({ setIsLogin }: IProps) => {
 
         <Checkbox size="md" label={privacyLink} mt="xl" checked={isPrivacyAccepted} onClick={handleChangePrivacy} />
 
-        <Button fullWidth mt="xl" type="submit" disabled={loading || loginLoading || !isPrivacyAccepted}>
+        <Button
+          fullWidth
+          mt="xl"
+          type="submit"
+          disabled={loading || loginLoading || !isPrivacyAccepted}
+          loading={loading || loginLoading}
+          loaderProps={{ type: 'dots' }}
+        >
           {formatMessage(authMessages.createAnAccountButton)}
         </Button>
       </Paper>

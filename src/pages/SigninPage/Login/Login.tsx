@@ -137,7 +137,7 @@ const Login = ({ setIsLogin }: IProps) => {
             {formatMessage(authMessages.forgotPassword)}
           </Anchor>
         </Group>
-        <Button fullWidth mt="xl" type="submit" disabled={loading}>
+        <Button fullWidth mt="xl" type="submit" disabled={loading} loading={loading} loaderProps={{ type: 'dots' }}>
           {formatMessage(authMessages.signIn)}
         </Button>
         <Button
