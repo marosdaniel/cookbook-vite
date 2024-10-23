@@ -21,7 +21,6 @@ const LanguagePicker = () => {
   const selectLanguage = (item: ILanguageOption) => {
     setOpened(false);
     dispatch(setLocale(item.locale));
-    console.log('selected language: ', item.label);
   };
 
   const items = LANGUAGE_OPTIONS.map(item => (

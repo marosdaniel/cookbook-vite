@@ -29,11 +29,12 @@ import { TRecipe, TRecipeCleaned } from '../../store/Recipe/types';
 import { useAuthState } from '../../store/Auth';
 import { setEditRecipe } from '../../store/Recipe/recipe';
 import { ENonProtectedRoutes } from '../../router/types';
-import { generalMessages, miscMessages } from '../../messages';
+import { generalMessages, miscMessages, seoMessages } from '../../messages';
 import RecipeFormEditor from '../../components/Recipe/RecipeFormEditor';
 import { cleanedRecipe } from '../../components/Recipe/RecipeFormEditor/utils';
 import { MiscMessages } from '../../providers/IntlProviderContainer/types';
 import HeroImageBackground from '../../components/HeroImageBackground';
+import Seo from '../../components/Seo';
 import PreparationStepList from './PreparationStepList';
 import IngredientList from './IngredientList';
 import Labels from './Labels';
@@ -119,6 +120,25 @@ const RecipeDetailsPage = () => {
 
   return (
     <>
+      <Seo
+        title={formatMessage(seoMessages.recipeDetailTitle, { title, createdBy })}
+        description={formatMessage(seoMessages.recipeDetailDescription, {
+          title,
+          createdBy,
+          category: category?.label || 'food',
+          cookingTime,
+        })}
+        keywords={formatMessage(seoMessages.recipeDetailKeywords, {
+          title,
+          category: category?.label || 'food',
+          createdBy,
+        })}
+        type="website"
+        name="Cookbook"
+        url={`https://cookbook-vite.vercel.app/recipes/${id}`}
+        canonicalUrl={`https://cookbook-vite.vercel.app/recipes/${id}`}
+        locale={user?.locale}
+      />
       <HeroImageBackground>
         <Flex mb={80} justify="space-between">
           <Title id="recipe-title" order={1} mt="xl" mb="lg" c="white" size={'h1'}>

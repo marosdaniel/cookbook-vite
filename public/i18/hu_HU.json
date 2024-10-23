@@ -1,4 +1,9 @@
 {
+  "general.edit": "Szerkesztés",
+  "general.delete": "Törlés",
+  "general.save": "Mentés",
+  "general.cancel": "Mégse",
+  "general.back": "Vissza",
   "auth.edit": "Szerkesztés",
   "auth.delete": "Törlés",
   "auth.save": "Mentés",
@@ -90,5 +95,8 @@
   "response.shouldBeValidEmail": "Érvényes e-mail címet adj meg",
   "response.ratingSuccess": "Recept sikeresen értékelve",
   "response.ratingFailed": "Hiba történt a recept értékelésekor",
-  "recipe.notRatedYet": "Még nincs értékelve"
+  "recipe.notRatedYet": "Még nincs értékelve",
+  "seo.recipeDetailTitle": "{title} - Recept {createdBy} által | Cookbook",
+  "seo.recipeDetailDescription": "{title} recept, készítette {createdBy}. Ez a recept a(z) {category} kategóriába tartozik, és {cookingTime} perc alatt elkészíthető. Nézd meg a pontos hozzávalókat és a részletes elkészítési útmutatót!",
+  "seo.recipeDetailKeywords": "recept, {title}, {category}, főzés, {createdBy}, hozzávalók, étel"
 }

@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet-async';
+import { getBrowserLocale } from '../../utils/getBrowserLocale';
 import { IProps } from './types';
 
 const Seo = ({
@@ -8,7 +9,7 @@ const Seo = ({
   name,
   url,
   image,
-  locale = 'hu_HU',
+  locale = getBrowserLocale(),
   keywords,
   canonicalUrl,
   publishedTime,

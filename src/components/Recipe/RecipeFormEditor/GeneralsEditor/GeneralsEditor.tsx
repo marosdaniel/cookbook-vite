@@ -108,7 +108,6 @@ const GeneralsEditor = ({ handleChange, handleBlur, values, touched, errors, set
         name="category"
         onChange={value => {
           const selectedCategory = categories.find(cat => cat.value === value);
-          console.log('selectedCategory', selectedCategory);
           setFieldValue('category', selectedCategory);
         }}
         value={values.category?.value || ''}

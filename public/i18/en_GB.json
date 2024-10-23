@@ -1,4 +1,9 @@
 {
+  "general.edit": "Edit",
+  "general.delete": "Delete",
+  "general.save": "Save",
+  "general.cancel": "Cancel",
+  "general.back": "Back",
   "auth.edit": "Edit",
   "auth.delete": "Delete",
   "auth.save": "Save",
@@ -90,5 +95,8 @@
   "response.shouldBeValidEmail": "Should be a valid email",
   "response.ratingSuccess": "Recipe rated successfully",
   "response.ratingFailed": "An error occurred while rating the recipe",
-  "recipe.notRatedYet": "Not rated yet"
+  "recipe.notRatedYet": "Not rated yet",
+  "seo.recipeDetailTitle": "{title} - Recipe by {createdBy} | Cookbook",
+  "seo.recipeDetailDescription": "{title} recipe, created by {createdBy}. This recipe belongs to the {category} category and can be prepared in {cookingTime} minutes. Check out the exact ingredients and detailed cooking instructions!",
+  "seo.recipeDetailKeywords": "recipe, {title}, {category}, cooking, {createdBy}, ingredients, meal"
 }

@@ -1,4 +1,9 @@
 {
+  "general.edit": "Bearbeiten",
+  "general.delete": "Löschen",
+  "general.save": "Speichern",
+  "general.cancel": "Abbrechen",
+  "general.back": "Zurück",
   "auth.edit": "Bearbeiten",
   "auth.delete": "Löschen",
   "auth.save": "Speichern",
@@ -90,5 +95,8 @@
   "response.shouldBeValidEmail": "Muss eine gültige E-Mail sein",
   "response.ratingSuccess": "Rezept erfolgreich bewertet",
   "response.ratingFailed": "Ein Fehler ist beim Bewerten des Rezepts aufgetreten",
-  "recipe.notRatedYet": "Noch nicht bewertet"
+  "recipe.notRatedYet": "Noch nicht bewertet",
+  "seo.recipeDetailTitle": "{title} - Rezept von {createdBy} | Cookbook",
+  "seo.recipeDetailDescription": "{title} Rezept, erstellt von {createdBy}. Dieses Rezept gehört zur Kategorie {category} und kann in {cookingTime} Minuten zubereitet werden. Schau dir die genauen Zutaten und die detaillierten Zubereitungsschritte an!",
+  "seo.recipeDetailKeywords": "rezept, {title}, {category}, kochen, {createdBy}, zutaten, mahlzeit"
 }
