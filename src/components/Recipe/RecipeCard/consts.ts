@@ -1,0 +1,1 @@
+export const OUTSTANDING_RATING_THRESHOLD = 4.7;

@@ -13,7 +13,7 @@ import { ADD_TO_FAVORITE_RECIPES, REMOVE_FROM_FAVORITE_RECIPES } from '../../../
 import { GET_FAVORITE_RECIPES } from '../../../graphql/user/getFavoriteRecipes';
 import { IProps } from './types';
 
-const FavoriteToggler = ({ userId, id, initialIsFavorite, userName }: IProps) => {
+const FavoriteToggler = ({ userId, id, initialIsFavorite, userName, disableClick = false }: IProps) => {
   const { formatMessage } = useIntl();
   const [isFavorite, setIsFavorite] = useState(initialIsFavorite);
 
@@ -188,6 +188,7 @@ const FavoriteToggler = ({ userId, id, initialIsFavorite, userName }: IProps) =>
   });
 
   const toggleFavorite = () => {
+    if (disableClick) return;
     if (isFavorite) {
       removeFromFavoriteRecipes();
     } else {

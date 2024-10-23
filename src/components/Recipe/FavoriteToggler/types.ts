@@ -3,4 +3,5 @@ export interface IProps {
   id: string;
   initialIsFavorite?: boolean;
   userName: string;
+  disableClick?: boolean;
 }

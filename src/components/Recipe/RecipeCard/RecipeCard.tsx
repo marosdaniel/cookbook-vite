@@ -4,7 +4,7 @@ import cx from 'clsx';
 import { ActionIcon, Avatar, Badge, Card, Center, Flex, Group, Image, Rating, Text, Tooltip } from '@mantine/core';
 
 import { useAuthState } from '../../../store/Auth';
-
+import { recipeMessages } from '../../../messages';
 import { getHost } from '../../../utils/getHost';
 import { ENonProtectedRoutes } from '../../../router/types';
 import { useGlobalState } from '../../../store/Global';
@@ -13,9 +13,9 @@ import LinkToUser from '../../LinkToUser';
 
 import FavoriteToggler from '../FavoriteToggler';
 import { IProps } from './types';
+import { OUTSTANDING_RATING_THRESHOLD } from './consts';
 
 import classes from './RecipeCard.module.css';
-import { recipeMessages } from '../../../messages';
 
 const RecipeCard = ({
   title,
@@ -38,7 +38,7 @@ const RecipeCard = ({
   const userId = user?._id ?? '';
   const recipePath = `${getHost()}${ENonProtectedRoutes.RECIPES}/${id}`;
 
-  const isOutstanding = averageRating >= 4.7;
+  const isOutstanding = averageRating >= OUTSTANDING_RATING_THRESHOLD;
   const ratingTooltipLabel =
     ratingsCount === 0 ? formatMessage(recipeMessages.notRatedYet) : `${averageRating} (${ratingsCount})`;
 
@@ -97,7 +97,13 @@ const RecipeCard = ({
 
         <Group gap={8} mr={0}>
           {userId && (
-            <FavoriteToggler userId={userId} id={id} initialIsFavorite={initialIsFavorite} userName={createdBy} />
+            <FavoriteToggler
+              userId={userId}
+              id={id}
+              initialIsFavorite={initialIsFavorite}
+              userName={createdBy}
+              disableClick={disableClick}
+            />
           )}
           <ActionIcon variant="transparent">
             <CopyActionButton path={recipePath} />
