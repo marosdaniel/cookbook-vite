@@ -19,7 +19,11 @@ const FavoritesTab = () => {
     return (
       <Container id="my-recipes" mt="xl">
         <Center h={200}>
-          <LoadingOverlay visible={loading} />
+          <LoadingOverlay
+            visible={loading}
+            overlayProps={{ radius: 'sm', blur: 2 }}
+            loaderProps={{ color: 'pink', type: 'bars' }}
+          />
         </Center>
       </Container>
     );

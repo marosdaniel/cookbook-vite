@@ -7,7 +7,7 @@
   background-position: center;
   background: linear-gradient(to bottom, #ffffff 0%, #d6336c 60%, #d6336c 100%);
 
-  box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 24px 12px rgba(0, 0, 0, 0.5);
   margin: -16px;
 
   @media (max-width: $mantine-breakpoint-xs) {
@@ -17,6 +17,7 @@
 }
 .dark {
   background: linear-gradient(to bottom, #1a1b1e 0%, #d6336c 100%);
+  box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.4);
 }
 
 .wrapperWithChildren {

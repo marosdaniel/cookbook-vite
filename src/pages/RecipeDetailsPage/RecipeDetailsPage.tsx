@@ -116,7 +116,14 @@ const RecipeDetailsPage = () => {
     );
   }
 
-  if (loading) return <LoadingOverlay visible={loading} />;
+  if (loading)
+    return (
+      <LoadingOverlay
+        visible={loading}
+        overlayProps={{ radius: 'sm', blur: 2 }}
+        loaderProps={{ color: 'pink', type: 'bars' }}
+      />
+    );
 
   return (
     <>
