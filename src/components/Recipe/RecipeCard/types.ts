@@ -7,4 +7,5 @@ export interface IProps {
   isFavorite?: boolean;
   ratingsCount: number;
   averageRating: number;
+  disableClick?: boolean;
 }

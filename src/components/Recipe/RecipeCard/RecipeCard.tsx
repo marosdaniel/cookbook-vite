@@ -26,6 +26,7 @@ const RecipeCard = ({
   isFavorite: initialIsFavorite,
   averageRating,
   ratingsCount,
+  disableClick = false,
 }: IProps) => {
   const { isDarkMode } = useGlobalState();
   const { formatMessage } = useIntl();
@@ -44,14 +45,23 @@ const RecipeCard = ({
   return (
     <Card radius="md" h={400} shadow="lg" bg="gray.0" className={wrapperClasses}>
       <Card.Section>
-        <RouterLink to={`${ENonProtectedRoutes.RECIPES}/${id}`}>
+        {!disableClick ? (
+          <RouterLink to={`${ENonProtectedRoutes.RECIPES}/${id}`}>
+            <Image
+              src={imgSrc ?? 'https://cdn-icons-png.flaticon.com/256/6039/6039575.png'}
+              height={188}
+              radius="md"
+              fit="scale-down"
+            />
+          </RouterLink>
+        ) : (
           <Image
             src={imgSrc ?? 'https://cdn-icons-png.flaticon.com/256/6039/6039575.png'}
             height={188}
             radius="md"
             fit="scale-down"
           />
-        </RouterLink>
+        )}
       </Card.Section>
 
       <Flex direction="row" justify={isOutstanding ? 'space-between' : 'flex-end'} align="center" mt="md">
@@ -60,12 +70,11 @@ const RecipeCard = ({
             outstanding
           </Badge>
         )}
-        {/* <RatingSelector recipeId={id} initialUserRating={initialUserRating} userName={user?.userName!} /> */}
         <Tooltip label={ratingTooltipLabel} position="top">
           <Rating defaultValue={averageRating} readOnly fractions={10} />
         </Tooltip>
       </Flex>
-      <Text fw={500} component={RouterLink} to={`/recipes/${id}`} mt="lg">
+      <Text fw={500} mt="lg">
         {title}
       </Text>
 

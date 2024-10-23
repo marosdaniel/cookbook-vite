@@ -58,6 +58,7 @@ const HomePage = () => {
               id={recipe._id || ''}
               averageRating={recipe.averageRating ?? 0}
               ratingsCount={recipe.ratingsCount}
+              disableClick
             />
           </Carousel.Slide>
         ))}
