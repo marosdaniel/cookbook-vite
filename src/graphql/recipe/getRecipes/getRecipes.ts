@@ -12,6 +12,7 @@ const GET_RECIPES = gql`
         cookingTime
         imgSrc
         ratingsCount
+        userRating
         description
         isFavorite
       }
@@ -65,6 +66,7 @@ const GET_RECIPE_BY_ID = gql`
       }
       servings
       ratingsCount
+      userRating
       description
       isFavorite
     }
@@ -101,6 +103,7 @@ const GET_RECIPES_BY_USER_NAME = gql`
         title
         _id
         ratingsCount
+        userRating
         description
         isFavorite
       }

@@ -1,6 +1,6 @@
 import { Link as RouterLink } from 'react-router-dom';
 import cx from 'clsx';
-import { ActionIcon, Avatar, Badge, Card, Center, Group, Image, Text } from '@mantine/core';
+import { ActionIcon, Avatar, Badge, Card, Center, Flex, Group, Image, Text } from '@mantine/core';
 
 import { useAuthState } from '../../../store/Auth';
 
@@ -11,6 +11,7 @@ import CopyActionButton from '../../CopyActionButton';
 import LinkToUser from '../../LinkToUser';
 
 import FavoriteToggler from '../FavoriteToggler';
+import RatingSelector from '../RatingSelector';
 import { IProps } from './types';
 
 import classes from './RecipeCard.module.css';
@@ -33,9 +34,12 @@ const RecipeCard = ({ title, description, createdBy, id, imgSrc, isFavorite: ini
         </RouterLink>
       </Card.Section>
 
-      <Badge size="sm" variant="gradient" gradient={{ from: 'yellow', to: 'red' }} mt={'md'}>
-        outstanding
-      </Badge>
+      <Flex direction="row" justify="space-between" align="center" mt={'md'}>
+        <Badge size="sm" variant="gradient" gradient={{ from: 'yellow', to: 'red' }}>
+          outstanding
+        </Badge>
+        {userId && <RatingSelector />}
+      </Flex>
 
       <Text fw={500} component={RouterLink} to={`/recipes/${id}`} mt={'md'}>
         {title}
@@ -59,7 +63,7 @@ const RecipeCard = ({ title, description, createdBy, id, imgSrc, isFavorite: ini
         </Center>
 
         <Group gap={8} mr={0}>
-          {user?._id && (
+          {userId && (
             <FavoriteToggler userId={userId} id={id} initialIsFavorite={initialIsFavorite} userName={createdBy} />
           )}
           <ActionIcon variant="transparent">
