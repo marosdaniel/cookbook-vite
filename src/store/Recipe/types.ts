@@ -25,6 +25,9 @@ export type TRecipe = {
   servings: number;
   youtubeLink?: string;
   isFavorite?: boolean;
+  userRating: number | null;
+  averageRating: number | null;
+  ratingsCount: number;
 };
 
 export type TRecipeCleaned = {
@@ -43,6 +46,9 @@ export type TRecipeCleaned = {
   labels?: TMetadataCleaned[] | [];
   servings: number;
   youtubeLink?: string;
+  userRating: number | null;
+  averageRating: number | null;
+  ratingsCount: number;
 };
 
 export type TNewRecipe = {
@@ -60,6 +66,9 @@ export type TNewRecipe = {
   labels?: TLabelMetadata[] | [];
   servings?: number;
   youtubeLink?: string;
+  userRating: number | null;
+  averageRating: number | null;
+  ratingsCount: number;
 };
 
 export type TIngredient = {

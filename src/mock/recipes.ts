@@ -57,6 +57,9 @@ export const mockRecipes: TRecipe[] = [
       },
     ],
     servings: 8,
+    userRating: null,
+    ratingsCount: 112,
+    averageRating: 4.7,
   },
   {
     _id: '2',
@@ -108,6 +111,9 @@ export const mockRecipes: TRecipe[] = [
       },
     ],
     servings: 4,
+    userRating: null,
+    ratingsCount: 132,
+    averageRating: 4.9,
   },
   {
     _id: '3',
@@ -163,6 +169,9 @@ export const mockRecipes: TRecipe[] = [
       },
     ],
     servings: 6,
+    userRating: null,
+    ratingsCount: 100,
+    averageRating: 3.4,
   },
   {
     _id: '4',
@@ -212,6 +221,9 @@ export const mockRecipes: TRecipe[] = [
       },
     ],
     servings: 4,
+    userRating: null,
+    ratingsCount: 122,
+    averageRating: 3.1,
   },
   {
     _id: '5',
@@ -264,6 +276,9 @@ export const mockRecipes: TRecipe[] = [
       },
     ],
     servings: 6,
+    userRating: null,
+    ratingsCount: 102,
+    averageRating: 4.7,
   },
   {
     _id: '6',
@@ -318,6 +333,9 @@ export const mockRecipes: TRecipe[] = [
       },
     ],
     servings: 4,
+    userRating: null,
+    ratingsCount: 12,
+    averageRating: 4.0,
   },
   {
     _id: '7',
@@ -370,6 +388,9 @@ export const mockRecipes: TRecipe[] = [
       },
     ],
     servings: 8,
+    userRating: null,
+    ratingsCount: 12,
+    averageRating: 2.1,
   },
   {
     _id: '8',
@@ -423,6 +444,9 @@ export const mockRecipes: TRecipe[] = [
       },
     ],
     servings: 4,
+    userRating: null,
+    ratingsCount: 121,
+    averageRating: 4.2,
   },
   {
     _id: '9',
@@ -475,5 +499,8 @@ export const mockRecipes: TRecipe[] = [
       },
     ],
     servings: 2,
+    userRating: null,
+    ratingsCount: 12,
+    averageRating: 1.5,
   },
 ];

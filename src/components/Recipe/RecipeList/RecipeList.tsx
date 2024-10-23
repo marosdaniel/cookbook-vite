@@ -27,6 +27,8 @@ const RecipeList = ({ recipes }: IProps) => {
             id={recipe._id || ''}
             imgSrc={recipe.imgSrc}
             isFavorite={recipe.isFavorite}
+            averageRating={recipe.averageRating ?? 0}
+            ratingsCount={recipe.ratingsCount ?? 0}
           />
         </Grid.Col>
       ))}

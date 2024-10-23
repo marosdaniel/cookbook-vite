@@ -82,5 +82,13 @@
   "auth.forgotPasswordTitle": "Forgot your password?",
   "auth.forgotPasswordDescription": "Enter your email and we will send you a link to reset your password.",
   "auth.resetPasswordButton": "Reset password",
-  "auth.backToLogin": "Back to login"
+  "auth.backToLogin": "Back to login",
+  "response.success": "Success",
+  "response.error": "Error",
+  "response.resetPasswordFailed": "Reset password failed",
+  "response.emailWithResetLinkSent": "An email with a link to reset your password has been sent to you.",
+  "response.shouldBeValidEmail": "Should be a valid email",
+  "response.ratingSuccess": "Recipe rated successfully",
+  "response.ratingFailed": "An error occurred while rating the recipe",
+  "recipe.notRatedYet": "Not rated yet"
 }

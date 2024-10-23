@@ -5,4 +5,6 @@ export interface IProps {
   id: string;
   imgSrc?: string;
   isFavorite?: boolean;
+  ratingsCount: number;
+  averageRating: number;
 }

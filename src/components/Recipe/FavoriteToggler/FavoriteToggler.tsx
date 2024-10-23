@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useIntl } from 'react-intl';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/client';
 import { ActionIcon } from '@mantine/core';
@@ -6,12 +7,14 @@ import { notifications } from '@mantine/notifications';
 import { FaHeart } from 'react-icons/fa';
 import { LuHeart } from 'react-icons/lu';
 
+import { responseMessages } from '../../../messages';
 import { GET_RECIPES_BY_USER_NAME } from '../../../graphql/recipe/getRecipes';
 import { ADD_TO_FAVORITE_RECIPES, REMOVE_FROM_FAVORITE_RECIPES } from '../../../graphql/user/favoriteRecipes';
 import { GET_FAVORITE_RECIPES } from '../../../graphql/user/getFavoriteRecipes';
 import { IProps } from './types';
 
 const FavoriteToggler = ({ userId, id, initialIsFavorite, userName }: IProps) => {
+  const { formatMessage } = useIntl();
   const [isFavorite, setIsFavorite] = useState(initialIsFavorite);
 
   const [addToFavoriteRecipes, { loading: addFavLoading }] = useMutation(ADD_TO_FAVORITE_RECIPES, {
@@ -85,14 +88,14 @@ const FavoriteToggler = ({ userId, id, initialIsFavorite, userName }: IProps) =>
     onCompleted: () => {
       setIsFavorite(true);
       notifications.show({
-        title: 'Recipe added to favorites',
+        title: formatMessage(responseMessages.success),
         message: 'Your recipe has been successfully added to favorites',
         color: 'green',
       });
     },
     onError: () => {
       notifications.show({
-        title: 'Error',
+        title: formatMessage(responseMessages.error),
         message: 'An error occurred while adding recipe to favorites',
         color: 'red',
       });
@@ -170,14 +173,14 @@ const FavoriteToggler = ({ userId, id, initialIsFavorite, userName }: IProps) =>
     onCompleted: () => {
       setIsFavorite(false);
       notifications.show({
-        title: 'Recipe removed from favorites',
+        title: formatMessage(responseMessages.success),
         message: 'Your recipe has been successfully removed from favorites',
         color: 'green',
       });
     },
     onError: () => {
       notifications.show({
-        title: 'Error',
+        title: formatMessage(responseMessages.error),
         message: 'An error occurred while removing recipe from favorites',
         color: 'red',
       });

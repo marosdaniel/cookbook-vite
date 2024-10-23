@@ -29,18 +29,17 @@ import { TRecipe, TRecipeCleaned } from '../../store/Recipe/types';
 import { useAuthState } from '../../store/Auth';
 import { setEditRecipe } from '../../store/Recipe/recipe';
 import { ENonProtectedRoutes } from '../../router/types';
-import RecipeFormEditor from '../../components/Recipe/RecipeFormEditor';
 import { generalMessages, miscMessages } from '../../messages';
-
+import RecipeFormEditor from '../../components/Recipe/RecipeFormEditor';
+import { cleanedRecipe } from '../../components/Recipe/RecipeFormEditor/utils';
+import { MiscMessages } from '../../providers/IntlProviderContainer/types';
+import HeroImageBackground from '../../components/HeroImageBackground';
 import PreparationStepList from './PreparationStepList';
 import IngredientList from './IngredientList';
 import Labels from './Labels';
 import SideDetails from './SideDetails';
 import AuthorSection from './AuthorSection';
 import { IRecipeDetailsData } from './types';
-import { cleanedRecipe } from '../../components/Recipe/RecipeFormEditor/utils';
-import { MiscMessages } from '../../providers/IntlProviderContainer/types';
-import HeroImageBackground from '../../components/HeroImageBackground';
 
 const RecipeDetailsPage = () => {
   const dispatch = useDispatch();

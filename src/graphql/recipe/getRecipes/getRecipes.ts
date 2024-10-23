@@ -13,6 +13,7 @@ const GET_RECIPES = gql`
         imgSrc
         ratingsCount
         userRating
+        averageRating
         description
         isFavorite
       }
@@ -67,6 +68,7 @@ const GET_RECIPE_BY_ID = gql`
       servings
       ratingsCount
       userRating
+      averageRating
       description
       isFavorite
     }
@@ -104,6 +106,7 @@ const GET_RECIPES_BY_USER_NAME = gql`
         _id
         ratingsCount
         userRating
+        averageRating
         description
         isFavorite
       }

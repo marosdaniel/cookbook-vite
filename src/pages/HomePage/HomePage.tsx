@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { Alert, Center, Container, Loader, Title } from '@mantine/core';
+import { Container, Title } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 
 import { GET_RECIPES } from '../../graphql/recipe/getRecipes';
@@ -11,7 +11,7 @@ import Seo from '../../components/Seo';
 import classes from './HomePage.module.css';
 
 const HomePage = () => {
-  const { loading, error, data } = useQuery(GET_RECIPES, {
+  const { data } = useQuery(GET_RECIPES, {
     variables: { limit: 9 },
     fetchPolicy: 'cache-and-network',
   });
@@ -56,6 +56,8 @@ const HomePage = () => {
               description={recipe.description}
               createdBy={recipe.createdBy}
               id={recipe._id || ''}
+              averageRating={recipe.averageRating ?? 0}
+              ratingsCount={recipe.ratingsCount}
             />
           </Carousel.Slide>
         ))}
@@ -64,39 +66,31 @@ const HomePage = () => {
       <Title order={2} mb="lg" mt="xl">
         Recently added recipes
       </Title>
-      {!loading ? (
-        <Carousel
-          classNames={classes}
-          withIndicators
-          controlSize={36}
-          slideSize={{ base: '100%', md: '50%', lg: '33%' }}
-          slideGap={{ base: 0, sm: 'md' }}
-          loop
-          align="start"
-        >
-          {recipes.map(recipe => (
-            <Carousel.Slide key={recipe._id} p={'32px 12px'}>
-              <RecipeCard
-                title={recipe.title || ''}
-                description={recipe.description || ''}
-                createdBy={recipe.createdBy || 'Anonymous'}
-                id={recipe._id!}
-                imgSrc={recipe.imgSrc}
-                isFavorite={recipe.isFavorite}
-              />
-            </Carousel.Slide>
-          ))}
-        </Carousel>
-      ) : (
-        <Center h="384px">
-          <Loader type="dots" />
-          {(!data && error?.message) ?? (
-            <Alert mt="md" color="red">
-              {error?.message ?? 'An error occurred while fetching recipes'}
-            </Alert>
-          )}
-        </Center>
-      )}
+
+      <Carousel
+        classNames={classes}
+        withIndicators
+        controlSize={36}
+        slideSize={{ base: '100%', md: '50%', lg: '33%' }}
+        slideGap={{ base: 0, sm: 'md' }}
+        loop
+        align="start"
+      >
+        {recipes.map(recipe => (
+          <Carousel.Slide key={recipe._id} p={'32px 12px'}>
+            <RecipeCard
+              title={recipe.title || ''}
+              description={recipe.description || ''}
+              createdBy={recipe.createdBy || 'Anonymous'}
+              id={recipe._id!}
+              imgSrc={recipe.imgSrc}
+              isFavorite={recipe.isFavorite}
+              averageRating={recipe.averageRating ?? 0}
+              ratingsCount={recipe.ratingsCount ?? 0}
+            />
+          </Carousel.Slide>
+        ))}
+      </Carousel>
     </Container>
   );
 };
