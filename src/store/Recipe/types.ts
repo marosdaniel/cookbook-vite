@@ -46,9 +46,9 @@ export type TRecipeCleaned = {
   labels?: TMetadataCleaned[] | [];
   servings: number;
   youtubeLink?: string;
-  userRating: number | null;
-  averageRating: number | null;
-  ratingsCount: number;
+  userRating?: number | null;
+  averageRating?: number | null;
+  ratingsCount?: number;
 };
 
 export type TNewRecipe = {

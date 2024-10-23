@@ -91,7 +91,7 @@ const RecipeCard = ({
             mr="xs"
           />
           <Text fz="sm" inline>
-            <LinkToUser userName={createdBy} />
+            <LinkToUser userName={createdBy} disableClick={disableClick} />
           </Text>
         </Center>
 

@@ -3,14 +3,15 @@ import { Anchor } from '@mantine/core';
 import { IProps } from './types';
 import { ENonProtectedRoutes } from '../../router/types';
 
-const LinkToUser = ({ userName }: IProps) => {
+const LinkToUser = ({ userName, disableClick = false }: IProps) => {
   return (
     <Anchor
       size="sm"
       variant="gradient"
       gradient={{ from: 'blue', to: 'cyan', deg: 90 }}
-      component={RouterLink}
-      to={`${ENonProtectedRoutes.USERS}/${userName}`}
+      component={disableClick ? 'span' : (RouterLink as any)}
+      to={disableClick ? undefined : `${ENonProtectedRoutes.USERS}/${userName}`}
+      style={disableClick ? { cursor: 'default', textDecoration: 'none' } : {}}
     >
       {userName}
     </Anchor>
