@@ -7,7 +7,7 @@
   background-position: center;
   background: linear-gradient(to bottom, #ffffff 0%, #d6336c 60%, #d6336c 100%);
 
-  box-shadow: 0 0 24px 12px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 24px 12px rgba(0, 0, 0, 0.4);
   margin: -16px;
 
   @media (max-width: $mantine-breakpoint-xs) {
