@@ -82,20 +82,25 @@ const RecipeDetailsPage = () => {
 
   const handleEdit = () => {
     if (recipe?.title) {
-      // itt elég lenne csak editMode= true és RecipeFormEditornak át lehetne adni a recipet
       dispatch(setEditRecipe(recipe));
       setIsEditMode(true);
     }
   };
 
   const linkToCreator = (
-    <Anchor c="teal.5" component={RouterLink} to={`${ENonProtectedRoutes.USERS}/${createdBy}`}>
+    <Anchor fw={700} td="underline" c="white" component={RouterLink} to={`${ENonProtectedRoutes.USERS}/${createdBy}`}>
       {createdBy}
     </Anchor>
   );
 
   const categoryLink = (
-    <Anchor c="teal.5" component={RouterLink} to={`${ENonProtectedRoutes.RECIPES}/?category=${category?.value}`}>
+    <Anchor
+      fw={700}
+      td="underline"
+      c="white"
+      component={RouterLink}
+      to={`${ENonProtectedRoutes.RECIPES}/?category=${category?.value}`}
+    >
       {formatMessage((miscMessages as MiscMessages)[category!.value])}
     </Anchor>
   );
@@ -147,10 +152,11 @@ const RecipeDetailsPage = () => {
         locale={user?.locale}
       />
       <HeroImageBackground>
-        <Flex mb={80} justify="space-between">
+        <Flex justify="space-between">
           <Title id="recipe-title" order={1} mt="xl" mb="lg" c="white" size={'h1'}>
             {title}
           </Title>
+
           {isOwnRecipe ? (
             <Group>
               <Menu withArrow>
@@ -171,8 +177,26 @@ const RecipeDetailsPage = () => {
             </Group>
           ) : null}
         </Flex>
+        <Flex direction="column" mb={80}>
+          <Text id="recipe-subtitle" fs="italic" variant="text" c="white">
+            {categoryLink} from {linkToCreator}'s kitchen
+          </Text>
+          <Text c="white" id="recipe-description" fs="italic" mt="lg">
+            {description}
+          </Text>
+        </Flex>
       </HeroImageBackground>
-      <Container id="recipe-detail-page" size="md" mt={'-10%'}>
+      <Container
+        id="recipe-detail-page"
+        size="md"
+        mt={{
+          base: '-10%',
+          xs: '-12%',
+          md: '-12%',
+          lg: '-10%',
+          xl: '-100px',
+        }}
+      >
         {!!error?.message && (
           <Center h="384px">
             <Alert mt="md" color="red">
@@ -201,13 +225,6 @@ const RecipeDetailsPage = () => {
               />
             </AspectRatio>
             {isLabels && <Labels labels={labels} />}
-
-            <Text id="recipe-subtitle" fs="italic" variant="text" ta="center">
-              {categoryLink} from {linkToCreator}'s kitchen
-            </Text>
-            <Text id="recipe-description" fs="italic" ta="center" mt="lg">
-              {description}
-            </Text>
 
             <SideDetails difficultyLevel={difficultyLevel!} servings={servings!} cookingTime={cookingTime!} />
 

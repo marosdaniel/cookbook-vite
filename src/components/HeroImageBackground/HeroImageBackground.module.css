@@ -22,10 +22,24 @@
 
 .wrapperWithChildren {
   z-index: 0;
-  padding-top: rem(60px);
+  padding-top: rem(40px);
   padding-right: rem(20px);
   padding-left: rem(20px);
-  padding-bottom: rem(80px);
+  padding-bottom: rem(60px);
+
+  @media (min-width: $mantine-breakpoint-md) {
+    padding-top: rem(60px);
+    padding-bottom: rem(80px);
+  }
+
+  @media (min-width: $mantine-breakpoint-lg) {
+    padding-right: rem(80px);
+    padding-left: rem(80px);
+  }
+  @media (min-width: $mantine-breakpoint-xl) {
+    padding-right: rem(10%);
+    padding-left: rem(10%);
+  }
 }
 
 .inner {
