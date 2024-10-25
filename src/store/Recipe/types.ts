@@ -49,6 +49,7 @@ export type TRecipeCleaned = {
   userRating?: number | null;
   averageRating?: number | null;
   ratingsCount?: number;
+  isFavorite: boolean;
 };
 
 export type TNewRecipe = {

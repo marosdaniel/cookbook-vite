@@ -30,9 +30,9 @@ import { useAuthState } from '../../store/Auth';
 import { setEditRecipe } from '../../store/Recipe/recipe';
 import { ENonProtectedRoutes } from '../../router/types';
 import { generalMessages, miscMessages, seoMessages } from '../../messages';
+import { MiscMessages } from '../../providers/IntlProviderContainer/types';
 import RecipeFormEditor from '../../components/Recipe/RecipeFormEditor';
 import { cleanedRecipe } from '../../components/Recipe/RecipeFormEditor/utils';
-import { MiscMessages } from '../../providers/IntlProviderContainer/types';
 import HeroImageBackground from '../../components/HeroImageBackground';
 import Seo from '../../components/Seo';
 import PreparationStepList from './PreparationStepList';
@@ -41,6 +41,7 @@ import Labels from './Labels';
 import SideDetails from './SideDetails';
 import AuthorSection from './AuthorSection';
 import { IRecipeDetailsData } from './types';
+import FavoriteToggler from '../../components/Recipe/FavoriteToggler';
 
 const RecipeDetailsPage = () => {
   const dispatch = useDispatch();
@@ -48,6 +49,7 @@ const RecipeDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
 
   const { user } = useAuthState();
+  const userId = user?._id;
   const { loading, error, data } = useQuery<IRecipeDetailsData>(GET_RECIPE_BY_ID, {
     variables: { id },
     fetchPolicy: 'cache-first',
@@ -73,6 +75,7 @@ const RecipeDetailsPage = () => {
     difficultyLevel,
     labels,
     servings,
+    isFavorite,
   } = recipe || {};
 
   const isLabels = labels && labels?.length > 0;
@@ -121,7 +124,7 @@ const RecipeDetailsPage = () => {
     );
   }
 
-  if (loading)
+  if (loading || !recipe || !id || !createdBy)
     return (
       <LoadingOverlay
         visible={loading}
@@ -153,9 +156,20 @@ const RecipeDetailsPage = () => {
       />
       <HeroImageBackground>
         <Flex justify="space-between">
-          <Title id="recipe-title" order={1} mt="xl" mb="lg" c="white" size={'h1'}>
-            {title}
-          </Title>
+          <Flex direction="row" mt="xl" mb="lg" align="baseline">
+            <Title id="recipe-title" order={1} c="white" size={'h1'} mr="sm">
+              {title}
+            </Title>
+            {userId && (
+              <FavoriteToggler
+                userId={userId}
+                id={id}
+                initialIsFavorite={isFavorite}
+                userName={createdBy}
+                disableClick={false}
+              />
+            )}
+          </Flex>
 
           {isOwnRecipe ? (
             <Group>

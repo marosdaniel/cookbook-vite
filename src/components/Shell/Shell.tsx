@@ -45,6 +45,7 @@ const Shell = ({ children }: IProps) => {
 
   return (
     <AppShell
+      withBorder={false}
       header={{ height: 66 }}
       navbar={{
         width: APP_SHELL_WIDTH,
@@ -99,7 +100,7 @@ const Shell = ({ children }: IProps) => {
         </Group>
       </AppShell.Header>
 
-      <AppShell.Navbar>
+      <AppShell.Navbar withBorder>
         <AppShell.Section>
           <Group gap={0} p={8}>
             {topMenuItems.map(item => {
@@ -144,6 +145,7 @@ const Shell = ({ children }: IProps) => {
 
       <AppShell.Main className={classNames.main}>{children}</AppShell.Main>
       <AppShell.Footer
+        withBorder
         w={!isMobile ? `calc(100% - ${APP_SHELL_WIDTH}px)` : '100%'}
         ml="auto"
         pos={opened ? 'fixed' : 'unset'}

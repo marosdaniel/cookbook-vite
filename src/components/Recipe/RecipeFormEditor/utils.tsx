@@ -59,6 +59,7 @@ export const cleanedRecipe = (recipe: TRecipe): TRecipeCleaned => {
     youtubeLink: recipe?.youtubeLink || '',
     ingredients: recipe?.ingredients || [],
     preparationSteps: recipe?.preparationSteps || [],
+    isFavorite: recipe?.isFavorite || false,
   };
 };
 
