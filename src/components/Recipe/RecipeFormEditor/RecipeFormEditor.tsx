@@ -175,6 +175,7 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
         ingredients: values.ingredients,
         preparationSteps: values.preparationSteps,
         youtubeLink: values.youtubeLink,
+        isFavorite: recipe?.isFavorite || false,
       }),
     );
     dispatch(setCompletedSteps(active));
@@ -241,7 +242,7 @@ const RecipeFormEditor = ({ title, id, isEditMode, setIsEditMode }: IProps) => {
           loaderProps={{ type: 'dots' }}
           disabled={!nextEnabled(values, active) || isSubmitting}
         >
-          {isFinalStep ? 'Save' : 'Next'}
+          {isFinalStep ? formatMessage(generalMessages.save) : 'Next'}
         </Button>
       </Group>
     </Container>

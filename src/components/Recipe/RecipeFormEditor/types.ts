@@ -25,6 +25,7 @@ export interface IFormikProps {
   preparationSteps: TPreparationStep[] | [];
   servings: number;
   youtubeLink?: string;
+  isFavorite?: boolean;
 }
 
 export type TRemoveTypeObject = { [key: string]: any };
