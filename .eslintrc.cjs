@@ -12,10 +12,10 @@ module.exports = {
   plugins: ['react-refresh'],
   rules: {
     'no-unused-vars': 'warn',
+    'no-undef': 'warn',
     '@typescript-eslint/no-unused-vars': 'warn',
     'react/react-in-jsx-scope': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
-    'import/extensions': 'off',
     'import/no-extraneous-dependencies': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
   },
