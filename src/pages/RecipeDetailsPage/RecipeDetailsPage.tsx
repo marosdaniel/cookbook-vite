@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Link as RouterLink } from 'react-router-dom';
+import { useParams, Link as RouterLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useQuery } from '@apollo/client';
 import { useIntl } from 'react-intl';
