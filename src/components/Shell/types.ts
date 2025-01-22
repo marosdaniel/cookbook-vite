@@ -1,3 +1,4 @@
+import { JSX } from 'react';
 import { ENonProtectedRoutes, EProtectedRoutes } from '../../router/types';
 
 export interface IProps {
